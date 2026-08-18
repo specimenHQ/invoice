@@ -68,4 +68,14 @@ Used for: transition panels moving the reader's eye toward the next stage.
 - **Page 52, seventh panel (absolute_panel 313)** — render_mode is "photo."
   This needs its own dedicated real photograph (or the eventual body/hand
   photo referenced earlier), not one of the 6 texture images above, since
-  it's the hard-cut reveal the whole book
+  it's the hard-cut reveal the whole book has been building toward.
+
+## Workflow once you have the 6 (or 7, with the page-52 photo) images
+
+1. Save each under `reference-images/` with a clear name
+   (e.g. `src-diagonal-pressure.jpg`).
+2. In `invoice-book-1-panel-prompt-grid.csv`, fill the `source_image` column
+   for each row with the matching file path — this can be done in bulk with
+   a script since it's driven by `board_geometry`, not manually per row.
+3. Run `python3 render_panels.py --dry-run` to confirm every row now resolves
+   to a real command, then drop `--dry-run` to actually render.
