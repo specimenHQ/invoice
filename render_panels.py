@@ -54,10 +54,12 @@ def render_row(row, dry_run=False):
         return f"[MISSING] {pid} -> source_image not found: {src}"
 
     width = row.get('jp2a_width', '') or '60'
-    chars = row.get('jp2a_chars', '').strip()
+    chars = row.get('jp2a_chars', '') or ''
 
     cmd = ['jp2a', f'--width={width}']
-    if chars:
+    if chars.strip():
+        # Don't .strip() chars itself: a leading/trailing space is a
+        # meaningful palette entry (e.g. " I" = blank-to-"I" silhouette).
         cmd.append(f'--chars={chars}')
     cmd.append(src)
 

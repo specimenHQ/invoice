@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>INVOICE — Book 1 — 3D ASCII Cube</title>
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    background: #000;
+    color: #9a9a9a;
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  pre {
+    font-size: 8px;
+    line-height: 8px;
+    white-space: pre;
+    margin: 0;
+    text-shadow: 0 0 3px rgba(154,154,154,0.25);
+  }
+  .label {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #555;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="label">PAGES 10&ndash;14 &middot; CUBE GEOMETRY (ROTATING, PROCEDURAL)</div>
+<pre id="screen"></pre>
+<script>
+// Rotating wireframe/solid cube rendered as ASCII, via a simple z-buffer +
+// surface-normal luminance approach (same family as classic rotating-donut demos).
+// This is generated from math, not sampled from a photo.
+
+const WIDTH = 90, HEIGHT = 45;
+const chars = " .:-=+*#%@"; // low to high density
+const screenEl = document.getElementById('screen');
+
+let A = 0, B = 0, C = 0; // rotation angles
+
+const cubeWidth = 12;
+const distanceFromCam = 60;
+const horizontalOffset = 0;
+const K1 = 40;
+const incrementSpeed = 0.6;
+
+function calculateX(i, j, k) {
+  return j * Math.sin(A) * Math.sin(B) * Math.cos(C) - k * Math.cos(A) * Math.sin(B) * Math.cos(C) +
+         j * Math.cos(A) * Math.sin(C) + k * Math.sin(A) * Math.sin(C) + i * Math.cos(B) * Math.cos(C);
+}
+function calculateY(i, j, k) {
+  return j * Math.cos(A) * Math.cos(C) + k * Math.sin(A) * Math.cos(C) -
+         j * Math.sin(A) * Math.sin(B) * Math.sin(C) + k * Math.cos(A) * Math.sin(B) * Math.sin(C) -
+         i * Math.cos(B) * Math.sin(C);
+}
+function calculateZ(i, j, k) {
+  return j * Math.sin(A) * Math.cos(B) - k * Math.cos(A) * Math.cos(B) + i * Math.sin(B);
+}
+
+function calculateForSurface(cubeX, cubeY, cubeZ, ch, buffer, zBuffer) {
+  const x = calculateX(cubeX, cubeY, cubeZ);
+  const y = calculateY(cubeX, cubeY, cubeZ);
+  const z = calculateZ(cubeX, cubeY, cubeZ) + distanceFromCam;
+
+  const ooz = 1 / z;
+  const xp = Math.floor(WIDTH / 2 + horizontalOffset + K1 * ooz * x * 2);
+  const yp = Math.floor(HEIGHT / 2 + K1 * ooz * y);
+  const idx = xp + yp * WIDTH;
+
+  if (idx >= 0 && idx < WIDTH * HEIGHT) {
+    if (ooz > zBuffer[idx]) {
+      zBuffer[idx] = ooz;
+      buffer[idx] = ch;
+    }
+  }
+}
+
+function frame() {
+  const buffer = new Array(WIDTH * HEIGHT).fill(' ');
+  const zBuffer = new Array(WIDTH * HEIGHT).fill(0);
+
+  for (let cubeX = -cubeWidth; cubeX < cubeWidth; cubeX += incrementSpeed) {
+    for (let cubeY = -cubeWidth; cubeY < cubeWidth; cubeY += incrementSpeed) {
+      calculateForSurface(cubeX, cubeY, -cubeWidth, chars[3], buffer, zBuffer);
+      calculateForSurface(cubeWidth, cubeY, cubeX, chars[6], buffer, zBuffer);
+      calculateForSurface(-cubeWidth, cubeY, -cubeX, chars[2], buffer, zBuffer);
+      calculateForSurface(-cubeX, cubeY, cubeWidth, chars[5], buffer, zBuffer);
+      calculateForSurface(cubeX, -cubeWidth, -cubeY, chars[8], buffer, zBuffer);
+      calculateForSurface(cubeX, cubeWidth, cubeY, chars[1], buffer, zBuffer);
+    }
+  }
+
+  let out = '';
+  for (let k = 0; k < WIDTH * HEIGHT; k++) {
+    out += buffer[k];
+    if ((k + 1) % WIDTH === 0) out += '\n';
+  }
+  screenEl.textContent = out;
+
+  A += 0.03;
+  B += 0.015;
+  C += 0.02;
+
+  requestAnimationFrame(frame);
+}
+
+frame();
+</script>
+</body>
+</html>
