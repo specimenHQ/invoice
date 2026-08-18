@@ -1,0 +1,2562 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INVOICE Storyboard Prompt Generator</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070707;
+      --panel: #111;
+      --panel-2: #171717;
+      --line: #2b2b2b;
+      --text: #e8e8e8;
+      --muted: #9b9b9b;
+      --soft: #c8c8c8;
+      --accent: #d6d6d6;
+      --warn: #d7b778;
+      --ok: #a7d6a7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+        var(--bg);
+      background-size: 48px 48px;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .status {
+      text-align: right;
+      color: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(300px, 420px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0;
+    }
+
+    label {
+      display: block;
+      color: var(--soft);
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background: #060606;
+      color: var(--text);
+      border: 1px solid #343434;
+      border-radius: 6px;
+      padding: 10px 11px;
+      outline-color: var(--accent);
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    button {
+      border: 1px solid #424242;
+      background: #1d1d1d;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #272727;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    button:disabled:hover {
+      background: #1d1d1d;
+    }
+
+    button.primary {
+      background: #e8e8e8;
+      color: #080808;
+      border-color: #e8e8e8;
+      font-weight: 700;
+    }
+
+    .button-link {
+      display: inline-block;
+      border: 1px solid #424242;
+      background: #1d1d1d;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 10px 12px;
+      text-decoration: none;
+    }
+
+    .button-link:hover {
+      background: #272727;
+    }
+
+    .button-link.primary {
+      background: #e8e8e8;
+      color: #080808;
+      border-color: #e8e8e8;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .panel-readout {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .big-panel {
+      font-size: clamp(1.8rem, 5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .id-line {
+      color: var(--soft);
+      font-size: 0.98rem;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin: 14px 0 0;
+    }
+
+    .meta div {
+      border: 1px solid #2d2d2d;
+      border-radius: 6px;
+      padding: 9px;
+      background: #0b0b0b;
+    }
+
+    .meta span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-bottom: 4px;
+    }
+
+    .meta strong {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .progress {
+      height: 10px;
+      border: 1px solid #303030;
+      background: #050505;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 6px;
+    }
+
+    .progress div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #333, #aaa);
+    }
+
+    .scene-strip {
+      display: grid;
+      grid-template-columns: repeat(15, minmax(12px, 1fr));
+      gap: 3px;
+      margin-top: 14px;
+    }
+
+    .scene-cell {
+      height: 24px;
+      border: 1px solid #2d2d2d;
+      background: #080808;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .scene-cell.active {
+      background: #d8d8d8;
+      border-color: #d8d8d8;
+    }
+
+    .scene-cell.active::after {
+      content: attr(data-scene);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #050505;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .section-note {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .gradient-reference {
+      margin-top: 14px;
+      border: 1px solid #2d2d2d;
+      border-radius: 6px;
+      padding: 10px;
+      background: #080808;
+      display: grid;
+      gap: 8px;
+    }
+
+    .gradient-reference-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      color: var(--soft);
+      font-size: 0.78rem;
+    }
+
+    .gradient-reference-head strong {
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .gradient-measure-track {
+      height: 18px;
+      position: relative;
+      border: 1px solid #303030;
+      border-radius: 999px;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgb(2,2,2), rgb(87,87,87));
+    }
+
+    .gradient-measure-marker {
+      position: absolute;
+      top: -3px;
+      bottom: -3px;
+      width: 2px;
+      background: #f0f0f0;
+      box-shadow: 0 0 0 1px #000, 0 0 8px rgba(255,255,255,0.55);
+      transform: translateX(-1px);
+    }
+
+    .gradient-measure-details {
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .prompt-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    .toast {
+      min-height: 20px;
+      color: var(--ok);
+      font-size: 0.82rem;
+    }
+
+    .scan-box {
+      min-height: 48px;
+      border: 1px solid #2d2d2d;
+      border-radius: 6px;
+      padding: 10px;
+      background: #080808;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .scan-box strong {
+      color: var(--text);
+    }
+
+    .scan-box ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .scan-ok {
+      color: var(--ok);
+    }
+
+    .scan-warn {
+      color: var(--warn);
+    }
+
+    .cleaned-preview {
+      min-height: 150px;
+      border-color: #2d2d2d;
+      color: var(--soft);
+    }
+
+    .cleaned-preview.changed {
+      border-color: var(--warn);
+    }
+
+    .batch-output {
+      min-height: 220px;
+      white-space: pre-wrap;
+    }
+
+    .ref-preview {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      border: 1px solid #2d2d2d;
+      border-radius: 6px;
+      padding: 10px;
+      background: #080808;
+    }
+
+    .ref-preview img {
+      display: none;
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border: 1px solid #252525;
+      border-radius: 4px;
+      background: #050505;
+    }
+
+    .drop-zone {
+      border: 1px dashed #3d3d3d;
+      border-radius: 6px;
+      padding: 14px;
+      min-height: 84px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 4px;
+      background: #060606;
+      color: var(--muted);
+    }
+
+    .drop-zone strong {
+      color: var(--text);
+    }
+
+    .drop-zone.dragging {
+      border-color: var(--accent);
+      background: #131313;
+      color: var(--soft);
+    }
+
+    .ref-preview a {
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+
+    .warning {
+      color: var(--warn);
+    }
+
+    .text-small {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .ai-card { border-color: #444; background: linear-gradient(180deg, #141414, #0d0d0d); }
+    .ai-status-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; }
+    .ai-badge { border:1px solid #3b3b3b; border-radius:999px; padding:4px 8px; color:var(--muted); background:#080808; font-size:.75rem; }
+    .ai-badge.ready { color:var(--ok); border-color:#416341; }
+    .ai-badge.error { color:#e4a2a2; border-color:#6b3737; }
+    .ai-output { min-height:240px; }
+    .checkbox-line { display:flex; align-items:center; gap:8px; color:var(--soft); font-size:.82rem; }
+    .checkbox-line input { width:auto; margin:0; }
+    .storyboard-card { border-color:#393939; }
+    .storyboard-summary {
+      border:1px solid #2d2d2d;
+      border-radius:6px;
+      padding:10px;
+      background:#080808;
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.45;
+      white-space:pre-wrap;
+    }
+    .slider-line {
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
+    }
+    .slider-line input {
+      grid-column:1 / 3;
+      padding:0;
+    }
+    .slider-line strong {
+      color:var(--text);
+      font-size:.82rem;
+    }
+
+    @media (max-width: 880px) {
+      header,
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      main {
+        padding: 16px;
+      }
+
+      .two,
+      .three,
+      .meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>INVOICE Storyboard Prompt Generator</h1>
+        <p>Track the 313-panel book, lock storyboard choices, then generate image prompts from the current scene rules.</p>
+      </div>
+      <div class="status">
+        <div>Book 1</div>
+        <div>313 panels</div>
+        <div style="margin-top:8px;"><a class="button-link primary" href="#storyboardControl">Go to Storyboard</a></div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <section class="card">
+        <h2>Panel Tally</h2>
+
+        <div class="grid">
+          <div>
+            <label for="absolutePanel">Absolute panel</label>
+            <input id="absolutePanel" type="number" min="1" max="313" value="85">
+          </div>
+
+          <div class="grid two">
+            <div>
+              <label for="pageNumber">Page</label>
+              <input id="pageNumber" type="number" min="1" max="52" value="15">
+            </div>
+            <div>
+              <label for="panelOnPage">Panel on page</label>
+              <input id="panelOnPage" type="number" min="1" max="7" value="1">
+            </div>
+          </div>
+
+          <div>
+            <label for="jumpScene">Jump to scene</label>
+            <select id="jumpScene"></select>
+          </div>
+
+          <div class="buttons">
+            <button type="button" id="prevPanel">Previous</button>
+            <button type="button" id="nextPanel" class="primary">Next</button>
+            <button type="button" id="currentStart">Go to 85</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="panel-readout">
+          <div class="big-panel" id="panelNumber">Panel 85</div>
+          <div class="id-line" id="panelId">B1-P15-F1 / Growing Grid</div>
+          <div class="progress"><div id="progressFill"></div></div>
+          <p id="sceneSummary">Growing Grid: slow-growing black-on-black grid.</p>
+        </div>
+
+        <div class="scene-strip" id="sceneStrip" aria-label="Scene range strip"></div>
+
+        <div class="meta">
+          <div><span>Act</span><strong id="actLayer"></strong></div>
+          <div><span>Board geometry</span><strong id="boardGeometry"></strong></div>
+          <div><span>Gradient</span><strong id="gradientBand"></strong></div>
+          <div><span>Role</span><strong id="panelRole"></strong></div>
+          <div><span>Language</span><strong id="allowedLanguage"></strong></div>
+          <div><span>Visual focus</span><strong id="visualFocus"></strong></div>
+        </div>
+
+        <p class="section-note" id="sectionNote"></p>
+
+        <div class="gradient-reference" aria-label="Exact panel gradient reference">
+          <div class="gradient-reference-head">
+            <span>Exact panel gradient reference</span>
+            <strong id="gradientMeasureCode">G00.00</strong>
+          </div>
+          <div class="gradient-measure-track">
+            <div class="gradient-measure-marker" id="gradientMeasureMarker"></div>
+          </div>
+          <div class="gradient-measure-details" id="gradientMeasureDetails"></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card ai-card" style="margin-top: 18px;">
+      <div class="ai-status-row">
+        <div><h2 style="margin-bottom:5px;">AI Prompt Writer</h2><p>Generate from the current panel metadata or write freely for another project.</p></div>
+        <span class="ai-badge" id="aiStatus">Checking local AI server...</span>
+      </div>
+      <div class="grid" style="margin-top:14px;">
+        <div class="grid three">
+          <div><label for="aiMode">Mode</label><select id="aiMode"><option value="book">AI-assisted Book 1</option><option value="free">Free prompt generator</option><option value="rewrite">Rewrite current prompt</option></select></div>
+          <div><label for="aiAction">Instruction</label><select id="aiAction"><option value="generate">Generate</option><option value="darker">Make darker</option><option value="simpler">Make simpler</option><option value="more_printed">Make less digital / more printed</option><option value="continuity">Strengthen continuity</option><option value="precision">Increase visual precision</option></select></div>
+          <div><label for="aiModel">Model override</label><input id="aiModel" type="text" placeholder="Leave blank to use server default"></div>
+        </div>
+        <div><label for="aiBrief">What should the AI create or change?</label><textarea id="aiBrief" spellcheck="false" style="min-height:120px;" placeholder="Describe the image, scene, visual logic, changes, restrictions, or a completely new project."></textarea></div>
+        <div class="grid two">
+          <label class="checkbox-line"><input id="aiUseMetadata" type="checkbox" checked>Use current panel metadata and exact gradient reference</label>
+          <label class="checkbox-line"><input id="aiUseCurrentPrompt" type="checkbox" checked>Use the current prompt as source material</label>
+          <label class="checkbox-line"><input id="aiPreserveNegative" type="checkbox" checked>Preserve and improve the negative prompt</label>
+          <label class="checkbox-line"><input id="aiStrictContinuity" type="checkbox" checked>Do not introduce future-stage imagery</label>
+        </div>
+        <div class="buttons"><button type="button" id="aiGenerate" class="primary">Generate with AI</button><button type="button" id="aiUseResult">Use AI result as prompt</button><button type="button" id="aiCopyResult">Copy AI result</button><button type="button" id="aiStop" disabled>Stop</button></div>
+        <div><label for="aiResult">AI result</label><textarea id="aiResult" class="ai-output" spellcheck="false" placeholder="The generated prompt will appear here."></textarea></div>
+        <div class="toast" id="aiToast"></div>
+      </div>
+    </section>
+
+    <section class="card storyboard-card" id="storyboardControl" style="margin-top: 18px;">
+      <h2>Storyboard Control</h2>
+      <div class="grid">
+        <div class="grid three">
+          <div>
+            <label for="storyBeat">Story beat</label>
+            <select id="storyBeat">
+              <option value="awareness">Awareness appears</option>
+              <option value="pressure">Pressure increases</option>
+              <option value="edge">Edge discovered</option>
+              <option value="enclosure">Enclosure forms</option>
+              <option value="rotation">Shape rotates</option>
+              <option value="multiplication">Structure multiplies</option>
+              <option value="material">Material emerges</option>
+              <option value="rupture">Rupture opens</option>
+              <option value="threshold">Threshold reached</option>
+            </select>
+          </div>
+          <div>
+            <label for="storyVisualUnit">Visual unit</label>
+            <select id="storyVisualUnit">
+              <option value="point">Point</option>
+              <option value="mark">Mark</option>
+              <option value="line">Line</option>
+              <option value="corner">Corner</option>
+              <option value="box">Box</option>
+              <option value="cube-edge">Cube edge</option>
+              <option value="plane">Plane</option>
+              <option value="grid">Grid</option>
+              <option value="wood-grain">Wood grain</option>
+              <option value="seam">Seam</option>
+              <option value="sliver">Sliver</option>
+              <option value="door">Door</option>
+            </select>
+          </div>
+          <div>
+            <label for="storyComposition">Composition</label>
+            <select id="storyComposition">
+              <option value="nearly-empty">Nearly empty field</option>
+              <option value="off-center">Off-center pressure</option>
+              <option value="macro">Extreme close-up</option>
+              <option value="flat-symbol">Flat symbolic panel</option>
+              <option value="isometric">Isometric geometry</option>
+              <option value="tilted">Tilted / unstable frame</option>
+              <option value="compressed">Compressed by borders</option>
+              <option value="full-page-echo">Panel echoes full page</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid three">
+          <div>
+            <label for="storyCamera">View logic</label>
+            <select id="storyCamera">
+              <option value="no-camera">No camera / abstract surface</option>
+              <option value="orthographic">Orthographic face</option>
+              <option value="inside-corner">Inside corner view</option>
+              <option value="low-angle">Low trapped angle</option>
+              <option value="top-down">Top-down diagram</option>
+              <option value="impossible">Impossible perspective</option>
+              <option value="threshold-facing">Facing threshold</option>
+            </select>
+          </div>
+          <div>
+            <label for="storyDensity">Detail density</label>
+            <div class="slider-line"><span class="text-small">Sparse to dense</span><strong id="storyDensityValue">20</strong><input id="storyDensity" type="range" min="0" max="100" value="20"></div>
+          </div>
+          <div>
+            <label for="storyContrast">Black separation</label>
+            <div class="slider-line"><span class="text-small">Matte to gloss contrast</span><strong id="storyContrastValue">30</strong><input id="storyContrast" type="range" min="0" max="100" value="30"></div>
+          </div>
+        </div>
+
+        <div>
+          <label for="storyAction">Panel action / visual job</label>
+          <textarea id="storyAction" spellcheck="false" style="min-height:86px;" placeholder="What must this panel do visually? Example: one diagonal line becomes the first believable edge without forming a full cube yet."></textarea>
+        </div>
+        <div>
+          <label for="storyContinuity">Continuity note</label>
+          <textarea id="storyContinuity" spellcheck="false" style="min-height:78px;" placeholder="What must remain consistent from previous panels? What must not arrive yet?"></textarea>
+        </div>
+        <div class="buttons">
+          <button type="button" id="saveStoryboard" class="primary">Save storyboard</button>
+          <button type="button" id="applyStoryboardPrompt">Add to prompt</button>
+          <button type="button" id="applyStoryboardAi">Send to AI brief</button>
+          <button type="button" id="copyStoryboard">Copy storyboard</button>
+          <button type="button" id="clearStoryboard">Clear storyboard</button>
+        </div>
+        <div class="storyboard-summary" id="storyboardSummary"></div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Prompt</h2>
+      <div class="prompt-box">
+        <textarea id="promptOutput" spellcheck="false"></textarea>
+        <div class="buttons">
+          <button type="button" id="copyPrompt" class="primary">Copy prompt</button>
+          <button type="button" id="copyNegative">Copy negative</button>
+          <button type="button" id="scanPrompt">Scan prompt</button>
+          <button type="button" id="useCleanedPrompt">Use cleaned prompt</button>
+          <button type="button" id="copyCleanedPrompt">Copy cleaned prompt</button>
+        </div>
+        <div class="scan-box" id="promptScan"></div>
+        <div>
+          <label for="cleanedPromptPreview">Cleaned prompt from scan</label>
+          <textarea id="cleanedPromptPreview" class="cleaned-preview" spellcheck="false" readonly></textarea>
+        </div>
+        <div class="toast" id="toast"></div>
+        <p class="text-small">Copy buttons support local <code>file:///</code> use. If a browser blocks clipboard access, the requested text is automatically selected for Ctrl+C.</p>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Panel Reference Image</h2>
+      <div class="grid">
+        <div>
+          <label for="referencePath">Reference image path or URL for current panel</label>
+          <input id="referencePath" type="text" placeholder="C:\Users\sawer\Downloads\reference.jpg">
+        </div>
+        <div>
+          <label for="referenceFile">Import image for current panel</label>
+          <input id="referenceFile" type="file" accept="image/*">
+        </div>
+        <div class="drop-zone" id="referenceDropZone">
+          <strong>Drop image here</strong>
+          <span class="text-small">The image will attach to the current panel as a local reference.</span>
+        </div>
+        <div>
+          <label for="referenceNote">Reference note</label>
+          <textarea id="referenceNote" spellcheck="false" style="min-height: 92px;" placeholder="What this image should teach the panel generator"></textarea>
+        </div>
+        <div class="buttons">
+          <button type="button" id="saveReference" class="primary">Save reference</button>
+          <button type="button" id="clearReference">Clear reference</button>
+          <button type="button" id="downloadReferences">Download reference manifest</button>
+        </div>
+        <div class="ref-preview">
+          <div id="referenceStatus" class="text-small">No reference saved for this panel.</div>
+          <a id="referenceLink" href="#" target="_blank" rel="noreferrer">Open reference</a>
+          <img id="referencePreview" alt="Panel reference preview">
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Batch Range</h2>
+      <div class="grid three">
+        <div>
+          <label for="batchStart">Start panel</label>
+          <input id="batchStart" type="number" min="1" max="313" value="85">
+        </div>
+        <div>
+          <label for="batchEnd">End panel</label>
+          <input id="batchEnd" type="number" min="1" max="313" value="90">
+        </div>
+        <div>
+          <label for="batchMode">Output</label>
+          <select id="batchMode">
+            <option value="compact">Compact list</option>
+            <option value="full">Full prompts</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+      </div>
+      <div class="buttons" style="margin-top: 12px;">
+        <button type="button" id="makeBatch" class="primary">Generate batch</button>
+        <button type="button" id="makeAllPanels">All 313</button>
+        <button type="button" id="copyBatch">Copy batch</button>
+      </div>
+      <textarea id="batchOutput" class="batch-output" spellcheck="false" style="margin-top: 12px;"></textarea>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>JSON Data Extract</h2>
+      <div class="grid three">
+        <div>
+          <label for="jsonScope">Scope</label>
+          <select id="jsonScope">
+            <option value="current">Current panel</option>
+            <option value="range">Batch range</option>
+            <option value="all">All 313 panels</option>
+            <option value="references">Reference manifest only</option>
+          </select>
+        </div>
+        <div>
+          <label for="jsonPrompts">Prompts</label>
+          <select id="jsonPrompts">
+            <option value="include">Include prompts</option>
+            <option value="omit">Metadata only</option>
+          </select>
+        </div>
+        <div>
+          <label for="jsonPretty">Format</label>
+          <select id="jsonPretty">
+            <option value="pretty">Pretty</option>
+            <option value="compact">Compact</option>
+          </select>
+        </div>
+      </div>
+      <div class="buttons" style="margin-top: 12px;">
+        <button type="button" id="makeJson" class="primary">Extract JSON</button>
+        <button type="button" id="copyJson">Copy JSON</button>
+        <button type="button" id="downloadJson">Download JSON</button>
+      </div>
+      <textarea id="jsonOutput" class="batch-output" spellcheck="false" style="margin-top: 12px;"></textarea>
+    </section>
+  </main>
+
+  <script>
+    const TOTAL = 313;
+
+    const scenes = [
+      { id: 1, name: "Point", pages: [1, 3], panels: [1, 18], focus: "black-on-black dot or point awareness in empty hidden crate interior", note: "Dot/point only. No body, no wood, no room." },
+      { id: 2, name: "Line", pages: [4, 6], panels: [19, 36], focus: "dot stretches into line, punctuation pressure, first edge or direction", note: "Line begins. Still black-on-black." },
+      { id: 3, name: "Box", pages: [7, 9], panels: [37, 54], focus: "flat box implied by lines, first body sound as pain and vibration, no anatomy", note: "The first sound happens inside an implied boundary." },
+      { id: 4, name: "Cube", pages: [10, 14], panels: [55, 84], focus: "flat box rotates into cube logic, edges faces corners, no stable full word", note: "Cube is geometry, not material yet." },
+      { id: 5, name: "Growing Grid", pages: [15, 18], panels: [85, 108], focus: "slow-growing black-on-black grid, building-facade perspective, reflective window grid, isometric tile logic, no explicit cubes or warehouse", note: "Current section. A grid grows slowly, but it is not rows of boxes." },
+      { id: 6, name: "Growth Pressure / Planes and Corners", pages: [19, 22], panels: [109, 132], focus: "repeated geometric pattern compresses inward, readable planes and unstable corners", note: "The system becomes pressure." },
+      { id: 7, name: "Wood", pages: [23, 26], panels: [133, 156], focus: "wood grain emerging from blackness", note: "Material appears after geometry." },
+      { id: 8, name: "The Seam", pages: [27, 30], panels: [157, 180], focus: "upper door seam appears as possible exit", note: "The first possible exit becomes a line." },
+      { id: 9, name: "Sliver", pages: [31, 34], panels: [181, 204], focus: "thin rupture light through seam", note: "White appears only as rupture." },
+      { id: 10, name: "Break", pages: [35, 38], panels: [205, 228], focus: "crate breaking under growth pressure", note: "The crate fails as a container." },
+      { id: 11, name: "Dark Home-Space", pages: [39, 42], panels: [229, 252], focus: "symbolic family-home darkness outside crate", note: "Outside the crate is still dark." },
+      { id: 12, name: "Follow the Line", pages: [43, 45], panels: [253, 270], focus: "following the sliver through grey-dark space", note: "The line becomes direction." },
+      { id: 13, name: "Humming Door", pages: [46, 48], panels: [271, 288], focus: "stone-adjacent humming door boundary", note: "The larger Cube mystery is felt, not explained." },
+      { id: 14, name: "At the Threshold", pages: [49, 51], panels: [289, 306], focus: "escaped crate, door dominates, not yet beyond", note: "He reaches the door but is not through it." },
+      { id: 15, name: "First Paragraph / Seventh Panel", pages: [52, 52], panels: [307, 313], focus: "first silhouette, first paragraph, formal breach", note: "First seven-panel page." }
+    ];
+
+    const roles6 = [
+      ["Establish", "sets the page condition"],
+      ["Disturb", "introduces the interruption"],
+      ["Answer", "shows how darkness/crate responds"],
+      ["Transform", "shows the change beginning"],
+      ["Clarify", "makes one element more readable"],
+      ["Hand-off", "points toward the next page"]
+    ];
+
+    const roles7 = [
+      ["Recovered darkness", "recalls the crate-dark before leaving it"],
+      ["Crate aftermath", "shows the broken first container without full explanation"],
+      ["Direction", "aims the reader toward the door"],
+      ["Humming boundary", "makes the larger Cube pressure felt"],
+      ["First silhouette", "reveals the narrator only as silhouette"],
+      ["First paragraph", "allows first complete thought"],
+      ["Breach", "opens the formal law of Book 2"]
+    ];
+
+    const pageText = {
+      1: ".", 2: ". .", 3: ":", 4: "-", 5: "?", 6: "? -", 7: "[]",
+      8: "?mmh.", 9: "[] nngh", 10: "c", 11: "u", 12: "b", 13: "e?",
+      14: "c     u / b        e", 15: "line", 16: "line / line", 17: "grid?",
+      18: "many? / no.", 19: "edge", 20: "plane", 21: "corner", 22: "wall / wall",
+      23: "grain", 24: "splinter", 25: "wood?", 26: "wood", 27: "line",
+      28: "seam?", 29: "upper", 30: "there", 31: "thin", 32: "white",
+      33: "not light / not yet", 34: "sliver", 35: "press", 36: "push",
+      37: "crack", 38: "break", 39: "out?", 40: "dark / again", 41: "home?",
+      42: "not home / not crate", 43: "line / still", 44: "follow", 45: "toward",
+      46: "hum", 47: "stone?", 48: "door", 49: "here", 50: "not in",
+      51: "not through",
+      52: "I was inside the crate, though I did not know the word for it. I grew until the wood could not hold me, and the dark became a line, and the line became a door. I am not free. I am only outside the first thing that held me, standing grey before the next."
+    };
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function locateByAbsolute(absolutePanel) {
+      const absolute = clamp(Number(absolutePanel) || 1, 1, TOTAL);
+      if (absolute <= 306) {
+        const page = Math.floor((absolute - 1) / 6) + 1;
+        const panelOnPage = ((absolute - 1) % 6) + 1;
+        return { absolute, page, panelOnPage };
+      }
+      return { absolute, page: 52, panelOnPage: absolute - 306 };
+    }
+
+    function absoluteFromPagePanel(pageInput, panelInput) {
+      const page = clamp(Number(pageInput) || 1, 1, 52);
+      const maxPanel = page === 52 ? 7 : 6;
+      const panelOnPage = clamp(Number(panelInput) || 1, 1, maxPanel);
+      const absolute = page <= 51 ? ((page - 1) * 6) + panelOnPage : 306 + panelOnPage;
+      return { absolute, page, panelOnPage };
+    }
+
+    function sceneForPage(page) {
+      return scenes.find(scene => page >= scene.pages[0] && page <= scene.pages[1]);
+    }
+
+    function actLayer(page) {
+      if (page <= 18) return "Act One: Mystery / Birth";
+      if (page <= 38) return "Act Two: Terror / Death";
+      return "Act Three: Action / Rebirth";
+    }
+
+    function boardGeometry(page) {
+      if (page <= 6) return "empty field";
+      if (page <= 18) return "diagonal pressure";
+      if (page <= 26) return "dense cluster";
+      if (page <= 34) return "horizontal seam";
+      if (page <= 45) return "diagonal pressure to direction";
+      return "stepped threshold";
+    }
+
+    function gradientBand(page) {
+      if (page <= 3) return "G00 total black";
+      if (page <= 9) return "G05 black with marks";
+      if (page <= 14) return "G10 black with pressure geometry";
+      if (page <= 22) return "G15 black with stress and planes";
+      if (page <= 30) return "G25 black with wood detail";
+      if (page <= 38) return "G35 dark grey with rupture sliver";
+      if (page <= 45) return "G45 grey-dark exterior uncertainty";
+      return "G55 readable grey threshold";
+    }
+
+    const gradientRanges = [
+      { pages: [1, 3], panels: [1, 18], start: 0, end: 4.99, label: "total-black emergence" },
+      { pages: [4, 9], panels: [19, 54], start: 5, end: 9.99, label: "black with marks" },
+      { pages: [10, 14], panels: [55, 84], start: 10, end: 14.99, label: "pressure geometry" },
+      { pages: [15, 22], panels: [85, 132], start: 15, end: 24.99, label: "stress and planes" },
+      { pages: [23, 30], panels: [133, 180], start: 25, end: 34.99, label: "wood and seam detail" },
+      { pages: [31, 38], panels: [181, 228], start: 35, end: 44.99, label: "rupture sliver" },
+      { pages: [39, 45], panels: [229, 270], start: 45, end: 54.99, label: "grey-dark exterior uncertainty" },
+      { pages: [46, 52], panels: [271, 313], start: 55, end: 55.99, label: "readable grey threshold" }
+    ];
+
+    function gradientRangeForPanel(absolutePanel) {
+      return gradientRanges.find(range =>
+        absolutePanel >= range.panels[0] && absolutePanel <= range.panels[1]
+      ) || gradientRanges[0];
+    }
+
+    function exactGradientMeasure(absolutePanel) {
+      const absolute = clamp(Number(absolutePanel) || 1, 1, TOTAL);
+      const range = gradientRangeForPanel(absolute);
+      const panelCount = range.panels[1] - range.panels[0] + 1;
+      const index = absolute - range.panels[0];
+      const progress = panelCount <= 1 ? 0 : index / (panelCount - 1);
+      const value = range.start + ((range.end - range.start) * progress);
+      const previousValue = index === 0
+        ? value
+        : range.start + ((range.end - range.start) * ((index - 1) / (panelCount - 1)));
+      const delta = value - previousValue;
+
+      // The display target stays deliberately dark. G00 maps to RGB 2.
+      // G55 maps to roughly RGB 87, preserving a grey-dark printed field.
+      const rgb = Math.round(2 + (value * 1.55));
+      const code = `G${value.toFixed(2).padStart(5, "0")}`;
+      const bandPosition = Math.round(progress * 1000) / 10;
+      const globalPosition = Math.round((value / 55.99) * 1000) / 10;
+
+      return {
+        code,
+        value,
+        rgb,
+        css: `rgb(${rgb}, ${rgb}, ${rgb})`,
+        bandPosition,
+        globalPosition,
+        delta,
+        rangeStart: range.start,
+        rangeEnd: range.end,
+        rangeLabel: range.label,
+        panelIndex: index + 1,
+        panelCount
+      };
+    }
+
+    function gradientReferenceLineForData(data) {
+      const measure = data.gradientMeasure;
+      const deltaText = measure.delta > 0
+        ? `+${measure.delta.toFixed(2)} G-units from the previous panel`
+        : "starting value for this gradient range";
+      return `Exact gradient reference: ${measure.code}; broad band: ${data.gradient}; ${measure.bandPosition.toFixed(1)}% through this band; target neutral field RGB ${measure.rgb}/${measure.rgb}/${measure.rgb}; ${deltaText}. Preserve black-on-black separation through surface sheen and ink density, not bright highlights.`;
+    }
+
+    function allowedLanguage(page) {
+      if (page <= 3) return "marks/symbols only";
+      if (page <= 6) return "punctuation only";
+      if (page <= 9) return "body sound only";
+      if (page <= 14) return "single letters/broken clusters";
+      if (page <= 18) return "repeated line/grid fragments";
+      if (page <= 30) return "object/action fragments";
+      if (page <= 51) return "fragment chains, no prose";
+      return "first full paragraph";
+    }
+
+    function panelId(page, panelOnPage) {
+      return `B1-P${String(page).padStart(2, "0")}-F${panelOnPage}`;
+    }
+
+    function roleFor(page, panelOnPage) {
+      const role = page === 52 ? roles7[panelOnPage - 1] : roles6[panelOnPage - 1];
+      return { name: role[0], meaning: role[1] };
+    }
+
+    const masterStyle = "Black-and-white printed graphic novel panel, abstract surreal etching, heavy black ink, black-on-black visibility early, matte black field with gloss-black or near-black marks, dense linework only when the story has earned detail, no color, no clean white except rupture light, gradual black-to-grey visibility, experimental symbolic composition, claustrophobic interior pressure, wooden crate logic hidden inside the page, cube geometry born from dot to line to box to cube to growing grid, no visible human body until the final page, no literal domestic room, no warehouse, no memories, no eggs, no creatures, no full prose except final page.";
+
+    const negativePrompt = "color, bright white background, realistic full body, face, eyes, mouth, hands, domestic furniture, warehouse, rows of crates, stacked boxes, literal cubes during growing-grid section, children, eggs, glowing memory figures, fantasy monsters, readable narration before final page, speech bubbles, clean modern digital art, painterly color, conventional action scene, open landscape, daylight, literal home interior.";
+
+    const lockedPrompts = {
+      "B1-P01-F1": `Black-and-white printed graphic novel panel, total black field, matte black background with a single barely visible gloss-black dot, black-on-black visibility, heavy black ink, no grey except the faintest surface difference, no color, no white, no body, no face, no eyes, no mouth, no hands, no room, no object, no crate, no cube, no grid, no warehouse, no memories, no eggs.
+
+Panel 1 / B1-P01-F1 / Point.
+Act One: Mystery / Birth.
+Gradient: G00 total black.
+Panel role: Establish - sets the page condition.
+Visual focus: one tiny point of awareness inside sealed darkness.
+Allowed text/language: marks/symbols only. Page text cue: .
+
+The image should feel almost empty. The dot should be difficult to see, as if it appears only when the page catches light.
+
+Negative prompt: color, white background, grey background, visible figure, face, eyes, mouth, hands, domestic room, furniture, warehouse, boxes, cubes, grid, readable text, speech bubble, creature, egg, memory figure, fantasy monster, bright lighting, conventional scene.`
+    };
+
+    function referenceLineForData(data) {
+      const reference = getReference(data.id);
+      if (!reference) return "";
+      const label = referenceLabel(reference);
+      if (!label) return "";
+      return `Reference image for this panel: ${label}${reference.note ? ` (${reference.note})` : ""}.`;
+    }
+
+    const STORYBOARD_KEY = "invoice-panel-storyboard-controls";
+
+    function loadStoryboards() {
+      try {
+        return JSON.parse(localStorage.getItem(STORYBOARD_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function saveStoryboards(storyboards) {
+      localStorage.setItem(STORYBOARD_KEY, JSON.stringify(storyboards));
+    }
+
+    function defaultStoryboardForData(data) {
+      if (data.page <= 3) {
+        return {
+          beat: "awareness",
+          visualUnit: "point",
+          composition: "nearly-empty",
+          camera: "no-camera",
+          density: 8,
+          contrast: 18,
+          action: "Let the first visible event be withheld: one tiny black-on-black mark becoming findable in the dark.",
+          continuity: "No line, box, cube, grid, wood, room, or body yet."
+        };
+      }
+      if (data.page <= 6) {
+        return {
+          beat: "edge",
+          visualUnit: "line",
+          composition: "off-center",
+          camera: "no-camera",
+          density: 18,
+          contrast: 28,
+          action: "A pressure mark stretches into a line without enclosing space yet.",
+          continuity: "No box, cube, grid, wood, room, or body yet."
+        };
+      }
+      if (data.page <= 9) {
+        return {
+          beat: "enclosure",
+          visualUnit: "box",
+          composition: "flat-symbol",
+          camera: "orthographic",
+          density: 28,
+          contrast: 34,
+          action: "Edges imply a flat boundary; the container is felt before it is named.",
+          continuity: "No cube, grid, wood, literal crate, room, or body yet."
+        };
+      }
+      if (data.page <= 14) {
+        return {
+          beat: "rotation",
+          visualUnit: "cube-edge",
+          composition: "isometric",
+          camera: "impossible",
+          density: 38,
+          contrast: 42,
+          action: "A flat box rotates into cube logic through corners, faces, and pressured edges.",
+          continuity: "Geometry only. No wood grain, literal crate, warehouse, room, or body."
+        };
+      }
+      if (data.page <= 18) {
+        return {
+          beat: "multiplication",
+          visualUnit: "grid",
+          composition: "compressed",
+          camera: "impossible",
+          density: 46,
+          contrast: 46,
+          action: "Cube logic multiplies into a slow-growing grid without becoming rows of objects.",
+          continuity: "No literal cubes, crates, warehouse, wood grain, or room."
+        };
+      }
+      if (data.page <= 22) {
+        return {
+          beat: "pressure",
+          visualUnit: "plane",
+          composition: "compressed",
+          camera: "inside-corner",
+          density: 52,
+          contrast: 50,
+          action: "Planes press inward; corners become more readable because the body is growing against them.",
+          continuity: "Do not reveal the body. Do not explain the room."
+        };
+      }
+      if (data.page <= 30) {
+        return {
+          beat: "material",
+          visualUnit: data.page <= 26 ? "wood-grain" : "seam",
+          composition: "macro",
+          camera: "inside-corner",
+          density: 60,
+          contrast: 54,
+          action: "Material arrives after geometry: detail gathers as wood grain, seam, and pressure surface.",
+          continuity: "Still inside the first container. No full exterior explanation."
+        };
+      }
+      if (data.page <= 38) {
+        return {
+          beat: "rupture",
+          visualUnit: "sliver",
+          composition: "compressed",
+          camera: "threshold-facing",
+          density: 64,
+          contrast: 62,
+          action: "A thin rupture line becomes the only allowed white; the container starts to fail.",
+          continuity: "White exists only as rupture, not as stable background."
+        };
+      }
+      if (data.page <= 51) {
+        return {
+          beat: "threshold",
+          visualUnit: "door",
+          composition: "threshold-facing",
+          camera: "low-angle",
+          density: 68,
+          contrast: 64,
+          action: "The dark outside clarifies toward a door, but the world remains grey-dark and uncertain.",
+          continuity: "No memories, eggs, children, or Book 2 crate-opening logic."
+        };
+      }
+      return {
+        beat: "threshold",
+        visualUnit: "door",
+        composition: "full-page-echo",
+        camera: "threshold-facing",
+        density: 72,
+        contrast: 70,
+        action: "The seventh panel breaches the six-face grammar and allows the first paragraph.",
+        continuity: "First silhouette allowed; still no full daylight world."
+      };
+    }
+
+    function savedStoryboardForData(data) {
+      const storyboards = loadStoryboards();
+      return storyboards[data.id] || null;
+    }
+
+    function storyboardForData(data) {
+      return { ...defaultStoryboardForData(data), ...(savedStoryboardForData(data) || {}) };
+    }
+
+    function storyboardSummaryForData(data, storyboard = storyboardForData(data)) {
+      return [
+        `Storyboard / ${data.id} / Panel ${data.absolute}`,
+        `Beat: ${storyboard.beat}. Visual unit: ${storyboard.visualUnit}.`,
+        `Composition: ${storyboard.composition}. View logic: ${storyboard.camera}.`,
+        `Detail density: ${storyboard.density}/100. Black separation: ${storyboard.contrast}/100.`,
+        `Action: ${storyboard.action}`,
+        `Continuity: ${storyboard.continuity}`
+      ].join("\n");
+    }
+
+    function storyboardPromptLineForData(data) {
+      const saved = savedStoryboardForData(data);
+      if (!saved) return "";
+      const storyboard = storyboardForData(data);
+      return `Storyboard control: beat ${storyboard.beat}; visual unit ${storyboard.visualUnit}; composition ${storyboard.composition}; view logic ${storyboard.camera}; detail density ${storyboard.density}/100; black separation ${storyboard.contrast}/100. Panel action: ${storyboard.action} Continuity lock: ${storyboard.continuity}`;
+    }
+
+    function stageStyleForData(data) {
+      if (data.page <= 3) {
+        return "Black-and-white printed graphic novel panel, total black field, matte black background, black-on-black visibility, barely visible gloss-black mark, heavy black ink, no grey except faint surface difference, no color, no white.";
+      }
+      if (data.page <= 6) {
+        return "Black-and-white printed graphic novel panel, almost total black field, matte black background with gloss-black pressure marks, heavy black ink, sparse detail, no color, no clean white.";
+      }
+      if (data.page <= 9) {
+        return "Black-and-white printed graphic novel panel, near-total black field, black-on-black line pressure, heavy black ink, abstract symbolic composition, no color, no clean white.";
+      }
+      if (data.page <= 14) {
+        return "Black-and-white printed graphic novel panel, very dark field, heavy black ink, black-on-black geometry, sparse grey only on pressured edges, no color, no clean white, no material detail.";
+      }
+      if (data.page <= 18) {
+        return "Black-and-white printed graphic novel panel, very dark matte field, slow black-on-black grid emergence, heavy black ink, sparse grey edge visibility, no color, no clean white, geometric abstract composition.";
+      }
+      if (data.page <= 22) {
+        return "Black-and-white printed graphic novel panel, dark geometric pressure field, heavy black ink, compressed planes and unstable corners, controlled grey edge visibility, no color, no clean white.";
+      }
+      if (data.page <= 30) {
+        return "Black-and-white printed graphic novel panel, dark interior pressure, heavy black ink, restrained wood grain and seam detail emerging from blackness, no color, no clean white.";
+      }
+      if (data.page <= 38) {
+        return "Black-and-white printed graphic novel panel, dark grey rupture sequence, heavy black ink, one thin sliver of white allowed only as break-light, no color.";
+      }
+      if (data.page <= 51) {
+        return "Black-and-white printed graphic novel panel, grey-dark threshold space, heavy black ink, readable shapes without full explanation, no color, no clean white except distant rupture light.";
+      }
+      return "Black-and-white printed graphic novel panel, grey threshold page, heavy black ink, first silhouette allowed, first paragraph allowed, no color, rupture white only at the door.";
+    }
+
+    function focusForData(data) {
+      const roleIndex = data.panelOnPage - 1;
+      const variants = {
+        1: [
+          "one tiny point of awareness inside sealed darkness",
+          "one tiny point interrupted by a second almost invisible pressure speck",
+          "the darkness swallowing the point while leaving a faint surface difference",
+          "the point swelling by a hair without becoming a line",
+          "the point becoming slightly easier to find in the black",
+          "the point leaning toward an unseen next mark"
+        ],
+        2: [
+          "one near-black line appearing where the point stretched",
+          "a line interrupted by a tiny punctuation-like pressure mark",
+          "the line thinning until it almost disappears into black",
+          "the line bending slightly without making a shape",
+          "one edge becoming more readable through gloss against matte black",
+          "the line aiming toward the next hidden boundary"
+        ],
+        3: [
+          "a flat box implied by only a few black-on-black edges",
+          "a pressure sound disturbing the implied boundary",
+          "the boundary tightening around empty darkness",
+          "one edge answering another until a box almost forms",
+          "the implied box becoming clearer without becoming an object",
+          "the boundary handing off toward rotation"
+        ],
+        4: [
+          "flat box logic rotating into abstract cube logic",
+          "one corner becoming readable before the faces do",
+          "three dark planes pressing against each other",
+          "hidden edges suggesting depth without material detail",
+          "the cube becoming legible as geometry only",
+          "the final corner pointing toward multiplication"
+        ],
+        5: [
+          "one grid line becoming two inside the dark field",
+          "a slow-growing grid spreading as pressure, not as objects",
+          "grid spacing tightening like a silent count",
+          "the grid gaining depth through black-on-black perspective",
+          "a facade-like or isometric rhythm emerging without literal cubes",
+          "the grid handing off into heavier pressure"
+        ]
+      };
+
+      if (variants[data.scene.id]) {
+        return variants[data.scene.id][roleIndex] || variants[data.scene.id][0];
+      }
+      return data.scene.focus;
+    }
+
+    function directiveForData(data) {
+      if (data.page <= 3) {
+        return "The image should feel almost empty; the mark should appear only when the page catches light.";
+      }
+      if (data.page <= 6) {
+        return "Keep the line sparse and uncertain; it should feel discovered, not drawn confidently.";
+      }
+      if (data.page <= 9) {
+        return "Keep the boundary abstract; sound and pressure matter more than object identity.";
+      }
+      if (data.page <= 14) {
+        return "Show cube logic as edges, faces, and corners only; do not show material or a room.";
+      }
+      if (data.page <= 18) {
+        return "This must read as a slow-growing grid, not many objects: no literal cubes, no crates, no warehouse, no rows of boxes.";
+      }
+      return "Keep the image meaningful but restrained; one visual job only for this panel.";
+    }
+
+    function negativePromptForData(data) {
+      const base = [
+        "color",
+        "bright white background",
+        "realistic full body",
+        "face",
+        "eyes",
+        "mouth",
+        "hands",
+        "domestic furniture",
+        "warehouse",
+        "children",
+        "eggs",
+        "glowing memory figures",
+        "fantasy monsters",
+        "speech bubbles",
+        "clean modern digital art",
+        "painterly color",
+        "conventional action scene",
+        "open landscape",
+        "daylight",
+        "literal home interior"
+      ];
+
+      const stageTerms = [];
+      if (data.page <= 3) {
+        stageTerms.push("grey background", "visible line", "box", "cube", "grid", "crate", "wood", "room", "object", "readable text");
+      } else if (data.page <= 6) {
+        stageTerms.push("box", "cube", "grid", "crate", "wood", "room", "object", "readable text");
+      } else if (data.page <= 9) {
+        stageTerms.push("cube", "grid", "crate", "wood", "room", "readable text");
+      } else if (data.page <= 14) {
+        stageTerms.push("grid", "crate", "wood", "room", "readable words", "literal object");
+      } else if (data.page <= 18) {
+        stageTerms.push("literal cubes", "rows of crates", "stacked boxes", "warehouse", "wood grain", "room", "readable narration");
+      } else if (data.page <= 51) {
+        stageTerms.push("full prose paragraph", "final silhouette too early");
+      }
+
+      return `Negative prompt: ${[...new Set([...base, ...stageTerms])].join(", ")}.`;
+    }
+
+    function negativePromptTextForData(data) {
+      return negativePromptForData(data).replace(/^Negative prompt:\s*/i, "").replace(/\.$/, "");
+    }
+
+    function buildStagePrompt(data) {
+      const text = pageText[data.page] || "none";
+      const noLiteral = data.scene.name === "Growing Grid"
+        ? "This must read as a slow-growing grid, not many objects: no literal cubes, no crates, no warehouse, no rows of boxes."
+        : "";
+      const storyboardLine = storyboardPromptLineForData(data);
+      return [
+        stageStyleForData(data),
+        `Panel ${data.absolute} / ${data.id} / ${data.scene.name}.`,
+        `${data.act}. Board geometry: ${data.board}. Gradient: ${data.gradient}.`,
+        gradientReferenceLineForData(data),
+        `Panel role: ${data.role.name} - ${data.role.meaning}.`,
+        `Visual focus: ${focusForData(data)}.`,
+        `Allowed text/language: ${data.language}. Page text cue: ${text}.`,
+        referenceLineForData(data),
+        storyboardLine,
+        noLiteral,
+        directiveForData(data),
+        negativePromptForData(data)
+      ].filter(Boolean).join("\n");
+    }
+
+    function injectGradientReference(prompt, data) {
+      const line = gradientReferenceLineForData(data);
+      if (/Exact gradient reference:/i.test(prompt)) return prompt;
+      const gradientLine = /(^|\n)(Gradient:[^\n]*\n?)/i;
+      if (gradientLine.test(prompt)) {
+        return prompt.replace(gradientLine, (match, lead, gradientText) =>
+          `${lead}${gradientText.trimEnd()}\n${line}\n`
+        );
+      }
+      return `${prompt.trim()}\n${line}`;
+    }
+
+    function buildPrompt(data) {
+      if (lockedPrompts[data.id]) {
+        return injectGradientReference(lockedPrompts[data.id], data);
+      }
+      return buildStagePrompt(data);
+    }
+
+    function cleanPromptForData(data) {
+      return buildPrompt(data);
+    }
+
+    function positivePromptPart(prompt) {
+      const negativeIndex = prompt.search(/negative prompt:/i);
+      return negativeIndex >= 0 ? prompt.slice(0, negativeIndex) : prompt;
+    }
+
+    function escapeRegex(value) {
+      return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function termPattern(term) {
+      const suffix = /s$/i.test(term) ? "" : "s?";
+      return new RegExp(`(^|[^a-z0-9])(${escapeRegex(term)}${suffix})(?=[^a-z0-9]|$)`, "gi");
+    }
+
+    function isNegatedUse(text, start) {
+      const before = text.slice(Math.max(0, start - 42), start).toLowerCase();
+      return /(no|not|without|avoid|never|exclude)(?:\s+[a-z-]+){0,3}\s+$/.test(before);
+    }
+
+    function findTermHits(text, terms) {
+      const hits = new Set();
+      terms.forEach(term => {
+        const pattern = termPattern(term);
+        let match;
+        while ((match = pattern.exec(text)) !== null) {
+          const start = match.index + match[1].length;
+          if (!isNegatedUse(text, start)) {
+            hits.add(term);
+            break;
+          }
+        }
+      });
+      return [...hits];
+    }
+
+    function scanRulesForData(data) {
+      const rules = [];
+
+      if (data.page < 52) {
+        rules.push({
+          label: "Human form before final page",
+          terms: ["visible human body", "realistic full body", "visible figure", "human figure", "silhouette", "visible face", "human face", "eyes", "mouth", "hands"]
+        });
+      }
+
+      if (data.page <= 3) {
+        rules.push({
+          label: "Point stage should stay before line/box/cube/grid",
+          terms: ["line", "linework", "box", "cube", "cube geometry", "grid", "growing grid", "wooden crate logic", "crate", "wood", "room", "object", "geometry", "etching", "dense linework", "interior pressure"]
+        });
+      } else if (data.page <= 6) {
+        rules.push({
+          label: "Line stage should not become a box/cube/grid yet",
+          terms: ["box", "cube", "cube geometry", "grid", "growing grid", "wooden crate logic", "crate", "wood", "room", "object", "dense linework"]
+        });
+      } else if (data.page <= 9) {
+        rules.push({
+          label: "Box stage should not become cube/grid/material yet",
+          terms: ["cube", "cube geometry", "grid", "growing grid", "wooden crate logic", "crate", "wood", "room", "dense linework"]
+        });
+      } else if (data.page <= 14) {
+        rules.push({
+          label: "Cube stage should stay geometric, not material",
+          terms: ["grid", "growing grid", "wooden crate logic", "crate", "wood", "wooden", "room", "warehouse", "rows of boxes", "stacked boxes", "dense linework"]
+        });
+      } else if (data.page <= 18) {
+        rules.push({
+          label: "Growing grid should stay abstract, not literal storage",
+          terms: ["wooden crate logic", "crate", "wood", "wooden", "warehouse", "rows of boxes", "stacked boxes", "literal cubes", "domestic", "room"]
+        });
+      } else if (data.page <= 22) {
+        rules.push({
+          label: "Pressure planes should not reveal material/home yet",
+          terms: ["wooden crate logic", "crate", "wood", "wooden", "warehouse", "domestic", "room", "home interior"]
+        });
+      } else if (data.page <= 34) {
+        rules.push({
+          label: "Material/seam sections should not jump to escape yet",
+          terms: ["broken crate", "break out", "escaped", "silhouette", "door dominates", "first paragraph"]
+        });
+      } else if (data.page <= 51) {
+        rules.push({
+          label: "Threshold path should stay before the final paragraph",
+          terms: ["first paragraph", "full prose", "readable narration", "children", "eggs", "memories"]
+        });
+      }
+
+      return rules;
+    }
+
+    function scanPromptText(data, prompt) {
+      const positive = positivePromptPart(prompt);
+      const warnings = [];
+
+      scanRulesForData(data).forEach(rule => {
+        const hits = findTermHits(positive, rule.terms);
+        if (hits.length) {
+          warnings.push(`${rule.label}: ${hits.join(", ")}`);
+        }
+      });
+
+      if (!/negative prompt:/i.test(prompt)) {
+        warnings.push("Missing negative prompt line");
+      }
+
+      if (data.page <= 51 && findTermHits(positive, ["paragraph", "full prose", "readable narration"]).length) {
+        warnings.push("Language arrives too early for Book 1 page structure");
+      }
+
+      return {
+        warnings,
+        cleaned: cleanPromptForData(data)
+      };
+    }
+
+    function normalizePromptText(text) {
+      return text.trim().replace(/\s+/g, " ");
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderPromptScan(data) {
+      const result = scanPromptText(data, els.promptOutput.value);
+      const promptChanged = normalizePromptText(result.cleaned) !== normalizePromptText(els.promptOutput.value);
+      els.useCleanedPrompt.disabled = !promptChanged;
+      els.cleanedPromptPreview.value = result.cleaned;
+      els.cleanedPromptPreview.classList.toggle("changed", promptChanged);
+
+      const status = result.warnings.length
+        ? `<span class="scan-warn">Needs cleanup</span>`
+        : `<span class="scan-ok">Clean for this panel stage</span>`;
+      const warnings = result.warnings.length
+        ? `<ul>${result.warnings.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : "<div>Stage, text, and future-image checks passed.</div>";
+      const cleanNote = promptChanged
+        ? "<div>Cleaned prompt is ready.</div>"
+        : "<div>Current prompt matches the cleaned stage prompt.</div>";
+
+      els.promptScan.innerHTML = `<strong>Prompt scan:</strong> ${status}${warnings}${cleanNote}`;
+    }
+
+    function dataForAbsolute(absolutePanel) {
+      const loc = locateByAbsolute(absolutePanel);
+      const scene = sceneForPage(loc.page);
+      const role = roleFor(loc.page, loc.panelOnPage);
+      return {
+        absolute: loc.absolute,
+        page: loc.page,
+        panelOnPage: loc.panelOnPage,
+        id: panelId(loc.page, loc.panelOnPage),
+        scene,
+        role,
+        act: actLayer(loc.page),
+        board: boardGeometry(loc.page),
+        gradient: gradientBand(loc.page),
+        gradientMeasure: exactGradientMeasure(loc.absolute),
+        language: allowedLanguage(loc.page)
+      };
+    }
+
+    const els = {
+      absolutePanel: document.getElementById("absolutePanel"),
+      pageNumber: document.getElementById("pageNumber"),
+      panelOnPage: document.getElementById("panelOnPage"),
+      jumpScene: document.getElementById("jumpScene"),
+      prevPanel: document.getElementById("prevPanel"),
+      nextPanel: document.getElementById("nextPanel"),
+      currentStart: document.getElementById("currentStart"),
+      panelNumber: document.getElementById("panelNumber"),
+      panelId: document.getElementById("panelId"),
+      progressFill: document.getElementById("progressFill"),
+      sceneSummary: document.getElementById("sceneSummary"),
+      sceneStrip: document.getElementById("sceneStrip"),
+      actLayer: document.getElementById("actLayer"),
+      boardGeometry: document.getElementById("boardGeometry"),
+      gradientBand: document.getElementById("gradientBand"),
+      gradientMeasureCode: document.getElementById("gradientMeasureCode"),
+      gradientMeasureMarker: document.getElementById("gradientMeasureMarker"),
+      gradientMeasureDetails: document.getElementById("gradientMeasureDetails"),
+      panelRole: document.getElementById("panelRole"),
+      allowedLanguage: document.getElementById("allowedLanguage"),
+      visualFocus: document.getElementById("visualFocus"),
+      sectionNote: document.getElementById("sectionNote"),
+      promptOutput: document.getElementById("promptOutput"),
+      copyPrompt: document.getElementById("copyPrompt"),
+      copyNegative: document.getElementById("copyNegative"),
+      scanPrompt: document.getElementById("scanPrompt"),
+      useCleanedPrompt: document.getElementById("useCleanedPrompt"),
+      copyCleanedPrompt: document.getElementById("copyCleanedPrompt"),
+      promptScan: document.getElementById("promptScan"),
+      cleanedPromptPreview: document.getElementById("cleanedPromptPreview"),
+      aiStatus: document.getElementById("aiStatus"),
+      aiMode: document.getElementById("aiMode"),
+      aiAction: document.getElementById("aiAction"),
+      aiModel: document.getElementById("aiModel"),
+      aiBrief: document.getElementById("aiBrief"),
+      aiUseMetadata: document.getElementById("aiUseMetadata"),
+      aiUseCurrentPrompt: document.getElementById("aiUseCurrentPrompt"),
+      aiPreserveNegative: document.getElementById("aiPreserveNegative"),
+      aiStrictContinuity: document.getElementById("aiStrictContinuity"),
+      aiGenerate: document.getElementById("aiGenerate"),
+      aiUseResult: document.getElementById("aiUseResult"),
+      aiCopyResult: document.getElementById("aiCopyResult"),
+      aiStop: document.getElementById("aiStop"),
+      aiResult: document.getElementById("aiResult"),
+      aiToast: document.getElementById("aiToast"),
+      storyBeat: document.getElementById("storyBeat"),
+      storyVisualUnit: document.getElementById("storyVisualUnit"),
+      storyComposition: document.getElementById("storyComposition"),
+      storyCamera: document.getElementById("storyCamera"),
+      storyDensity: document.getElementById("storyDensity"),
+      storyDensityValue: document.getElementById("storyDensityValue"),
+      storyContrast: document.getElementById("storyContrast"),
+      storyContrastValue: document.getElementById("storyContrastValue"),
+      storyAction: document.getElementById("storyAction"),
+      storyContinuity: document.getElementById("storyContinuity"),
+      saveStoryboard: document.getElementById("saveStoryboard"),
+      applyStoryboardPrompt: document.getElementById("applyStoryboardPrompt"),
+      applyStoryboardAi: document.getElementById("applyStoryboardAi"),
+      copyStoryboard: document.getElementById("copyStoryboard"),
+      clearStoryboard: document.getElementById("clearStoryboard"),
+      storyboardSummary: document.getElementById("storyboardSummary"),
+      toast: document.getElementById("toast"),
+      referencePath: document.getElementById("referencePath"),
+      referenceFile: document.getElementById("referenceFile"),
+      referenceDropZone: document.getElementById("referenceDropZone"),
+      referenceNote: document.getElementById("referenceNote"),
+      saveReference: document.getElementById("saveReference"),
+      clearReference: document.getElementById("clearReference"),
+      downloadReferences: document.getElementById("downloadReferences"),
+      referenceStatus: document.getElementById("referenceStatus"),
+      referenceLink: document.getElementById("referenceLink"),
+      referencePreview: document.getElementById("referencePreview"),
+      batchStart: document.getElementById("batchStart"),
+      batchEnd: document.getElementById("batchEnd"),
+      batchMode: document.getElementById("batchMode"),
+      makeBatch: document.getElementById("makeBatch"),
+      makeAllPanels: document.getElementById("makeAllPanels"),
+      copyBatch: document.getElementById("copyBatch"),
+      batchOutput: document.getElementById("batchOutput"),
+      jsonScope: document.getElementById("jsonScope"),
+      jsonPrompts: document.getElementById("jsonPrompts"),
+      jsonPretty: document.getElementById("jsonPretty"),
+      makeJson: document.getElementById("makeJson"),
+      copyJson: document.getElementById("copyJson"),
+      downloadJson: document.getElementById("downloadJson"),
+      jsonOutput: document.getElementById("jsonOutput")
+    };
+
+    scenes.forEach(scene => {
+      const option = document.createElement("option");
+      option.value = scene.panels[0];
+      option.textContent = `${scene.id}. ${scene.name} (${scene.panels[0]}-${scene.panels[1]})`;
+      els.jumpScene.appendChild(option);
+
+      const cell = document.createElement("div");
+      cell.className = "scene-cell";
+      cell.dataset.scene = scene.id;
+      cell.title = `${scene.name}: panels ${scene.panels[0]}-${scene.panels[1]}`;
+      els.sceneStrip.appendChild(cell);
+    });
+
+    function setToast(message, duration = 1600) {
+      els.toast.textContent = message;
+      window.clearTimeout(setToast.timer);
+      setToast.timer = window.setTimeout(() => {
+        els.toast.textContent = "";
+      }, duration);
+    }
+
+    async function copyText(text, label, sourceElement = null) {
+      const value = String(text ?? "");
+      if (!value) {
+        setToast(`Nothing to copy from ${label.toLowerCase()}.`, 2600);
+        return false;
+      }
+
+      let copied = false;
+      const activeElement = document.activeElement;
+      const previousSelectionStart = sourceElement && "selectionStart" in sourceElement
+        ? sourceElement.selectionStart
+        : null;
+      const previousSelectionEnd = sourceElement && "selectionEnd" in sourceElement
+        ? sourceElement.selectionEnd
+        : null;
+
+      // First use the synchronous copy command. It works more reliably for
+      // local file:/// pages because it runs directly inside the click event.
+      const temp = document.createElement("textarea");
+      temp.value = value;
+      temp.setAttribute("aria-hidden", "true");
+      temp.style.position = "fixed";
+      temp.style.left = "0";
+      temp.style.top = "0";
+      temp.style.width = "2px";
+      temp.style.height = "2px";
+      temp.style.padding = "0";
+      temp.style.border = "0";
+      temp.style.opacity = "0.01";
+      temp.style.zIndex = "-1";
+      document.body.appendChild(temp);
+
+      try {
+        temp.focus({ preventScroll: true });
+        temp.select();
+        temp.setSelectionRange(0, temp.value.length);
+        copied = Boolean(document.execCommand && document.execCommand("copy"));
+      } catch {
+        copied = false;
+      } finally {
+        document.body.removeChild(temp);
+      }
+
+      // Modern clipboard API fallback for browsers that allow it.
+      if (!copied && navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        try {
+          await navigator.clipboard.writeText(value);
+          copied = true;
+        } catch {
+          copied = false;
+        }
+      }
+
+      // Older Windows/IE clipboard fallback.
+      if (!copied && window.clipboardData && typeof window.clipboardData.setData === "function") {
+        try {
+          copied = window.clipboardData.setData("Text", value);
+        } catch {
+          copied = false;
+        }
+      }
+
+      if (sourceElement && typeof sourceElement.focus === "function") {
+        sourceElement.focus({ preventScroll: true });
+        if (
+          previousSelectionStart !== null &&
+          previousSelectionEnd !== null &&
+          typeof sourceElement.setSelectionRange === "function"
+        ) {
+          sourceElement.setSelectionRange(previousSelectionStart, previousSelectionEnd);
+        }
+      } else if (activeElement && typeof activeElement.focus === "function") {
+        activeElement.focus({ preventScroll: true });
+      }
+
+      if (copied) {
+        setToast(`${label} copied.`);
+        return true;
+      }
+
+      // Last-resort browser-safe fallback: select the actual output so Ctrl+C works.
+      if (sourceElement && typeof sourceElement.select === "function") {
+        sourceElement.focus({ preventScroll: true });
+        sourceElement.select();
+        setToast(`Browser blocked automatic copy. ${label} is selected; press Ctrl+C.`, 5200);
+      } else {
+        window.prompt(`Copy ${label}:`, value);
+      }
+      return false;
+    }
+
+    const REF_KEY = "invoice-panel-reference-manifest";
+    const MAX_REFERENCE_FILE_BYTES = 10 * 1024 * 1024;
+    const MAX_REFERENCE_DATA_CHARS = 1800000;
+    const REFERENCE_MAX_DIMENSION = 1400;
+
+    function loadReferences() {
+      try {
+        return JSON.parse(localStorage.getItem(REF_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function saveReferences(refs) {
+      try {
+        localStorage.setItem(REF_KEY, JSON.stringify(refs));
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function getReference(panelIdValue) {
+      const refs = loadReferences();
+      return refs[panelIdValue] || null;
+    }
+
+    function setReference(panelIdValue, reference) {
+      const refs = loadReferences();
+      if (reference) {
+        refs[panelIdValue] = reference;
+      } else {
+        delete refs[panelIdValue];
+      }
+      return saveReferences(refs);
+    }
+
+    function pathToHref(path) {
+      const raw = (path || "").trim();
+      if (!raw) return "";
+      if (/^(https?:|file:|data:|blob:)/i.test(raw)) return raw;
+      if (/^[a-zA-Z]:[\\/]/.test(raw)) {
+        return encodeURI(`file:///${raw.replace(/\\/g, "/")}`);
+      }
+      if (/^\\\\/.test(raw)) {
+        return encodeURI(`file:${raw.replace(/\\/g, "/")}`);
+      }
+      return raw;
+    }
+
+    function referenceLabel(reference) {
+      if (!reference) return "";
+      if (reference.source === "import") {
+        return reference.filename || reference.path || "imported image";
+      }
+      return reference.path || reference.href || "saved reference";
+    }
+
+    function referenceHref(reference) {
+      if (!reference) return "";
+      return reference.href || reference.image_data || pathToHref(reference.path);
+    }
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes)) return "";
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Could not read that image."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function loadImage(dataUrl) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Could not preview that image."));
+        image.src = dataUrl;
+      });
+    }
+
+    async function prepareReferenceImage(file) {
+      if (!file || !file.type || !file.type.startsWith("image/")) {
+        throw new Error("Drop an image file.");
+      }
+      if (file.size > MAX_REFERENCE_FILE_BYTES) {
+        throw new Error(`Image is ${formatBytes(file.size)}. Use a file under ${formatBytes(MAX_REFERENCE_FILE_BYTES)}.`);
+      }
+
+      const originalData = await readFileAsDataUrl(file);
+      if (file.type === "image/svg+xml" || file.type === "image/gif") {
+        if (originalData.length > MAX_REFERENCE_DATA_CHARS) {
+          throw new Error("That image is too large to store here. Use its file path instead.");
+        }
+        return {
+          href: originalData,
+          width: null,
+          height: null,
+          stored_size_chars: originalData.length
+        };
+      }
+
+      const image = await loadImage(originalData);
+      const scale = Math.min(1, REFERENCE_MAX_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight));
+      const width = Math.max(1, Math.round(image.naturalWidth * scale));
+      const height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#000";
+      context.fillRect(0, 0, width, height);
+      context.drawImage(image, 0, 0, width, height);
+
+      let dataUrl = canvas.toDataURL("image/jpeg", 0.84);
+      if (dataUrl.length > MAX_REFERENCE_DATA_CHARS) {
+        const smallerScale = Math.min(1, 1000 / Math.max(image.naturalWidth, image.naturalHeight));
+        canvas.width = Math.max(1, Math.round(image.naturalWidth * smallerScale));
+        canvas.height = Math.max(1, Math.round(image.naturalHeight * smallerScale));
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+      }
+      if (dataUrl.length > MAX_REFERENCE_DATA_CHARS) {
+        throw new Error("That image is still too large after compression. Use its file path instead.");
+      }
+
+      return {
+        href: dataUrl,
+        width: canvas.width,
+        height: canvas.height,
+        stored_size_chars: dataUrl.length
+      };
+    }
+
+    function downloadText(filename, text) {
+      const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function buildPanelRecord(data, includePrompt) {
+      const reference = getReference(data.id);
+      const record = {
+        absolute_panel: data.absolute,
+        panel_id: data.id,
+        page: data.page,
+        panel_on_page: data.panelOnPage,
+        scene: data.scene.id,
+        scene_name: data.scene.name,
+        act_layer: data.act,
+        board_geometry: data.board,
+        gradient_band: data.gradient,
+        gradient_code: data.gradientMeasure.code,
+        gradient_value: Number(data.gradientMeasure.value.toFixed(4)),
+        gradient_band_position_percent: data.gradientMeasure.bandPosition,
+        gradient_global_position_percent: data.gradientMeasure.globalPosition,
+        gradient_target_rgb: [data.gradientMeasure.rgb, data.gradientMeasure.rgb, data.gradientMeasure.rgb],
+        gradient_delta_from_previous_panel: Number(data.gradientMeasure.delta.toFixed(4)),
+        panel_role: data.role.name,
+        visual_meaning: data.role.meaning,
+        allowed_language: data.language,
+        visual_focus: data.scene.focus,
+        storyboard: storyboardForData(data),
+        storyboard_saved: Boolean(savedStoryboardForData(data)),
+        page_text: pageText[data.page] || "",
+        reference: reference || null
+      };
+      if (includePrompt) {
+        record.image_prompt = buildPrompt(data);
+        record.negative_prompt = negativePromptTextForData(data);
+      }
+      return record;
+    }
+
+    function allPanelRecords(includePrompt) {
+      const records = [];
+      for (let n = 1; n <= TOTAL; n += 1) {
+        records.push(buildPanelRecord(dataForAbsolute(n), includePrompt));
+      }
+      return records;
+    }
+
+    function referenceManifest() {
+      const refs = loadReferences();
+      return {
+        project: "INVOICE - BOOK 1",
+        total_panels: TOTAL,
+        updated_at: new Date().toISOString(),
+        references: refs
+      };
+    }
+
+    function currentStoryboardFromInputs() {
+      return {
+        beat: els.storyBeat.value,
+        visualUnit: els.storyVisualUnit.value,
+        composition: els.storyComposition.value,
+        camera: els.storyCamera.value,
+        density: Number(els.storyDensity.value),
+        contrast: Number(els.storyContrast.value),
+        action: els.storyAction.value.trim(),
+        continuity: els.storyContinuity.value.trim()
+      };
+    }
+
+    function setStoryboardInputs(storyboard) {
+      els.storyBeat.value = storyboard.beat;
+      els.storyVisualUnit.value = storyboard.visualUnit;
+      els.storyComposition.value = storyboard.composition;
+      els.storyCamera.value = storyboard.camera;
+      els.storyDensity.value = storyboard.density;
+      els.storyContrast.value = storyboard.contrast;
+      els.storyDensityValue.textContent = storyboard.density;
+      els.storyContrastValue.textContent = storyboard.contrast;
+      els.storyAction.value = storyboard.action;
+      els.storyContinuity.value = storyboard.continuity;
+    }
+
+    function updateStoryboardSummary(data) {
+      els.storyDensityValue.textContent = els.storyDensity.value;
+      els.storyContrastValue.textContent = els.storyContrast.value;
+      const storyboard = currentStoryboardFromInputs();
+      const saved = Boolean(savedStoryboardForData(data));
+      els.storyboardSummary.textContent = `${saved ? "Saved" : "Suggested"} storyboard\n${storyboardSummaryForData(data, storyboard)}`;
+    }
+
+    function updateStoryboardPanel(data) {
+      setStoryboardInputs(storyboardForData(data));
+      updateStoryboardSummary(data);
+    }
+
+    function saveCurrentStoryboard() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      const storyboards = loadStoryboards();
+      storyboards[data.id] = currentStoryboardFromInputs();
+      saveStoryboards(storyboards);
+      els.promptOutput.value = buildPrompt(data);
+      renderPromptScan(data);
+      updateStoryboardSummary(data);
+      setToast("Storyboard saved into this panel.");
+    }
+
+    function clearCurrentStoryboard() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      const storyboards = loadStoryboards();
+      delete storyboards[data.id];
+      saveStoryboards(storyboards);
+      updateStoryboardPanel(data);
+      els.promptOutput.value = buildPrompt(data);
+      renderPromptScan(data);
+      setToast("Storyboard reset to suggested defaults.");
+    }
+
+    function promptWithStoryboard(prompt, data, storyboard = currentStoryboardFromInputs()) {
+      const line = `Storyboard control: beat ${storyboard.beat}; visual unit ${storyboard.visualUnit}; composition ${storyboard.composition}; view logic ${storyboard.camera}; detail density ${storyboard.density}/100; black separation ${storyboard.contrast}/100. Panel action: ${storyboard.action} Continuity lock: ${storyboard.continuity}`;
+      if (/Storyboard control:/i.test(prompt)) {
+        return prompt.replace(/Storyboard control:[\s\S]*?(?=\n(?:This must read|The image should|Keep the image|Show cube|Negative prompt:)|$)/i, line);
+      }
+      if (/Negative prompt:/i.test(prompt)) {
+        return prompt.replace(/\nNegative prompt:/i, `\n${line}\nNegative prompt:`);
+      }
+      return `${prompt.trim()}\n${line}`;
+    }
+
+    function applyStoryboardToPrompt() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      els.promptOutput.value = promptWithStoryboard(els.promptOutput.value, data);
+      renderPromptScan(data);
+      setToast("Storyboard added to prompt.");
+    }
+
+    function applyStoryboardToAiBrief() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      const summary = storyboardSummaryForData(data, currentStoryboardFromInputs());
+      els.aiBrief.value = [
+        "Use this storyboard as the visual plan. Rewrite or generate the image prompt so this panel has one clear visual job.",
+        summary,
+        "Keep Book 1 continuity, exact gradient reference, and stage restrictions."
+      ].join("\n\n");
+      els.aiMode.value = "rewrite";
+      els.aiUseMetadata.checked = true;
+      els.aiUseCurrentPrompt.checked = true;
+      els.aiStrictContinuity.checked = true;
+      setAiToast("Storyboard moved into the AI brief.");
+    }
+
+    function updateReferencePanel(data) {
+      const reference = getReference(data.id);
+      if (reference) {
+        els.referencePath.value = reference.path || "";
+        els.referenceFile.value = "";
+        els.referenceNote.value = reference.note || "";
+        const label = referenceLabel(reference);
+        const detail = reference.source === "import" && reference.original_size_bytes
+          ? ` Imported from ${formatBytes(reference.original_size_bytes)} file.`
+          : "";
+        els.referenceStatus.textContent = `Saved for ${data.id}: ${label}.${detail}`;
+        const href = referenceHref(reference);
+        els.referenceLink.href = href || "#";
+        els.referenceLink.style.display = href ? "inline" : "none";
+        els.referencePreview.src = href || "";
+        els.referencePreview.style.display = href ? "block" : "none";
+      } else {
+        els.referencePath.value = "";
+        els.referenceFile.value = "";
+        els.referenceNote.value = "";
+        els.referenceStatus.textContent = "No reference saved for this panel.";
+        els.referenceLink.href = "#";
+        els.referenceLink.style.display = "none";
+        els.referencePreview.removeAttribute("src");
+        els.referencePreview.style.display = "none";
+      }
+    }
+
+    function render(absolutePanel) {
+      const data = dataForAbsolute(absolutePanel);
+      els.absolutePanel.value = data.absolute;
+      els.pageNumber.value = data.page;
+      els.panelOnPage.max = data.page === 52 ? 7 : 6;
+      els.panelOnPage.value = data.panelOnPage;
+      els.jumpScene.value = data.scene.panels[0];
+
+      els.panelNumber.textContent = `Panel ${data.absolute}`;
+      els.panelId.textContent = `${data.id} / ${data.scene.name}`;
+      els.progressFill.style.width = `${(data.absolute / TOTAL) * 100}%`;
+      els.sceneSummary.textContent = `${data.scene.name}: ${data.scene.focus}.`;
+      els.actLayer.textContent = data.act;
+      els.boardGeometry.textContent = data.board;
+      els.gradientBand.textContent = `${data.gradient} / ${data.gradientMeasure.code}`;
+      els.gradientMeasureCode.textContent = data.gradientMeasure.code;
+      els.gradientMeasureMarker.style.left = `${data.gradientMeasure.globalPosition}%`;
+      els.gradientMeasureDetails.textContent =
+        `${data.gradientMeasure.bandPosition.toFixed(1)}% through ${data.gradientMeasure.rangeLabel}; ` +
+        `target neutral RGB ${data.gradientMeasure.rgb}/${data.gradientMeasure.rgb}/${data.gradientMeasure.rgb}; ` +
+        `panel ${data.gradientMeasure.panelIndex} of ${data.gradientMeasure.panelCount} in this measured range; ` +
+        `${data.gradientMeasure.delta > 0 ? `change +${data.gradientMeasure.delta.toFixed(2)} G-units from previous panel` : "range starting point"}.`;
+      els.panelRole.textContent = `${data.role.name} - ${data.role.meaning}`;
+      els.allowedLanguage.textContent = data.language;
+      els.visualFocus.textContent = data.scene.focus;
+      els.sectionNote.textContent = data.scene.note;
+
+      [...els.sceneStrip.children].forEach((cell, index) => {
+        cell.classList.toggle("active", scenes[index].id === data.scene.id);
+      });
+
+      updateReferencePanel(data);
+      updateStoryboardPanel(data);
+      els.promptOutput.value = buildPrompt(data);
+      renderPromptScan(data);
+      localStorage.setItem("invoice-panel", String(data.absolute));
+    }
+
+    function renderFromPagePanel() {
+      const loc = absoluteFromPagePanel(els.pageNumber.value, els.panelOnPage.value);
+      render(loc.absolute);
+    }
+
+    function makeBatch() {
+      let start = clamp(Number(els.batchStart.value) || 1, 1, TOTAL);
+      let end = clamp(Number(els.batchEnd.value) || start, 1, TOTAL);
+      if (end < start) {
+        [start, end] = [end, start];
+      }
+      const items = [];
+      for (let n = start; n <= end; n += 1) {
+        const data = dataForAbsolute(n);
+        if (els.batchMode.value === "json") {
+          items.push({
+            absolute_panel: data.absolute,
+            panel_id: data.id,
+            scene: data.scene.name,
+            role: data.role.name,
+            gradient_band: data.gradient,
+            gradient_code: data.gradientMeasure.code,
+            gradient_target_rgb: [data.gradientMeasure.rgb, data.gradientMeasure.rgb, data.gradientMeasure.rgb],
+            prompt: buildPrompt(data),
+            negative_prompt: negativePromptTextForData(data)
+          });
+        } else if (els.batchMode.value === "full") {
+          items.push(`=== Panel ${data.absolute} / ${data.id} / ${data.scene.name} ===\n${buildPrompt(data)}`);
+        } else {
+          items.push(`Panel ${data.absolute} / ${data.id} / ${data.scene.name} / ${data.role.name} / ${data.gradientMeasure.code} / RGB ${data.gradientMeasure.rgb}\n${data.scene.focus}`);
+        }
+      }
+      els.batchOutput.value = els.batchMode.value === "json" ? JSON.stringify(items, null, 2) : items.join("\n\n");
+    }
+
+    function refreshAfterReferenceChange(data) {
+      updateReferencePanel(data);
+      els.promptOutput.value = buildPrompt(data);
+      renderPromptScan(data);
+    }
+
+    function saveCurrentReference() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      const path = els.referencePath.value.trim();
+      const note = els.referenceNote.value.trim();
+      const existing = getReference(data.id);
+      if (!path && !note) {
+        if (!setReference(data.id, null)) {
+          setToast("Could not clear browser storage.", 3600);
+          return;
+        }
+        refreshAfterReferenceChange(data);
+        setToast("Reference cleared.");
+        return;
+      }
+      if (existing && existing.source === "import" && path === (existing.path || "")) {
+        const savedImport = setReference(data.id, {
+          ...existing,
+          note,
+          updated_at: new Date().toISOString()
+        });
+        if (!savedImport) {
+          setToast("Browser storage is full. Try clearing an imported image.", 4200);
+          return;
+        }
+        refreshAfterReferenceChange(data);
+        setToast("Reference note saved.");
+        return;
+      }
+      const saved = setReference(data.id, {
+        absolute_panel: data.absolute,
+        panel_id: data.id,
+        source: "path",
+        path,
+        href: pathToHref(path),
+        note,
+        updated_at: new Date().toISOString()
+      });
+      if (!saved) {
+        setToast("Browser storage is full. Try clearing an imported image.", 4200);
+        return;
+      }
+      refreshAfterReferenceChange(data);
+      setToast("Reference saved.");
+    }
+
+    function clearCurrentReference() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      if (!setReference(data.id, null)) {
+        setToast("Could not clear browser storage.", 3600);
+        return;
+      }
+      refreshAfterReferenceChange(data);
+      setToast("Reference cleared.");
+    }
+
+    async function importReferenceFile(file) {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      try {
+        setToast("Importing image...", 6000);
+        const prepared = await prepareReferenceImage(file);
+        const note = els.referenceNote.value.trim();
+        const saved = setReference(data.id, {
+          absolute_panel: data.absolute,
+          panel_id: data.id,
+          source: "import",
+          path: file.name,
+          href: prepared.href,
+          image_data: prepared.href,
+          filename: file.name,
+          mime_type: file.type,
+          original_size_bytes: file.size,
+          stored_size_chars: prepared.stored_size_chars,
+          image_width: prepared.width,
+          image_height: prepared.height,
+          note,
+          updated_at: new Date().toISOString()
+        });
+        if (!saved) {
+          setToast("Browser storage is full. Use a file path or clear another imported image.", 5200);
+          return;
+        }
+        refreshAfterReferenceChange(data);
+        setToast(`Image imported for ${data.id}.`, 2600);
+      } catch (error) {
+        setToast(error.message || "Image import failed.", 5200);
+      }
+    }
+
+    function importFirstDroppedImage(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      els.referenceDropZone.classList.remove("dragging");
+
+      const files = Array.from(event.dataTransfer.files || []);
+      const imageFile = files.find(file => file.type.startsWith("image/"));
+      if (imageFile) {
+        importReferenceFile(imageFile);
+        return;
+      }
+
+      const droppedText = event.dataTransfer.getData("text/uri-list") || event.dataTransfer.getData("text/plain");
+      if (droppedText && droppedText.trim()) {
+        els.referencePath.value = droppedText.trim();
+        saveCurrentReference();
+        return;
+      }
+
+      setToast("Drop an image file or image URL.", 3200);
+    }
+
+    function buildJsonExtract() {
+      const includePrompt = els.jsonPrompts.value === "include";
+      const scope = els.jsonScope.value;
+      let payload;
+
+      if (scope === "current") {
+        payload = buildPanelRecord(dataForAbsolute(els.absolutePanel.value), includePrompt);
+      } else if (scope === "range") {
+        let start = clamp(Number(els.batchStart.value) || 1, 1, TOTAL);
+        let end = clamp(Number(els.batchEnd.value) || start, 1, TOTAL);
+        if (end < start) {
+          [start, end] = [end, start];
+        }
+        payload = [];
+        for (let n = start; n <= end; n += 1) {
+          payload.push(buildPanelRecord(dataForAbsolute(n), includePrompt));
+        }
+      } else if (scope === "references") {
+        payload = referenceManifest();
+      } else {
+        payload = allPanelRecords(includePrompt);
+      }
+
+      const spacing = els.jsonPretty.value === "pretty" ? 2 : 0;
+      els.jsonOutput.value = JSON.stringify(payload, null, spacing);
+    }
+
+    function jsonFilename() {
+      const scope = els.jsonScope.value;
+      if (scope === "current") {
+        const data = dataForAbsolute(els.absolutePanel.value);
+        return `${data.id.toLowerCase()}-data.json`;
+      }
+      if (scope === "range") {
+        return `invoice-book-1-panels-${els.batchStart.value}-${els.batchEnd.value}.json`;
+      }
+      if (scope === "references") {
+        return "invoice-book-1-panel-references.json";
+      }
+      return "invoice-book-1-all-313-panels.json";
+    }
+
+    let aiAbortController = null;
+    let aiWaitingTimer = null;
+    let aiWaitingStartedAt = 0;
+
+    function setAiToast(message, duration = 2600) {
+      els.aiToast.textContent = message;
+      window.clearTimeout(setAiToast.timer);
+      if (duration > 0) {
+        setAiToast.timer = window.setTimeout(() => { els.aiToast.textContent = ""; }, duration);
+      }
+    }
+
+    function startAiWaitingStatus(model) {
+      stopAiWaitingStatus();
+      aiWaitingStartedAt = Date.now();
+
+      const update = () => {
+        const elapsed = Math.max(0, Math.floor((Date.now() - aiWaitingStartedAt) / 1000));
+        const providerLabel = "Ollama";
+        const modelLabel = model ? ` / ${model}` : "";
+        els.aiStatus.textContent = `Waiting on ${providerLabel}${modelLabel} / ${elapsed}s`;
+        els.aiStatus.className = "ai-badge ready";
+
+        if (elapsed < 10) {
+          setAiToast(`${providerLabel} is receiving the prompt... ${elapsed}s`, 0);
+        } else if (elapsed < 45) {
+          setAiToast(`${providerLabel} is generating. Local models may take a little time to load... ${elapsed}s`, 0);
+        } else {
+          setAiToast(`${providerLabel} is still working... ${elapsed}s. Keep the server window open.`, 0);
+        }
+      };
+
+      update();
+      aiWaitingTimer = window.setInterval(update, 1000);
+    }
+
+    function stopAiWaitingStatus() {
+      if (aiWaitingTimer) {
+        window.clearInterval(aiWaitingTimer);
+        aiWaitingTimer = null;
+      }
+    }
+
+    async function checkAiServer() {
+      try {
+        const response = await fetch("/api/status", { cache: "no-store" });
+        if (!response.ok) throw new Error("Server unavailable");
+        const status = await response.json();
+        els.aiStatus.textContent = `Ollama ready / ${status.model}`;
+        els.aiStatus.className = "ai-badge ready";
+      } catch {
+        els.aiStatus.textContent = "Open through START_INVOICE_AI.bat";
+        els.aiStatus.className = "ai-badge error";
+      }
+    }
+
+    function currentAiMetadata() {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      return {
+        project: "INVOICE - BOOK 1", absolute_panel: data.absolute, panel_id: data.id,
+        page: data.page, panel_on_page: data.panelOnPage, scene: data.scene.name,
+        scene_note: data.scene.note, act: data.act, board_geometry: data.board,
+        broad_gradient_band: data.gradient, exact_gradient_code: data.gradientMeasure.code,
+        gradient_value: Number(data.gradientMeasure.value.toFixed(4)),
+        gradient_band_position_percent: data.gradientMeasure.bandPosition,
+        gradient_target_rgb: [data.gradientMeasure.rgb, data.gradientMeasure.rgb, data.gradientMeasure.rgb],
+        gradient_delta_from_previous_panel: Number(data.gradientMeasure.delta.toFixed(4)),
+        panel_role: data.role.name, role_meaning: data.role.meaning,
+        allowed_language: data.language, visual_focus: focusForData(data),
+        page_text_cue: pageText[data.page] || "", stage_directive: directiveForData(data),
+        storyboard: storyboardForData(data),
+        storyboard_saved: Boolean(savedStoryboardForData(data)),
+        negative_prompt: negativePromptTextForData(data)
+      };
+    }
+
+    async function generateAiPrompt() {
+      const brief = els.aiBrief.value.trim();
+      if (els.aiMode.value === "free" && !brief) { setAiToast("Describe the new prompt first.", 3200); els.aiBrief.focus(); return; }
+      aiAbortController = new AbortController();
+      els.aiGenerate.disabled = true;
+      els.aiStop.disabled = false;
+      els.aiResult.value = "";
+
+      const selectedModel = els.aiModel.value.trim() || "configured Ollama model";
+      startAiWaitingStatus(selectedModel);
+
+      const payload = {
+        mode: els.aiMode.value, action: els.aiAction.value, brief,
+        model: els.aiModel.value.trim() || null,
+        use_metadata: els.aiUseMetadata.checked,
+        use_current_prompt: els.aiUseCurrentPrompt.checked,
+        preserve_negative: els.aiPreserveNegative.checked,
+        strict_continuity: els.aiStrictContinuity.checked,
+        metadata: els.aiUseMetadata.checked ? currentAiMetadata() : null,
+        current_prompt: els.aiUseCurrentPrompt.checked ? els.promptOutput.value : ""
+      };
+      try {
+        const response = await fetch("/api/generate", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload), signal:aiAbortController.signal });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || `Generation failed with status ${response.status}.`);
+        stopAiWaitingStatus();
+        els.aiResult.value = result.prompt || "";
+        els.aiStatus.textContent = `Finished / Ollama / ${result.model || selectedModel}`;
+        els.aiStatus.className = "ai-badge ready";
+        setAiToast(`Generated with ${result.model || "AI"}.`, 3500);
+      } catch (error) {
+        stopAiWaitingStatus();
+        if (error.name === "AbortError") {
+          els.aiStatus.textContent = "Generation stopped";
+          els.aiStatus.className = "ai-badge error";
+          setAiToast("Generation stopped.", 3500);
+        } else {
+          const message = error.message || "AI generation failed.";
+          els.aiStatus.textContent = message.includes("reach Ollama") || message.includes("connect")
+            ? "Unable to connect to Ollama"
+            : "Generation failed";
+          els.aiStatus.className = "ai-badge error";
+          setAiToast(message, 10000);
+        }
+      } finally {
+        stopAiWaitingStatus();
+        aiAbortController = null;
+        els.aiGenerate.disabled = false;
+        els.aiStop.disabled = true;
+        window.setTimeout(checkAiServer, 1200);
+      }
+    }
+
+    els.aiGenerate.addEventListener("click", generateAiPrompt);
+    els.aiStop.addEventListener("click", () => { if (aiAbortController) aiAbortController.abort(); });
+    els.aiUseResult.addEventListener("click", () => {
+      if (!els.aiResult.value.trim()) { setAiToast("Generate a result first."); return; }
+      els.promptOutput.value = els.aiResult.value; renderPromptScan(dataForAbsolute(els.absolutePanel.value)); setAiToast("AI result loaded into the main prompt.");
+    });
+    els.aiCopyResult.addEventListener("click", () => copyText(els.aiResult.value, "AI result", els.aiResult));
+    els.aiMode.addEventListener("change", () => { const free = els.aiMode.value === "free"; els.aiUseMetadata.checked = !free; els.aiUseCurrentPrompt.checked = !free; });
+    checkAiServer();
+
+    [
+      els.storyBeat,
+      els.storyVisualUnit,
+      els.storyComposition,
+      els.storyCamera,
+      els.storyDensity,
+      els.storyContrast,
+      els.storyAction,
+      els.storyContinuity
+    ].forEach(control => {
+      control.addEventListener("input", () => updateStoryboardSummary(dataForAbsolute(els.absolutePanel.value)));
+      control.addEventListener("change", () => updateStoryboardSummary(dataForAbsolute(els.absolutePanel.value)));
+    });
+    els.saveStoryboard.addEventListener("click", saveCurrentStoryboard);
+    els.applyStoryboardPrompt.addEventListener("click", applyStoryboardToPrompt);
+    els.applyStoryboardAi.addEventListener("click", applyStoryboardToAiBrief);
+    els.copyStoryboard.addEventListener("click", () => {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      copyText(storyboardSummaryForData(data, currentStoryboardFromInputs()), "Storyboard", els.storyboardSummary);
+    });
+    els.clearStoryboard.addEventListener("click", clearCurrentStoryboard);
+
+    els.absolutePanel.addEventListener("input", () => render(els.absolutePanel.value));
+    els.pageNumber.addEventListener("input", renderFromPagePanel);
+    els.panelOnPage.addEventListener("input", renderFromPagePanel);
+    els.jumpScene.addEventListener("change", () => render(els.jumpScene.value));
+    els.prevPanel.addEventListener("click", () => render(Number(els.absolutePanel.value) - 1));
+    els.nextPanel.addEventListener("click", () => render(Number(els.absolutePanel.value) + 1));
+    els.currentStart.addEventListener("click", () => render(85));
+    els.copyPrompt.addEventListener("click", () => copyText(els.promptOutput.value, "Prompt", els.promptOutput));
+    els.copyNegative.addEventListener("click", () => copyText(negativePromptTextForData(dataForAbsolute(els.absolutePanel.value)), "Negative prompt", els.promptOutput));
+    els.scanPrompt.addEventListener("click", () => {
+      renderPromptScan(dataForAbsolute(els.absolutePanel.value));
+      setToast("Prompt scanned.");
+    });
+    els.useCleanedPrompt.addEventListener("click", () => {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      els.promptOutput.value = els.cleanedPromptPreview.value || cleanPromptForData(data);
+      renderPromptScan(data);
+      setToast("Cleaned prompt loaded.");
+    });
+    els.copyCleanedPrompt.addEventListener("click", () => {
+      const data = dataForAbsolute(els.absolutePanel.value);
+      if (!els.cleanedPromptPreview.value.trim()) {
+        renderPromptScan(data);
+      }
+      copyText(els.cleanedPromptPreview.value || cleanPromptForData(data), "Cleaned prompt", els.cleanedPromptPreview);
+    });
+    els.promptOutput.addEventListener("input", () => renderPromptScan(dataForAbsolute(els.absolutePanel.value)));
+    els.saveReference.addEventListener("click", saveCurrentReference);
+    els.clearReference.addEventListener("click", clearCurrentReference);
+    els.referenceFile.addEventListener("change", () => {
+      const file = els.referenceFile.files && els.referenceFile.files[0];
+      if (file) {
+        importReferenceFile(file);
+      }
+    });
+    ["dragenter", "dragover"].forEach(eventName => {
+      els.referenceDropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        els.referenceDropZone.classList.add("dragging");
+      });
+    });
+    ["dragleave", "dragend"].forEach(eventName => {
+      els.referenceDropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        els.referenceDropZone.classList.remove("dragging");
+      });
+    });
+    els.referenceDropZone.addEventListener("drop", importFirstDroppedImage);
+    els.downloadReferences.addEventListener("click", () => {
+      downloadText("invoice-book-1-panel-references.json", JSON.stringify(referenceManifest(), null, 2));
+      setToast("Reference manifest downloaded.");
+    });
+    els.makeBatch.addEventListener("click", makeBatch);
+    els.makeAllPanels.addEventListener("click", () => {
+      els.batchStart.value = 1;
+      els.batchEnd.value = TOTAL;
+      makeBatch();
+      setToast("All 313 panels generated.");
+    });
+    els.copyBatch.addEventListener("click", () => copyText(els.batchOutput.value, "Batch", els.batchOutput));
+    els.makeJson.addEventListener("click", buildJsonExtract);
+    els.copyJson.addEventListener("click", () => copyText(els.jsonOutput.value, "JSON", els.jsonOutput));
+    els.downloadJson.addEventListener("click", () => {
+      if (!els.jsonOutput.value.trim()) {
+        buildJsonExtract();
+      }
+      downloadText(jsonFilename(), els.jsonOutput.value);
+      setToast("JSON downloaded.");
+    });
+    els.referencePreview.addEventListener("error", () => {
+      els.referencePreview.style.display = "none";
+      if (els.referencePath.value.trim()) {
+        els.referenceStatus.textContent = "Reference saved. Preview may be blocked by the browser; use Open reference.";
+      }
+    });
+
+    const saved = Number(localStorage.getItem("invoice-panel")) || 85;
+    render(saved);
+    makeBatch();
+    buildJsonExtract();
+  </script>
+</body>
+</html>

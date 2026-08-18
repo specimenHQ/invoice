@@ -1,0 +1,1817 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INVOICE Book 1 Assembly Board</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050505;
+      --panel: #101010;
+      --panel-2: #171717;
+      --panel-3: #0a0a0a;
+      --line: #2d2d2d;
+      --line-soft: #202020;
+      --text: #e6e6e6;
+      --muted: #989898;
+      --soft: #c6c6c6;
+      --ok: #9fd49f;
+      --warn: #d7b778;
+      --danger: #d48c8c;
+      --accent: #dcdcdc;
+      --page-black: #020202;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+        var(--bg);
+      background-size: 52px 52px;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      border-radius: 6px;
+      border: 1px solid #3a3a3a;
+      background: #070707;
+      color: var(--text);
+    }
+
+    button {
+      padding: 9px 11px;
+      cursor: pointer;
+      background: #1b1b1b;
+    }
+
+    button:hover {
+      background: #272727;
+    }
+
+    button.primary {
+      background: #e6e6e6;
+      color: #050505;
+      border-color: #e6e6e6;
+      font-weight: 700;
+    }
+
+    button.danger {
+      border-color: #5a3030;
+      color: #efb3b3;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 10px;
+      outline-color: var(--accent);
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    label {
+      display: block;
+      color: var(--soft);
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+    }
+
+    main {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.35rem, 3vw, 2.25rem);
+      letter-spacing: 0;
+      line-height: 1.05;
+    }
+
+    h2 {
+      font-size: 1rem;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+      color: var(--soft);
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .top-status {
+      text-align: right;
+      color: var(--soft);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(270px, 330px) minmax(0, 1fr) minmax(270px, 350px);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .tiny {
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.4;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      background: #080808;
+      padding: 9px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-bottom: 4px;
+    }
+
+    .stat strong {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .progress {
+      height: 11px;
+      border: 1px solid #303030;
+      border-radius: 999px;
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .progress div {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #373737, #9d9d9d);
+    }
+
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .nav-tabs button {
+      min-height: 38px;
+    }
+
+    .nav-tabs button.active {
+      background: #e6e6e6;
+      color: #050505;
+      border-color: #e6e6e6;
+      font-weight: 700;
+    }
+
+    .page-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      max-height: 390px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .page-button {
+      min-height: 42px;
+      padding: 6px 4px;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      font-size: 0.78rem;
+      border-color: #292929;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--page-shade);
+      opacity: 0.65;
+    }
+
+    .page-button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-button small {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 0.62rem;
+    }
+
+    .page-button.active {
+      outline: 2px solid #dcdcdc;
+      outline-offset: 1px;
+    }
+
+    .page-button.complete {
+      border-color: #6f916f;
+    }
+
+    .drop-bulk {
+      border: 1px dashed #444;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 98px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: #070707;
+      color: var(--muted);
+    }
+
+    .drop-bulk strong {
+      color: var(--text);
+    }
+
+    .drop-bulk.dragging,
+    .panel-slot.dragging {
+      border-color: var(--accent);
+      background: #151515;
+    }
+
+    .drop-bulk.compact {
+      min-height: 74px;
+      padding: 10px;
+    }
+
+    .reference-shelf {
+      border-top: 1px solid #292929;
+      padding-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .reference-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      max-height: 240px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .reference-thumb {
+      aspect-ratio: 1;
+      padding: 0;
+      border: 1px solid #2b2b2b;
+      background: #050505;
+      overflow: hidden;
+      position: relative;
+      display: block;
+    }
+
+    .reference-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .reference-thumb span {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #e1e1e1;
+      font-size: 0.58rem;
+      text-align: center;
+      text-shadow: 0 1px 5px #000;
+      background: rgba(0,0,0,0.55);
+      border-radius: 999px;
+      padding: 2px 4px;
+    }
+
+    .gradient-ribbon {
+      display: grid;
+      grid-template-columns: repeat(52, minmax(4px, 1fr));
+      gap: 2px;
+      min-height: 58px;
+    }
+
+    .gradient-page {
+      border: 1px solid #252525;
+      border-radius: 3px;
+      background: var(--shade);
+      cursor: pointer;
+      position: relative;
+      min-height: 58px;
+      overflow: hidden;
+    }
+
+    .gradient-page::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: var(--complete);
+      background: rgba(159, 212, 159, 0.32);
+    }
+
+    .gradient-page.active {
+      outline: 2px solid #e6e6e6;
+      outline-offset: 1px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .page-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .page-title strong {
+      font-size: clamp(1.35rem, 2.8vw, 2.2rem);
+      line-height: 1;
+    }
+
+    .page-title span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .page-frame {
+      background: #000;
+      border: 1px solid #292929;
+      padding: clamp(8px, 1.4vw, 14px);
+      aspect-ratio: 2 / 3;
+      min-height: 620px;
+      max-height: calc(100vh - 140px);
+      margin: 0 auto;
+      display: grid;
+      gap: clamp(8px, 1.1vw, 12px);
+      box-shadow: 0 18px 70px rgba(0,0,0,0.45);
+    }
+
+    .page-frame.six {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+    }
+
+    .page-frame.seven {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+
+    .page-frame.seven .panel-slot:last-child {
+      grid-column: 1 / 3;
+    }
+
+    .panel-slot {
+      border: 1px solid #242424;
+      border-radius: 4px;
+      background: var(--panel-shade, #030303);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .panel-slot.selected {
+      outline: 2px solid #e6e6e6;
+      outline-offset: -2px;
+    }
+
+    .panel-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .panel-empty {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 6px;
+      padding: 10px;
+      color: #777;
+      min-height: 100%;
+    }
+
+    .panel-empty strong {
+      color: #a6a6a6;
+      font-size: 0.82rem;
+    }
+
+    .panel-meta {
+      position: absolute;
+      left: 7px;
+      right: 7px;
+      bottom: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 7px;
+      color: #d8d8d8;
+      font-size: 0.7rem;
+      pointer-events: none;
+      text-shadow: 0 1px 4px #000;
+    }
+
+    .panel-status {
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      padding: 2px 6px;
+      background: rgba(0,0,0,0.54);
+      color: #d8d8d8;
+      white-space: nowrap;
+    }
+
+    .panel-status.final {
+      color: var(--ok);
+      border-color: rgba(159,212,159,0.55);
+    }
+
+    .panel-status.draft {
+      color: var(--warn);
+      border-color: rgba(215,183,120,0.55);
+    }
+
+    .panel-status.needs {
+      color: var(--danger);
+      border-color: rgba(212,140,140,0.55);
+    }
+
+    .book-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .reader {
+      max-height: calc(100vh - 150px);
+      overflow: auto;
+      background: #000;
+      border: 1px solid #222;
+      padding: clamp(14px, 2vw, 28px);
+      display: grid;
+      gap: clamp(34px, 5vw, 64px);
+      scroll-behavior: smooth;
+    }
+
+    .reader-page {
+      width: min(100%, 820px);
+      margin: 0 auto;
+      display: grid;
+      gap: 8px;
+    }
+
+    .reader-page-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #9a9a9a;
+      font-size: 0.74rem;
+    }
+
+    .reader-frame {
+      aspect-ratio: 2 / 3;
+      background: #000;
+      border: 1px solid #1e1e1e;
+      padding: clamp(8px, 1vw, 12px);
+      display: grid;
+      gap: clamp(7px, 0.9vw, 11px);
+      min-height: 620px;
+    }
+
+    .reader-frame.six {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+    }
+
+    .reader-frame.seven {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+
+    .reader-frame.seven .reader-panel:last-child {
+      grid-column: 1 / 3;
+    }
+
+    .reader-panel {
+      min-height: 0;
+      border: 1px solid #191919;
+      background: var(--panel-shade);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .reader-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .reader-empty {
+      color: #5f5f5f;
+      font-size: 0.72rem;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .mini-page {
+      border: 1px solid #282828;
+      border-radius: 7px;
+      padding: 8px;
+      background: #090909;
+      cursor: pointer;
+    }
+
+    .mini-page.active {
+      outline: 2px solid #e6e6e6;
+    }
+
+    .mini-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--soft);
+      font-size: 0.75rem;
+      margin-bottom: 7px;
+    }
+
+    .mini-grid {
+      aspect-ratio: 2 / 3;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      background: #000;
+      padding: 4px;
+      border: 1px solid #202020;
+    }
+
+    .mini-grid.seven {
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+
+    .mini-grid.seven div:last-child {
+      grid-column: 1 / 3;
+    }
+
+    .mini-panel {
+      background: var(--panel-shade);
+      border: 1px solid #202020;
+      overflow: hidden;
+    }
+
+    .mini-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+      gap: 5px;
+    }
+
+    .map-cell {
+      aspect-ratio: 1;
+      border: 1px solid #222;
+      border-radius: 4px;
+      background: var(--panel-shade);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-cell.has-image {
+      border-color: rgba(159,212,159,0.8);
+    }
+
+    .map-cell.selected {
+      outline: 2px solid #e6e6e6;
+    }
+
+    .map-cell::after {
+      content: attr(data-panel);
+      position: absolute;
+      inset: auto 2px 2px;
+      color: #bdbdbd;
+      font-size: 0.55rem;
+      text-align: center;
+      text-shadow: 0 1px 4px #000;
+    }
+
+    .inspector-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .inspector-title strong {
+      font-size: 1.15rem;
+    }
+
+    .inspector-title span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .selected-preview {
+      min-height: 190px;
+      border: 1px solid #2c2c2c;
+      border-radius: 7px;
+      background: #050505;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .selected-preview img {
+      width: 100%;
+      height: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .toast {
+      min-height: 20px;
+      color: var(--ok);
+      font-size: 0.82rem;
+    }
+
+    .backup-box {
+      min-height: 130px;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      }
+
+      .inspector {
+        grid-column: 1 / 3;
+      }
+    }
+
+    @media (max-width: 780px) {
+      main {
+        padding: 14px;
+      }
+
+      header,
+      .layout,
+      .page-header {
+        grid-template-columns: 1fr;
+      }
+
+      .top-status {
+        text-align: left;
+      }
+
+      .inspector {
+        grid-column: auto;
+      }
+
+      .page-frame {
+        min-height: 520px;
+        max-height: none;
+      }
+
+      .reader {
+        max-height: none;
+      }
+
+      .reader-frame {
+        min-height: 520px;
+      }
+
+      .two,
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>INVOICE Book 1 Assembly Board</h1>
+        <p>Track 313 panels, drop finished images into place, and preview the book as pages.</p>
+      </div>
+      <div class="top-status">
+        <div>Pages 1-51: 6 panels</div>
+        <div>Page 52: 7 panels</div>
+      </div>
+    </header>
+
+    <section class="card stack" style="margin-bottom: 16px;">
+      <div class="page-header">
+        <div>
+          <h2>Gradient and Completion</h2>
+          <p>Each page moves from black toward grey. Green height shows how much of that page has an image attached.</p>
+        </div>
+        <div class="row">
+          <button type="button" id="exportBoard">Export board</button>
+          <button type="button" id="importBoard">Import board</button>
+        </div>
+      </div>
+      <div class="gradient-ribbon" id="gradientRibbon" aria-label="Book gradient and completion by page"></div>
+      <textarea id="backupText" class="backup-box" spellcheck="false" placeholder="Board backup JSON appears here when exported. Paste a backup here, then use Import board."></textarea>
+    </section>
+
+    <div class="layout">
+      <aside class="card stack">
+        <div class="stat-grid">
+          <div class="stat"><span>Panels placed</span><strong id="placedCount">0 / 313</strong></div>
+          <div class="stat"><span>Selected</span><strong id="selectedReadout">1</strong></div>
+          <div class="stat"><span>Page</span><strong id="pageReadout">1</strong></div>
+          <div class="stat"><span>Gradient</span><strong id="gradientReadout">G00</strong></div>
+        </div>
+        <div>
+          <div class="progress"><div id="totalProgress"></div></div>
+          <p class="tiny" id="progressText">0 percent placed.</p>
+        </div>
+        <div class="nav-tabs" role="tablist" aria-label="Assembly views">
+          <button type="button" id="viewPage" class="active">Page</button>
+          <button type="button" id="viewBook">Book</button>
+          <button type="button" id="viewPreview">Preview</button>
+          <button type="button" id="viewMap">Map</button>
+        </div>
+        <div class="two">
+          <div>
+            <label for="pageSelect">Page</label>
+            <input id="pageSelect" type="number" min="1" max="52" value="1">
+          </div>
+          <div>
+            <label for="panelSelect">Panel</label>
+            <input id="panelSelect" type="number" min="1" max="313" value="1">
+          </div>
+        </div>
+        <div class="page-list" id="pageList" aria-label="Pages"></div>
+        <div class="drop-bulk" id="bulkDrop">
+          <div>
+            <strong>Drop many panel images here</strong>
+            <p class="tiny">Best filenames include panel IDs like B1-P01-F1.png.</p>
+          </div>
+        </div>
+        <div class="reference-shelf">
+          <h3>Early Reference Shelf</h3>
+          <p class="tiny">Store cube, line, grid, and texture images here. Click one to place it on the selected panel.</p>
+          <div class="two">
+            <div>
+              <label for="referenceType">Reference type</label>
+              <select id="referenceType">
+                <option value="line">Line</option>
+                <option value="cube">Cube</option>
+                <option value="grid">Grid</option>
+                <option value="texture">Texture</option>
+              </select>
+            </div>
+            <div class="stack">
+              <button type="button" id="addReferenceImages" class="primary">Add refs</button>
+              <button type="button" id="clearReferenceShelf">Clear shelf</button>
+              <input id="referenceFiles" class="file-input" type="file" accept="image/*" multiple>
+            </div>
+          </div>
+          <div class="drop-bulk compact" id="referenceDrop">
+            <div>
+              <strong>Drop cube/line refs here</strong>
+              <p class="tiny">They stay in the shelf for reuse.</p>
+            </div>
+          </div>
+          <div class="reference-gallery" id="referenceGallery"></div>
+        </div>
+      </aside>
+
+      <section class="card">
+        <div class="view active" id="pageView">
+          <div class="page-header">
+            <div class="page-title">
+              <strong id="pageTitle">Page 1</strong>
+              <span id="pageSubtitle">Point / G00 total black</span>
+            </div>
+            <div class="row">
+              <button type="button" id="prevPage">Previous</button>
+              <button type="button" id="nextPage" class="primary">Next</button>
+            </div>
+          </div>
+          <div class="page-frame six" id="pageFrame" aria-label="Current page panel layout"></div>
+        </div>
+
+        <div class="view" id="bookView">
+          <div class="page-header">
+            <div>
+              <h2>Book Preview</h2>
+              <p>Contact sheet for all 52 pages. Click a page to open it in the page view.</p>
+            </div>
+          </div>
+          <div class="book-wall" id="bookWall"></div>
+        </div>
+
+        <div class="view" id="previewView">
+          <div class="page-header">
+            <div>
+              <h2>Website Preview</h2>
+              <p>The whole graphic novel as a clean scrolling reader.</p>
+            </div>
+          </div>
+          <div class="reader" id="websiteReader" aria-label="Graphic novel website preview"></div>
+        </div>
+
+        <div class="view" id="mapView">
+          <div class="page-header">
+            <div>
+              <h2>Panel Map</h2>
+              <p>All 313 panels as one gradient field. Bright outlines mean an image is attached.</p>
+            </div>
+          </div>
+          <div class="map-grid" id="panelMap"></div>
+        </div>
+      </section>
+
+      <aside class="card stack inspector">
+        <div class="inspector-title">
+          <strong id="inspectorId">B1-P01-F1</strong>
+          <span id="inspectorMeta">Panel 1 / Page 1 / Point</span>
+        </div>
+        <div class="selected-preview" id="selectedPreview">
+          <p class="tiny">No image attached.</p>
+        </div>
+        <div class="row">
+          <button type="button" id="chooseImage" class="primary">Add image</button>
+          <button type="button" id="removeImage" class="danger">Remove image</button>
+          <input id="imageFile" class="file-input" type="file" accept="image/*">
+        </div>
+        <div>
+          <label for="panelStatus">Panel status</label>
+          <select id="panelStatus">
+            <option value="empty">Empty</option>
+            <option value="draft">Draft</option>
+            <option value="needs">Needs rerender</option>
+            <option value="final">Final</option>
+          </select>
+        </div>
+        <div>
+          <label for="panelNote">Panel note</label>
+          <textarea id="panelNote" spellcheck="false" placeholder="What this panel needs, what worked, what to fix"></textarea>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><span>Scene</span><strong id="sceneStat">Point</strong></div>
+          <div class="stat"><span>Language</span><strong id="languageStat">marks</strong></div>
+          <div class="stat"><span>Role</span><strong id="roleStat">Establish</strong></div>
+          <div class="stat"><span>Image</span><strong id="imageStat">none</strong></div>
+        </div>
+        <p class="tiny" id="focusStat"></p>
+        <div class="toast" id="toast"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const TOTAL_PANELS = 313;
+    const TOTAL_PAGES = 52;
+    const STORAGE_KEY = "invoice-book-1-assembly-board";
+    const MAX_FILE_BYTES = 14 * 1024 * 1024;
+    const MAX_DATA_CHARS = 1900000;
+    const MAX_DIMENSION = 1800;
+
+    const scenes = [
+      { id: 1, name: "Point", pages: [1, 3], panels: [1, 18], focus: "black-on-black dot or point awareness", language: "marks/symbols only", gradient: "G00 total black" },
+      { id: 2, name: "Line", pages: [4, 6], panels: [19, 36], focus: "dot stretches into line and direction", language: "punctuation only", gradient: "G05 black with marks" },
+      { id: 3, name: "Box", pages: [7, 9], panels: [37, 54], focus: "flat box implied by lines and pressure", language: "body sound only", gradient: "G05 black with marks" },
+      { id: 4, name: "Cube", pages: [10, 14], panels: [55, 84], focus: "box rotates into cube logic", language: "single letters/broken clusters", gradient: "G10 black with pressure geometry" },
+      { id: 5, name: "Growing Grid", pages: [15, 18], panels: [85, 108], focus: "slow-growing black-on-black grid", language: "repeated line/grid fragments", gradient: "G15 black with stress and planes" },
+      { id: 6, name: "Growth Pressure", pages: [19, 22], panels: [109, 132], focus: "repeated pattern compresses inward", language: "object/action fragments", gradient: "G15 black with stress and planes" },
+      { id: 7, name: "Wood", pages: [23, 26], panels: [133, 156], focus: "wood grain emerging from blackness", language: "object/action fragments", gradient: "G25 black with wood detail" },
+      { id: 8, name: "The Seam", pages: [27, 30], panels: [157, 180], focus: "upper door seam appears", language: "object/action fragments", gradient: "G25 black with wood detail" },
+      { id: 9, name: "Sliver", pages: [31, 34], panels: [181, 204], focus: "thin rupture light through seam", language: "fragment chains", gradient: "G35 dark grey with rupture sliver" },
+      { id: 10, name: "Break", pages: [35, 38], panels: [205, 228], focus: "crate breaking under growth pressure", language: "fragment chains", gradient: "G35 dark grey with rupture sliver" },
+      { id: 11, name: "Dark Home-Space", pages: [39, 42], panels: [229, 252], focus: "symbolic family-home darkness outside crate", language: "fragment chains", gradient: "G45 grey-dark exterior uncertainty" },
+      { id: 12, name: "Follow the Line", pages: [43, 45], panels: [253, 270], focus: "following the sliver through grey-dark space", language: "fragment chains", gradient: "G45 grey-dark exterior uncertainty" },
+      { id: 13, name: "Humming Door", pages: [46, 48], panels: [271, 288], focus: "stone-adjacent humming door boundary", language: "fragment chains", gradient: "G55 readable grey threshold" },
+      { id: 14, name: "At the Threshold", pages: [49, 51], panels: [289, 306], focus: "escaped crate, door dominates", language: "fragment chains", gradient: "G55 readable grey threshold" },
+      { id: 15, name: "First Paragraph", pages: [52, 52], panels: [307, 313], focus: "first silhouette and first paragraph", language: "first full paragraph", gradient: "G55 readable grey threshold" }
+    ];
+
+    const roles6 = [
+      ["Establish", "sets the page condition"],
+      ["Disturb", "introduces the interruption"],
+      ["Answer", "shows how darkness responds"],
+      ["Transform", "shows the change beginning"],
+      ["Clarify", "makes one element more readable"],
+      ["Hand-off", "points toward the next page"]
+    ];
+
+    const roles7 = [
+      ["Recovered darkness", "recalls the crate-dark before leaving it"],
+      ["Crate aftermath", "shows the broken first container"],
+      ["Direction", "aims toward the door"],
+      ["Humming boundary", "makes the larger Cube pressure felt"],
+      ["First silhouette", "reveals the narrator as silhouette"],
+      ["First paragraph", "lets language become sentence"],
+      ["Formal breach", "opens the grammar of Book 2"]
+    ];
+
+    const els = {
+      gradientRibbon: document.getElementById("gradientRibbon"),
+      placedCount: document.getElementById("placedCount"),
+      selectedReadout: document.getElementById("selectedReadout"),
+      pageReadout: document.getElementById("pageReadout"),
+      gradientReadout: document.getElementById("gradientReadout"),
+      totalProgress: document.getElementById("totalProgress"),
+      progressText: document.getElementById("progressText"),
+      viewPage: document.getElementById("viewPage"),
+      viewBook: document.getElementById("viewBook"),
+      viewPreview: document.getElementById("viewPreview"),
+      viewMap: document.getElementById("viewMap"),
+      pageSelect: document.getElementById("pageSelect"),
+      panelSelect: document.getElementById("panelSelect"),
+      pageList: document.getElementById("pageList"),
+      bulkDrop: document.getElementById("bulkDrop"),
+      referenceType: document.getElementById("referenceType"),
+      addReferenceImages: document.getElementById("addReferenceImages"),
+      clearReferenceShelf: document.getElementById("clearReferenceShelf"),
+      referenceFiles: document.getElementById("referenceFiles"),
+      referenceDrop: document.getElementById("referenceDrop"),
+      referenceGallery: document.getElementById("referenceGallery"),
+      pageView: document.getElementById("pageView"),
+      bookView: document.getElementById("bookView"),
+      previewView: document.getElementById("previewView"),
+      mapView: document.getElementById("mapView"),
+      pageTitle: document.getElementById("pageTitle"),
+      pageSubtitle: document.getElementById("pageSubtitle"),
+      prevPage: document.getElementById("prevPage"),
+      nextPage: document.getElementById("nextPage"),
+      pageFrame: document.getElementById("pageFrame"),
+      bookWall: document.getElementById("bookWall"),
+      websiteReader: document.getElementById("websiteReader"),
+      panelMap: document.getElementById("panelMap"),
+      inspectorId: document.getElementById("inspectorId"),
+      inspectorMeta: document.getElementById("inspectorMeta"),
+      selectedPreview: document.getElementById("selectedPreview"),
+      chooseImage: document.getElementById("chooseImage"),
+      removeImage: document.getElementById("removeImage"),
+      imageFile: document.getElementById("imageFile"),
+      panelStatus: document.getElementById("panelStatus"),
+      panelNote: document.getElementById("panelNote"),
+      sceneStat: document.getElementById("sceneStat"),
+      languageStat: document.getElementById("languageStat"),
+      roleStat: document.getElementById("roleStat"),
+      imageStat: document.getElementById("imageStat"),
+      focusStat: document.getElementById("focusStat"),
+      exportBoard: document.getElementById("exportBoard"),
+      importBoard: document.getElementById("importBoard"),
+      backupText: document.getElementById("backupText"),
+      toast: document.getElementById("toast")
+    };
+
+    let state = loadState();
+    let selectedPanel = Number(state.selectedPanel) || 1;
+    let activeView = "page";
+    let noteTimer = null;
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, Number(value) || min));
+    }
+
+    function panelsOnPage(page) {
+      return page === 52 ? 7 : 6;
+    }
+
+    function absoluteFromPagePanel(page, panelOnPage) {
+      const safePage = clamp(page, 1, TOTAL_PAGES);
+      const max = panelsOnPage(safePage);
+      const safePanel = clamp(panelOnPage, 1, max);
+      if (safePage === 52) return 306 + safePanel;
+      return (safePage - 1) * 6 + safePanel;
+    }
+
+    function locatePanel(absolute) {
+      const safe = clamp(absolute, 1, TOTAL_PANELS);
+      if (safe <= 306) {
+        return {
+          absolute: safe,
+          page: Math.floor((safe - 1) / 6) + 1,
+          panelOnPage: ((safe - 1) % 6) + 1
+        };
+      }
+      return { absolute: safe, page: 52, panelOnPage: safe - 306 };
+    }
+
+    function panelId(page, panelOnPage) {
+      return `B1-P${String(page).padStart(2, "0")}-F${panelOnPage}`;
+    }
+
+    function sceneForPage(page) {
+      return scenes.find(scene => page >= scene.pages[0] && page <= scene.pages[1]) || scenes[0];
+    }
+
+    function roleFor(page, panelOnPage) {
+      const role = page === 52 ? roles7[panelOnPage - 1] : roles6[panelOnPage - 1];
+      return { name: role[0], meaning: role[1] };
+    }
+
+    function dataForPanel(absolute) {
+      const loc = locatePanel(absolute);
+      const scene = sceneForPage(loc.page);
+      const role = roleFor(loc.page, loc.panelOnPage);
+      return {
+        absolute: loc.absolute,
+        page: loc.page,
+        panelOnPage: loc.panelOnPage,
+        id: panelId(loc.page, loc.panelOnPage),
+        scene,
+        role,
+        gradient: gradientBand(loc.page),
+        gradientValue: gradientValue(loc.page),
+        shade: gradientShade(loc.page)
+      };
+    }
+
+    function gradientBand(page) {
+      if (page <= 3) return "G00 total black";
+      if (page <= 9) return "G05 black with marks";
+      if (page <= 14) return "G10 black with pressure geometry";
+      if (page <= 22) return "G15 black with stress and planes";
+      if (page <= 30) return "G25 black with wood detail";
+      if (page <= 38) return "G35 dark grey with rupture sliver";
+      if (page <= 45) return "G45 grey-dark exterior uncertainty";
+      return "G55 readable grey threshold";
+    }
+
+    function gradientValue(page) {
+      if (page <= 3) return 0;
+      if (page <= 9) return 5;
+      if (page <= 14) return 10;
+      if (page <= 22) return 15;
+      if (page <= 30) return 25;
+      if (page <= 38) return 35;
+      if (page <= 45) return 45;
+      return 55;
+    }
+
+    function gradientShade(page) {
+      const value = gradientValue(page);
+      const n = Math.round(2 + value * 1.55);
+      return `rgb(${n}, ${n}, ${n})`;
+    }
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function saveState() {
+      state.selectedPanel = selectedPanel;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        return true;
+      } catch {
+        setToast("Browser storage is full. Export a backup or remove large images.", 5200);
+        return false;
+      }
+    }
+
+    function panelStore(absolute) {
+      if (!state.panels) state.panels = {};
+      const data = dataForPanel(absolute);
+      if (!state.panels[data.id]) {
+        state.panels[data.id] = { status: "empty", note: "" };
+      }
+      return state.panels[data.id];
+    }
+
+    function setToast(message, duration = 1800) {
+      els.toast.textContent = message;
+      window.clearTimeout(setToast.timer);
+      setToast.timer = window.setTimeout(() => {
+        els.toast.textContent = "";
+      }, duration);
+    }
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes)) return "";
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Could not read image."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function loadImage(dataUrl) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Could not preview image."));
+        image.src = dataUrl;
+      });
+    }
+
+    async function prepareImage(file) {
+      if (!file || !file.type.startsWith("image/")) {
+        throw new Error("Choose an image file.");
+      }
+      if (file.size > MAX_FILE_BYTES) {
+        throw new Error(`Image is ${formatBytes(file.size)}. Use a file under ${formatBytes(MAX_FILE_BYTES)}.`);
+      }
+
+      const original = await readFileAsDataUrl(file);
+      if (file.type === "image/gif" || file.type === "image/svg+xml") {
+        if (original.length > MAX_DATA_CHARS) {
+          throw new Error("That image is too large to store here.");
+        }
+        return { dataUrl: original, width: null, height: null, storedChars: original.length };
+      }
+
+      const image = await loadImage(original);
+      const scale = Math.min(1, MAX_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight));
+      const width = Math.max(1, Math.round(image.naturalWidth * scale));
+      const height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#000";
+      context.fillRect(0, 0, width, height);
+      context.drawImage(image, 0, 0, width, height);
+
+      let dataUrl = canvas.toDataURL("image/jpeg", 0.86);
+      if (dataUrl.length > MAX_DATA_CHARS) {
+        const smallerScale = Math.min(1, 1250 / Math.max(image.naturalWidth, image.naturalHeight));
+        canvas.width = Math.max(1, Math.round(image.naturalWidth * smallerScale));
+        canvas.height = Math.max(1, Math.round(image.naturalHeight * smallerScale));
+        context.fillStyle = "#000";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        dataUrl = canvas.toDataURL("image/jpeg", 0.74);
+      }
+      if (dataUrl.length > MAX_DATA_CHARS) {
+        throw new Error("That image is still too large after compression.");
+      }
+      return { dataUrl, width: canvas.width, height: canvas.height, storedChars: dataUrl.length };
+    }
+
+    function findPanelFromFilename(name) {
+      const direct = name.match(/B1-P(\d{2})-F(\d)/i);
+      if (direct) {
+        return absoluteFromPagePanel(Number(direct[1]), Number(direct[2]));
+      }
+      const absolute = name.match(/(?:panel|pnl|abs)[-_ ]?(\d{1,3})/i);
+      if (absolute) {
+        const n = Number(absolute[1]);
+        if (n >= 1 && n <= TOTAL_PANELS) return n;
+      }
+      return null;
+    }
+
+    async function attachImageToPanel(file, absolute) {
+      const data = dataForPanel(absolute);
+      const prepared = await prepareImage(file);
+      const store = panelStore(data.absolute);
+      Object.assign(store, {
+        status: store.status && store.status !== "empty" ? store.status : "draft",
+        filename: file.name,
+        imageData: prepared.dataUrl,
+        width: prepared.width,
+        height: prepared.height,
+        originalSize: file.size,
+        storedChars: prepared.storedChars,
+        updatedAt: new Date().toISOString()
+      });
+      selectedPanel = data.absolute;
+      if (!saveState()) return false;
+      renderAll();
+      setToast(`Image attached to ${data.id}.`);
+      return true;
+    }
+
+    async function attachManyFiles(files, targetPanel = null) {
+      const images = Array.from(files).filter(file => file.type.startsWith("image/"));
+      if (!images.length) {
+        setToast("Drop image files.", 2600);
+        return;
+      }
+
+      let placed = 0;
+      const basePanel = targetPanel || selectedPanel;
+      for (let index = 0; index < images.length; index += 1) {
+        const file = images[index];
+        const fromName = findPanelFromFilename(file.name);
+        const target = fromName || (basePanel + index);
+        if (target < 1 || target > TOTAL_PANELS) continue;
+        try {
+          await attachImageToPanel(file, target);
+          placed += 1;
+        } catch (error) {
+          setToast(error.message || "Image import failed.", 5200);
+          break;
+        }
+      }
+      if (placed > 1) setToast(`${placed} images attached.`);
+    }
+
+    async function addReferenceFiles(files) {
+      const images = Array.from(files).filter(file => file.type.startsWith("image/"));
+      if (!images.length) {
+        setToast("Drop cube, line, grid, or texture images.", 3000);
+        return;
+      }
+
+      if (!state.references) state.references = [];
+      const category = els.referenceType.value || "line";
+      let added = 0;
+      for (const file of images) {
+        try {
+          const prepared = await prepareImage(file);
+          state.references.push({
+            id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+            category,
+            filename: file.name,
+            imageData: prepared.dataUrl,
+            width: prepared.width,
+            height: prepared.height,
+            originalSize: file.size,
+            storedChars: prepared.storedChars,
+            createdAt: new Date().toISOString()
+          });
+          added += 1;
+        } catch (error) {
+          setToast(error.message || "Reference import failed.", 5200);
+          break;
+        }
+      }
+      if (added && saveState()) {
+        renderReferenceGallery();
+        setToast(`${added} reference image${added === 1 ? "" : "s"} added.`);
+      }
+    }
+
+    function attachReferenceToSelected(reference) {
+      const data = dataForPanel(selectedPanel);
+      const store = panelStore(selectedPanel);
+      Object.assign(store, {
+        status: store.status && store.status !== "empty" ? store.status : "draft",
+        filename: `${reference.category}: ${reference.filename}`,
+        imageData: reference.imageData,
+        width: reference.width,
+        height: reference.height,
+        originalSize: reference.originalSize,
+        storedChars: reference.storedChars,
+        referenceId: reference.id,
+        updatedAt: new Date().toISOString()
+      });
+      if (saveState()) {
+        renderAll();
+        setToast(`${reference.category} reference placed on ${data.id}.`);
+      }
+    }
+
+    function renderReferenceGallery() {
+      const references = state.references || [];
+      els.referenceGallery.innerHTML = "";
+      if (!references.length) {
+        const empty = document.createElement("p");
+        empty.className = "tiny";
+        empty.textContent = "No reference images yet.";
+        els.referenceGallery.appendChild(empty);
+        return;
+      }
+
+      references.forEach(reference => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "reference-thumb";
+        button.ariaLabel = `Use ${reference.category} reference ${reference.filename} on selected panel`;
+        const img = document.createElement("img");
+        img.src = reference.imageData;
+        img.alt = reference.filename;
+        const label = document.createElement("span");
+        label.textContent = reference.category;
+        button.appendChild(img);
+        button.appendChild(label);
+        button.addEventListener("click", () => attachReferenceToSelected(reference));
+        els.referenceGallery.appendChild(button);
+      });
+    }
+
+    function pageCompletion(page) {
+      let placed = 0;
+      const count = panelsOnPage(page);
+      for (let f = 1; f <= count; f += 1) {
+        const store = panelStore(absoluteFromPagePanel(page, f));
+        if (store.imageData) placed += 1;
+      }
+      return { placed, count, ratio: placed / count };
+    }
+
+    function totalPlaced() {
+      let placed = 0;
+      for (let n = 1; n <= TOTAL_PANELS; n += 1) {
+        if (panelStore(n).imageData) placed += 1;
+      }
+      return placed;
+    }
+
+    function switchView(view) {
+      activeView = view;
+      ["page", "book", "preview", "map"].forEach(name => {
+        document.getElementById(`${name}View`).classList.toggle("active", name === view);
+        document.getElementById(`view${name.charAt(0).toUpperCase()}${name.slice(1)}`).classList.toggle("active", name === view);
+      });
+      renderAll();
+    }
+
+    function selectPanel(absolute, view = activeView) {
+      selectedPanel = clamp(absolute, 1, TOTAL_PANELS);
+      switchView(view);
+      saveState();
+    }
+
+    function renderStats() {
+      const data = dataForPanel(selectedPanel);
+      const placed = totalPlaced();
+      const pct = Math.round((placed / TOTAL_PANELS) * 100);
+      els.placedCount.textContent = `${placed} / ${TOTAL_PANELS}`;
+      els.selectedReadout.textContent = data.absolute;
+      els.pageReadout.textContent = data.page;
+      els.gradientReadout.textContent = data.gradient.split(" ")[0];
+      els.totalProgress.style.width = `${pct}%`;
+      els.progressText.textContent = `${pct} percent placed.`;
+    }
+
+    function renderGradientRibbon() {
+      els.gradientRibbon.innerHTML = "";
+      const selectedPage = dataForPanel(selectedPanel).page;
+      for (let page = 1; page <= TOTAL_PAGES; page += 1) {
+        const completion = pageCompletion(page);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "gradient-page";
+        button.classList.toggle("active", page === selectedPage);
+        button.style.setProperty("--shade", gradientShade(page));
+        button.style.setProperty("--complete", `${completion.ratio * 100}%`);
+        button.ariaLabel = `Page ${page}, ${completion.placed} of ${completion.count} panels placed, ${gradientBand(page)}`;
+        button.addEventListener("click", () => selectPanel(absoluteFromPagePanel(page, 1), "page"));
+        els.gradientRibbon.appendChild(button);
+      }
+    }
+
+    function renderPageList() {
+      els.pageList.innerHTML = "";
+      const selectedPage = dataForPanel(selectedPanel).page;
+      for (let page = 1; page <= TOTAL_PAGES; page += 1) {
+        const completion = pageCompletion(page);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "page-button";
+        button.classList.toggle("active", page === selectedPage);
+        button.classList.toggle("complete", completion.ratio === 1);
+        button.style.setProperty("--page-shade", gradientShade(page));
+        button.innerHTML = `<span>${page}</span><small>${completion.placed}/${completion.count}</small>`;
+        button.addEventListener("click", () => selectPanel(absoluteFromPagePanel(page, 1), "page"));
+        els.pageList.appendChild(button);
+      }
+    }
+
+    function statusClass(status) {
+      if (status === "final") return "final";
+      if (status === "needs") return "needs";
+      if (status === "draft") return "draft";
+      return "";
+    }
+
+    function renderPanelSlot(absolute) {
+      const data = dataForPanel(absolute);
+      const store = panelStore(absolute);
+      const slot = document.createElement("div");
+      slot.className = "panel-slot";
+      slot.classList.toggle("selected", absolute === selectedPanel);
+      slot.style.setProperty("--panel-shade", data.shade);
+      slot.dataset.panel = String(absolute);
+      slot.setAttribute("role", "button");
+      slot.setAttribute("aria-label", `${data.id}, panel ${absolute}, ${store.imageData ? "image attached" : "empty"}`);
+
+      if (store.imageData) {
+        const img = document.createElement("img");
+        img.src = store.imageData;
+        img.alt = data.id;
+        slot.appendChild(img);
+      } else {
+        const empty = document.createElement("div");
+        empty.className = "panel-empty";
+        empty.innerHTML = `<strong>${data.id}</strong><span class="tiny">Drop image</span>`;
+        slot.appendChild(empty);
+      }
+
+      const meta = document.createElement("div");
+      const status = store.status || "empty";
+      meta.className = "panel-meta";
+      meta.innerHTML = `<span>${data.id}</span><span class="panel-status ${statusClass(status)}">${status}</span>`;
+      slot.appendChild(meta);
+
+      slot.addEventListener("click", () => selectPanel(absolute, "page"));
+      attachDropHandlers(slot, files => attachManyFiles(files, absolute));
+      return slot;
+    }
+
+    function renderPageView() {
+      const data = dataForPanel(selectedPanel);
+      const scene = sceneForPage(data.page);
+      els.pageTitle.textContent = `Page ${data.page}`;
+      els.pageSubtitle.textContent = `${scene.name} / ${gradientBand(data.page)} / ${panelsOnPage(data.page)} panels`;
+      els.pageFrame.className = `page-frame ${data.page === 52 ? "seven" : "six"}`;
+      els.pageFrame.innerHTML = "";
+      for (let f = 1; f <= panelsOnPage(data.page); f += 1) {
+        els.pageFrame.appendChild(renderPanelSlot(absoluteFromPagePanel(data.page, f)));
+      }
+      els.pageSelect.value = data.page;
+      els.panelSelect.value = data.absolute;
+    }
+
+    function renderBookWall() {
+      if (activeView !== "book") return;
+      els.bookWall.innerHTML = "";
+      const selectedPage = dataForPanel(selectedPanel).page;
+      for (let page = 1; page <= TOTAL_PAGES; page += 1) {
+        const mini = document.createElement("button");
+        mini.type = "button";
+        mini.className = "mini-page";
+        mini.classList.toggle("active", page === selectedPage);
+        const completion = pageCompletion(page);
+        const count = panelsOnPage(page);
+        const grid = document.createElement("div");
+        grid.className = `mini-grid ${page === 52 ? "seven" : ""}`;
+        for (let f = 1; f <= count; f += 1) {
+          const absolute = absoluteFromPagePanel(page, f);
+          const data = dataForPanel(absolute);
+          const store = panelStore(absolute);
+          const cell = document.createElement("div");
+          cell.className = "mini-panel";
+          cell.style.setProperty("--panel-shade", data.shade);
+          if (store.imageData) {
+            const img = document.createElement("img");
+            img.src = store.imageData;
+            img.alt = data.id;
+            cell.appendChild(img);
+          }
+          grid.appendChild(cell);
+        }
+        const head = document.createElement("div");
+        head.className = "mini-head";
+        head.innerHTML = `<span>Page ${page}</span><span>${completion.placed}/${completion.count}</span>`;
+        mini.appendChild(head);
+        mini.appendChild(grid);
+        mini.addEventListener("click", () => selectPanel(absoluteFromPagePanel(page, 1), "page"));
+        els.bookWall.appendChild(mini);
+      }
+    }
+
+    function renderWebsitePreview() {
+      if (activeView !== "preview") return;
+      els.websiteReader.innerHTML = "";
+      for (let page = 1; page <= TOTAL_PAGES; page += 1) {
+        const scene = sceneForPage(page);
+        const completion = pageCompletion(page);
+        const pageWrap = document.createElement("article");
+        pageWrap.className = "reader-page";
+        pageWrap.id = `reader-page-${page}`;
+
+        const label = document.createElement("div");
+        label.className = "reader-page-label";
+        label.innerHTML = `<span>Page ${page}</span><span>${scene.name} / ${gradientBand(page)} / ${completion.placed}/${completion.count}</span>`;
+        pageWrap.appendChild(label);
+
+        const frame = document.createElement("div");
+        frame.className = `reader-frame ${page === 52 ? "seven" : "six"}`;
+        for (let f = 1; f <= panelsOnPage(page); f += 1) {
+          const absolute = absoluteFromPagePanel(page, f);
+          const data = dataForPanel(absolute);
+          const store = panelStore(absolute);
+          const panel = document.createElement("button");
+          panel.type = "button";
+          panel.className = "reader-panel";
+          panel.style.setProperty("--panel-shade", data.shade);
+          panel.ariaLabel = `${data.id}, panel ${absolute}`;
+          if (store.imageData) {
+            const img = document.createElement("img");
+            img.src = store.imageData;
+            img.alt = data.id;
+            panel.appendChild(img);
+          } else {
+            const empty = document.createElement("span");
+            empty.className = "reader-empty";
+            empty.textContent = data.id;
+            panel.appendChild(empty);
+          }
+          panel.addEventListener("click", () => selectPanel(absolute, "page"));
+          frame.appendChild(panel);
+        }
+        pageWrap.appendChild(frame);
+        els.websiteReader.appendChild(pageWrap);
+      }
+
+      const currentPage = dataForPanel(selectedPanel).page;
+      const current = document.getElementById(`reader-page-${currentPage}`);
+      if (current) {
+        current.scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    function renderMap() {
+      if (activeView !== "map") return;
+      els.panelMap.innerHTML = "";
+      for (let n = 1; n <= TOTAL_PANELS; n += 1) {
+        const data = dataForPanel(n);
+        const store = panelStore(n);
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "map-cell";
+        cell.classList.toggle("has-image", Boolean(store.imageData));
+        cell.classList.toggle("selected", n === selectedPanel);
+        cell.style.setProperty("--panel-shade", data.shade);
+        cell.dataset.panel = String(n);
+        cell.ariaLabel = `${data.id}, ${data.scene.name}, ${store.imageData ? "image attached" : "empty"}`;
+        cell.addEventListener("click", () => selectPanel(n, "page"));
+        els.panelMap.appendChild(cell);
+      }
+    }
+
+    function renderInspector() {
+      const data = dataForPanel(selectedPanel);
+      const store = panelStore(selectedPanel);
+      els.inspectorId.textContent = data.id;
+      els.inspectorMeta.textContent = `Panel ${data.absolute} / Page ${data.page} / ${data.scene.name} / ${data.gradient}`;
+      els.sceneStat.textContent = data.scene.name;
+      els.languageStat.textContent = data.scene.language;
+      els.roleStat.textContent = data.role.name;
+      els.imageStat.textContent = store.imageData ? (store.filename || "attached") : "none";
+      els.focusStat.textContent = `${data.scene.focus}. ${data.role.meaning}.`;
+      els.panelStatus.value = store.status || "empty";
+      els.panelNote.value = store.note || "";
+      els.selectedPreview.innerHTML = "";
+      if (store.imageData) {
+        const img = document.createElement("img");
+        img.src = store.imageData;
+        img.alt = data.id;
+        els.selectedPreview.appendChild(img);
+      } else {
+        const p = document.createElement("p");
+        p.className = "tiny";
+        p.textContent = "No image attached.";
+        els.selectedPreview.appendChild(p);
+      }
+    }
+
+    function renderAll() {
+      renderStats();
+      renderGradientRibbon();
+      renderPageList();
+      renderPageView();
+      renderBookWall();
+      renderWebsitePreview();
+      renderMap();
+      renderReferenceGallery();
+      renderInspector();
+    }
+
+    function attachDropHandlers(element, onFiles) {
+      ["dragenter", "dragover"].forEach(eventName => {
+        element.addEventListener(eventName, event => {
+          event.preventDefault();
+          event.stopPropagation();
+          element.classList.add("dragging");
+        });
+      });
+      ["dragleave", "dragend"].forEach(eventName => {
+        element.addEventListener(eventName, event => {
+          event.preventDefault();
+          event.stopPropagation();
+          element.classList.remove("dragging");
+        });
+      });
+      element.addEventListener("drop", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        element.classList.remove("dragging");
+        onFiles(event.dataTransfer.files || []);
+      });
+    }
+
+    function exportBoard() {
+      const payload = {
+        project: "INVOICE - BOOK 1",
+        total_panels: TOTAL_PANELS,
+        total_pages: TOTAL_PAGES,
+        exported_at: new Date().toISOString(),
+        state
+      };
+      els.backupText.value = JSON.stringify(payload, null, 2);
+      setToast("Board backup exported.");
+    }
+
+    function importBoard() {
+      try {
+        const payload = JSON.parse(els.backupText.value);
+        const imported = payload.state || payload;
+        if (!imported || typeof imported !== "object") throw new Error("No board state found.");
+        state = imported;
+        selectedPanel = clamp(Number(state.selectedPanel) || 1, 1, TOTAL_PANELS);
+        saveState();
+        renderAll();
+        setToast("Board imported.");
+      } catch (error) {
+        setToast(error.message || "Could not import board.", 4200);
+      }
+    }
+
+    els.viewPage.addEventListener("click", () => switchView("page"));
+    els.viewBook.addEventListener("click", () => switchView("book"));
+    els.viewPreview.addEventListener("click", () => switchView("preview"));
+    els.viewMap.addEventListener("click", () => switchView("map"));
+    els.prevPage.addEventListener("click", () => {
+      const page = Math.max(1, dataForPanel(selectedPanel).page - 1);
+      selectPanel(absoluteFromPagePanel(page, 1), "page");
+    });
+    els.nextPage.addEventListener("click", () => {
+      const page = Math.min(TOTAL_PAGES, dataForPanel(selectedPanel).page + 1);
+      selectPanel(absoluteFromPagePanel(page, 1), "page");
+    });
+    els.pageSelect.addEventListener("input", () => selectPanel(absoluteFromPagePanel(els.pageSelect.value, 1), "page"));
+    els.panelSelect.addEventListener("input", () => selectPanel(els.panelSelect.value, "page"));
+    els.chooseImage.addEventListener("click", () => els.imageFile.click());
+    els.imageFile.addEventListener("change", () => {
+      const file = els.imageFile.files && els.imageFile.files[0];
+      if (file) attachImageToPanel(file, selectedPanel);
+      els.imageFile.value = "";
+    });
+    els.addReferenceImages.addEventListener("click", () => els.referenceFiles.click());
+    els.referenceFiles.addEventListener("change", () => {
+      if (els.referenceFiles.files && els.referenceFiles.files.length) {
+        addReferenceFiles(els.referenceFiles.files);
+      }
+      els.referenceFiles.value = "";
+    });
+    els.clearReferenceShelf.addEventListener("click", () => {
+      if (!window.confirm("Clear all saved reference shelf images?")) return;
+      state.references = [];
+      saveState();
+      renderReferenceGallery();
+      setToast("Reference shelf cleared.");
+    });
+    els.removeImage.addEventListener("click", () => {
+      const store = panelStore(selectedPanel);
+      delete store.imageData;
+      delete store.filename;
+      delete store.width;
+      delete store.height;
+      delete store.originalSize;
+      delete store.storedChars;
+      store.status = "empty";
+      saveState();
+      renderAll();
+      setToast("Image removed.");
+    });
+    els.panelStatus.addEventListener("change", () => {
+      panelStore(selectedPanel).status = els.panelStatus.value;
+      saveState();
+      renderAll();
+    });
+    els.panelNote.addEventListener("input", () => {
+      window.clearTimeout(noteTimer);
+      noteTimer = window.setTimeout(() => {
+        panelStore(selectedPanel).note = els.panelNote.value;
+        saveState();
+      }, 250);
+    });
+    els.exportBoard.addEventListener("click", exportBoard);
+    els.importBoard.addEventListener("click", importBoard);
+    attachDropHandlers(els.bulkDrop, files => attachManyFiles(files));
+    attachDropHandlers(els.referenceDrop, files => addReferenceFiles(files));
+    attachDropHandlers(els.selectedPreview, files => attachManyFiles(files, selectedPanel));
+
+    renderAll();
+  </script>
+</body>
+</html>

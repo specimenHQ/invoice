@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVOICE - BOOK 1</title>
+    <style>
+        /* BASE SETTINGS */
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@100;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #E0E0E0;
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+        }
+        
+        .page {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            position: relative;
+            page-break-after: always;
+        }
+        
+        .page-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.7em;
+            color: #8B7FE0;
+        }
+        
+        /* TYPOGRAPHY WEIGHT PROGRESSION */
+        .weight-100 { font-weight: 100; }
+        .weight-400 { font-weight: 400; }
+        .weight-700 { font-weight: 700; }
+        
+        /* VOID SECTION (PAGES 1-10) */
+        .void-text {
+            font-weight: 100;
+            letter-spacing: 0.5em;
+            line-height: 3;
+            text-align: center;
+        }
+        
+        .scattered {
+            position: absolute;
+            font-weight: 100;
+            opacity: 0.7;
+        }
+
+        .scattered-field {
+            position: absolute;
+            inset: 0;
+            font-weight: 100;
+            opacity: 0.7;
+        }
+
+        .scattered-field p {
+            margin: 0;
+        }
+        
+        /* JUMP SECTION (PAGES 11-17) */
+        .falling {
+            transform: rotate(-5deg);
+            font-style: italic;
+        }
+
+        .staggered {
+            transform: rotate(-2deg);
+            word-spacing: 0.6em;
+        }
+        
+        .columns {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        /* SPHERE SECTION (PAGES 18-30) */
+        .sphere-text {
+            font-weight: 400;
+            text-align: justify;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .dialogue {
+            font-style: italic;
+            margin-left: 20px;
+            color: #A0A0F0;
+        }
+        
+        /* RETURN SECTION (PAGES 31-38) */
+        .fragmented {
+            font-weight: 100;
+            letter-spacing: 0.3em;
+            line-height: 2.5;
+        }
+        
+        .narrow {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        /* WAREHOUSE SECTION (PAGES 39-47) */
+        .confrontation {
+            font-weight: 400;
+            line-height: 1.8;
+            max-width: 700px;
+        }
+        
+        .emphasis {
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        /* DECISION SECTION (PAGE 52) */
+        .split-container {
+            display: flex;
+            width: 90%;
+            height: 80vh;
+        }
+        
+        .half {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .left-half {
+            border-right: 2px solid #333;
+            text-align: left;
+        }
+        
+        .right-half {
+            text-align: right;
+            letter-spacing: 0.2em;
+        }
+        
+        .center-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: 700;
+            color: #FFD700;
+            z-index: 100;
+        }
+        
+        /* UTILITY CLASSES */
+        .single-word {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+        
+        .stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .fade {
+            opacity: 0.3;
+        }
+        
+        .bright {
+            opacity: 1;
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px #FFD700;
+        }
+
+        .vertical-page {
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+    <div class="page-number">INVOICE // 01</div>
+    <p class="void-text single-word">.</p>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+    <div class="page-number">INVOICE // 02</div>
+    <p class="void-text single-word weight-700">Cold</p>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+    <div class="page-number">INVOICE // 03</div>
+    <div class="void-text stacked">
+        <p>Cold</p>
+        <p>Still</p>
+    </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+    <div class="page-number">INVOICE // 04</div>
+    <p class="void-text">Cold . . . Heavy . . . Dark</p>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+    <div class="page-number">INVOICE // 05</div>
+    <div class="void-text stacked">
+        <p>Dark</p>
+        <p>Cold</p>
+        <p>Wait</p>
+        <p>Breath</p>
+    </div>
+</div>
+
+<!-- PAGE 6 -->
+<div class="page">
+    <div class="page-number">INVOICE // 06</div>
+    <div class="scattered" style="top: 20%; left: 30%;">Pressure</div>
+    <div class="scattered" style="top: 40%; left: 60%;">Hum</div>
+    <div class="scattered" style="top: 60%; left: 40%;">Pulse</div>
+    <div class="scattered" style="top: 75%; left: 25%;">Skin</div>
+    <div class="scattered" style="top: 80%; left: 70%;">Bone</div>
+</div>
+
+<!-- PAGE 7 -->
+<div class="page">
+    <div class="page-number">INVOICE // 07</div>
+    <div class="void-text stacked">
+        <p>Move</p>
+        <p>Find</p>
+        <p>Reach</p>
+        <p>Push</p>
+        <p>Feel</p>
+        <p>Stop</p>
+        <p>Listen</p>
+    </div>
+</div>
+
+<!-- PAGE 8 -->
+<div class="page">
+    <div class="page-number">INVOICE // 08</div>
+    <p class="void-text">Push wall</p>
+    <p class="void-text narrow">Wall push back</p>
+</div>
+
+<!-- PAGE 9 -->
+<div class="page">
+    <div class="page-number">INVOICE // 09</div>
+    <div class="void-text stacked">
+        <p>Something here.</p>
+        <p>Something touches skin.</p>
+        <p>Something is solid. Something is real.</p>
+    </div>
+</div>
+
+<!-- PAGE 10 -->
+<div class="page">
+    <div class="page-number">INVOICE // 10</div>
+    <p class="sphere-text">Hand touches surface. Surface is hard. Surface resists. I push. I move. I am here.</p>
+</div>
+
+<!-- PAGE 11 -->
+<div class="page">
+    <div class="page-number">INVOICE // 11</div>
+    <p class="sphere-text falling">through door now falling white space around me no floor no up just drop dropping falling</p>
+</div>
+
+<!-- PAGE 12 -->
+<div class="page">
+    <div class="page-number">INVOICE // 12</div>
+    <div class="void-text stacked">
+        <p class="falling">Tumble</p>
+        <p class="falling">Fall</p>
+        <p class="falling">Spin</p>
+        <p class="falling">Catch</p>
+        <p class="falling">Dive</p>
+        <p class="falling">Rush</p>
+        <p class="falling">Past</p>
+    </div>
+</div>
+
+<!-- PAGE 13 -->
+<div class="page">
+    <div class="page-number">INVOICE // 13</div>
+    <p class="void-text staggered">Down down down down down down down down down down</p>
+</div>
+
+<!-- PAGE 14 -->
+<div class="page">
+    <div class="page-number">INVOICE // 14</div>
+    <div class="columns">
+        <div class="column">
+            <p>Still falling</p>
+            <p>Can't stop</p>
+            <p>Will I land</p>
+        </div>
+        <div class="column">
+            <p>Already landed</p>
+            <p>You just don't know</p>
+            <p>Which floor is up</p>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 15 -->
+<div class="page">
+    <div class="page-number">INVOICE // 15</div>
+    <div class="sphere-text stacked">
+        <p>Is this ground?</p>
+        <p>Is this air?</p>
+        <p>Is this real?</p>
+        <p>Is this end?</p>
+    </div>
+</div>
+
+<!-- PAGE 16 -->
+<div class="page">
+    <div class="page-number">INVOICE // 16</div>
+    <div class="void-text stacked">
+        <p>I</p>
+        <p>land</p>
+        <p>on</p>
+        <p>something</p>
+        <p>hard</p>
+        <p>cold</p>
+        <p>round</p>
+        <p>sphere</p>
+        <p>world</p>
+        <p>now</p>
+    </div>
+</div>
+
+<!-- PAGE 17 -->
+<div class="page">
+    <div class="page-number">INVOICE // 17</div>
+    <p class="sphere-text">I stand on curved ground. Around me, walls curve upward. People walk sideways relative to me. Gravity pulls differently everywhere. I am confused. I am here. I am somewhere.</p>
+</div>
+
+<!-- PAGE 18 -->
+<div class="page">
+    <div class="page-number">INVOICE // 18</div>
+    <p class="sphere-text">They handed me a robe. Gray fabric. Rough weave. I put it on. It covers me. They look at me. They measure me with instruments. I do not ask questions. Questions cost time.</p>
+</div>
+
+<!-- PAGE 19 -->
+<div class="page">
+    <div class="page-number">INVOICE // 19</div>
+    <p class="sphere-text">"You are here now," one of them says. I nod. I do not speak. My voice is unused. "What is your color?" they ask. Color? I have no answer.</p>
+</div>
+
+<!-- PAGE 20 -->
+<div class="page">
+    <div class="page-number">INVOICE // 20</div>
+    <p class="sphere-text">I am given a number. My robe is assigned a shade. Blue. Not deep blue. Not light. Medium blue. The average. I eat bland food. I sleep in allocated beds. Work is scheduled.</p>
+</div>
+
+<!-- PAGE 21 -->
+<div class="page">
+    <div class="page-number">INVOICE // 21</div>
+    <p class="sphere-text">"Welcome," he says. The man wears red. "What did you wake from?" "Darkness," I say. My voice is cracked. "I don't remember." He nods. "Most don't. That's how it starts. Welcome to the Sphere."</p>
+</div>
+
+<!-- PAGE 22 -->
+<div class="page">
+    <div class="page-number">INVOICE // 22</div>
+    <p class="sphere-text">I eat. I work. I sleep. Repeat. Days pass. I count them by the light cycles overhead. Twenty times up, twenty times down. Friends develop. We laugh at jokes I barely understand. The sword under my pillow hums. I pretend it does not.</p>
+</div>
+
+<!-- PAGE 23 -->
+<div class="page">
+    <div class="page-number">INVOICE // 23</div>
+    <p class="sphere-text">Sometimes I remember the hum. The music point in the dark. I touch the blanket where the vibration lives. It is still there. Fainter than before. But present. The people around me do not hear it. Only I hear it. This must be mine alone. I keep it secret.</p>
+</div>
+
+<!-- PAGE 24 -->
+<div class="page">
+    <div class="page-number">INVOICE // 24</div>
+    <p class="sphere-text">The first memory speaks to me at night. Not aloud. Inside. A child's voice. Young. Confident. "You left me there." I wake sweating. The room is silent. The other sleepers breathe evenly. Did anyone else hear it? I check. No one speaks. I pretend I did not hear.</p>
+</div>
+
+<!-- PAGE 25 -->
+<div class="page">
+    <div class="page-number">INVOICE // 25</div>
+    <p class="sphere-text">Who is the child? Mine? Someone else's? Universal? I have no children. I have no family. I have only the void and the sphere. But the voice knows me. It says "me" as if we are connected. Are we? I don't know anymore.</p>
+</div>
+
+<!-- PAGE 26 -->
+<div class="page">
+    <div class="page-number">INVOICE // 26</div>
+    <p class="sphere-text">I think about leaving. The thought is dangerous. I hide it. I look at the Cube door. I remember opening it. I remember the white. I remember the fall. I could go back. Could I? Would I survive? The hum gets louder. It tells me. "Go." I hesitate.</p>
+</div>
+
+<!-- PAGE 27 -->
+<div class="page">
+    <div class="page-number">INVOICE // 27</div>
+    <p class="sphere-text">The friends notice my absences. They watch me drift at meals. They ask what is wrong. I lie. "Nothing," I say. "Just tired." They believe me. They trust me. That trust becomes heavier than the lie. I deserve it. I do not deserve it. I carry both.</p>
+</div>
+
+<!-- PAGE 28 -->
+<div class="page">
+    <div class="page-number">INVOICE // 28</div>
+    <p class="sphere-text">Pack. The sword. Wrap it. Hide it. Take the egg (the flashlight). Fold the robe. Leave the number. I walk to the edge. I look at the Sphere. I look at the Cube. The choice is mine. Not theirs. Mine. I take the step.</p>
+</div>
+
+<!-- PAGE 29 -->
+<div class="page">
+    <div class="page-number">INVOICE // 29</div>
+    <p class="sphere-text">"You're going," she says. Her name is Maya. She wears yellow. She knows. "Yes," I say. "I have to." She doesn't try to stop me. She doesn't need to. Some roads are lonely by design. I hug her. I thank her. I leave.</p>
+</div>
+
+<!-- PAGE 30 -->
+<div class="page">
+    <div class="page-number">INVOICE // 30</div>
+    <p class="sphere-text">Walk. Step. Breathe. The path darkens. The Sphere fades behind me. Lights shrink to dots. Dots to nothing. I am alone again. The hum is my only companion. It guides. It warns. It waits. I follow. I follow. I follow.</p>
+</div>
+
+<!-- PAGE 31 -->
+<div class="page">
+    <div class="page-number">INVOICE // 31</div>
+    <p class="sphere-text fragmented">The road curves. The sky darkens. I can see my breath. Cold returns. Familiar. The hum grows stronger. It vibrates in my chest. Not noise now. Voice. "Keep going," it says. I keep going.</p>
+</div>
+
+<!-- PAGE 32 -->
+<div class="page">
+    <div class="page-number">INVOICE // 32</div>
+    <div class="void-text stacked narrow">
+        <p>Cube door ahead.</p>
+        <p>Looms.</p>
+        <p>Old.</p>
+        <p>Waiting.</p>
+        <p>Same as always.</p>
+        <p>Different now.</p>
+        <p>Because I am different.</p>
+    </div>
+</div>
+
+<!-- PAGE 33 -->
+<div class="page">
+    <div class="page-number">INVOICE // 33</div>
+    <p class="sphere-text narrow">The&nbsp;&nbsp;&nbsp;door&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;cold.&nbsp;&nbsp;&nbsp;Metal.&nbsp;&nbsp;&nbsp;Rusted.&nbsp;&nbsp;&nbsp;Heavy.&nbsp;&nbsp;&nbsp;My&nbsp;&nbsp;&nbsp;hand&nbsp;&nbsp;&nbsp;reaches.&nbsp;&nbsp;&nbsp;It&nbsp;&nbsp;&nbsp;hesitates.&nbsp;&nbsp;&nbsp;Then&nbsp;&nbsp;&nbsp;it&nbsp;&nbsp;&nbsp;pushes.&nbsp;&nbsp;&nbsp;Then&nbsp;&nbsp;&nbsp;it&nbsp;&nbsp;&nbsp;opens.&nbsp;&nbsp;&nbsp;Then&nbsp;&nbsp;&nbsp;it&nbsp;&nbsp;&nbsp;waits.</p>
+</div>
+
+<!-- PAGE 34 -->
+<div class="page">
+    <div class="page-number">INVOICE // 34</div>
+    <div class="void-text stacked narrow">
+        <p>Look back.</p>
+        <p>Remember friends.</p>
+        <p>Feel grief.</p>
+        <p>Turn away.</p>
+        <p>Step forward.</p>
+        <p>No retreat.</p>
+        <p>No return.</p>
+    </div>
+</div>
+
+<!-- PAGE 35 -->
+<div class="page">
+    <div class="page-number">INVOICE // 35</div>
+    <p class="sphere-text narrow">I do not go back. I do not want safety. I do not want comfort. I want truth. Even if it kills me. Even if it breaks me. I will go.</p>
+</div>
+
+<!-- PAGE 36 -->
+<div class="page">
+    <div class="page-number">INVOICE // 36</div>
+    <div class="void-text stacked narrow">
+        <p>One</p>
+        <p>foot</p>
+        <p>crosses</p>
+        <p>then</p>
+        <p>other.</p>
+        <p>Door</p>
+        <p>swings</p>
+        <p>shut.</p>
+        <p>Dark</p>
+        <p>takes</p>
+        <p>me.</p>
+        <p>Again.</p>
+    </div>
+</div>
+
+<!-- PAGE 37 -->
+<div class="page">
+    <div class="page-number">INVOICE // 37</div>
+    <div class="scattered-field">
+        <p style="position: absolute; top: 15%; left: 10%;">flashlight</p>
+        <p style="position: absolute; top: 25%; left: 30%;">beam</p>
+        <p style="position: absolute; top: 35%; left: 20%;">cuts</p>
+        <p style="position: absolute; top: 45%; left: 40%;">dust</p>
+        <p style="position: absolute; top: 55%; left: 25%;">motes</p>
+        <p style="position: absolute; top: 65%; left: 50%;">floating</p>
+        <p style="position: absolute; top: 75%; left: 15%;">crates</p>
+        <p style="position: absolute; top: 85%; left: 35%;">everywhere</p>
+    </div>
+</div>
+
+<!-- PAGE 38 -->
+<div class="page">
+    <div class="page-number">INVOICE // 38</div>
+    <p class="sphere-text">I am in the warehouse. Crates surround me. Thousands. Millions. The darkness is thick. My breath shows. The hum settles. The sword wakes. It is time.</p>
+</div>
+
+<!-- PAGE 39 -->
+<div class="page">
+    <div class="page-number">INVOICE // 39</div>
+    <p class="confrontation">I approach the first crate. It sits alone. I reach out. I open it. The lid creaks. Something moves inside. "Hello," I say. No answer. "Are you in there?" Silence. Then: "Yes." It is a voice. Small.</p>
+</div>
+
+<!-- PAGE 40 -->
+<div class="page">
+    <div class="page-number">INVOICE // 40</div>
+    <div class="columns">
+        <div class="column confrontation">
+            <p><i>"I'm afraid."</i></p>
+            <p><i>"So am I."</i></p>
+            <p><i>"Don't hurt me."</i></p>
+            <p><i>"I won't."</i></p>
+        </div>
+        <div class="column confrontation">
+            <p><i>"Why did you come?"</i></p>
+            <p><i>"To find you."</i></p>
+            <p><i>"Why now?"</i></p>
+            <p><i>"Because I had to."</i></p>
+            <p><i>"Okay. I'll help."</i></p>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 41 -->
+<div class="page">
+    <div class="page-number">INVOICE // 41</div>
+    <p class="sphere-text">The memory steps out. It glows faintly. Golden edges. Not threatening. It is what I feared. What I hoped. What I buried. It looks at me. I look at it. Neither of us speaks. We understand. The first bond forms.</p>
+</div>
+
+<!-- PAGE 42 -->
+<div class="page">
+    <div class="page-number">INVOICE // 42</div>
+    <p class="sphere-text">It moves toward a second crate. I follow. It touches the lid. The lock clicks open. <i>This one next,</i> it says. Its voice is not mine. It is younger. Pure. Unbroken. I let it lead. I trust it now.</p>
+</div>
+
+<!-- PAGE 43 -->
+<div class="page">
+    <div class="page-number">INVOICE // 43</div>
+    <p class="confrontation stacked">Third crate. I open it too fast.<br>The memory lunges.<br>Agitated.<br>Jagged.<br>Dark sparks.<br>Instinct: strike.<br>Sword rises.<br>I swing.<br>Connection made.<br>Memory shatters.<br>Silence falls.</p>
+</div>
+
+<!-- PAGE 44 -->
+<div class="page">
+    <div class="page-number">INVOICE // 44</div>
+    <p class="sphere-text">Then the wall cracks. Dust falls. Light dims across the warehouse. The cube groans. I feel it in my bones. What have I done? I broke it. I broke the memory. I broke the container. I broke myself.</p>
+</div>
+
+<!-- PAGE 45 -->
+<div class="page">
+    <div class="page-number">INVOICE // 45</div>
+    <p class="sphere-text narrow">I drop the sword. I kneel. I touch the crack. It is still warm. The damage is real. I understand now. Violence against memory damages reality. I cannot do this again. Never again.</p>
+</div>
+
+<!-- PAGE 46 -->
+<div class="page">
+    <div class="page-number">INVOICE // 46</div>
+    <p class="sphere-text">To the memory that died: I am sorry. To the cube: I am sorry. To myself: I am sorry. I will not make this mistake again. I will learn. I will heal. I will try.</p>
+</div>
+
+<!-- PAGE 47 -->
+<div class="page">
+    <div class="page-number">INVOICE // 47</div>
+    <p class="sphere-text">Fourth crate. I sit. I wait. I listen. <span class="emphasis">"I'm afraid,"</span> the voice says. <span class="emphasis">"So am I,"</span> I answer. The lid opens gently. This memory steps out calm. Stable. Warm. This is how it works. Not force. Connection. Trust. Naming. Holding.</p>
+</div>
+
+<!-- PAGE 48 -->
+<div class="page">
+    <div class="page-number">INVOICE // 48</div>
+    <p class="sphere-text">Memory joins me. Another follows. Another. We move as one. The sword grows heavier. Not burden. Weight. Presence. I carry them. They carry me. We are together. We are whole. We are ready.</p>
+</div>
+
+<!-- PAGE 49 -->
+<div class="page">
+    <div class="page-number">INVOICE // 49</div>
+    <p class="sphere-text">The following walks with me. Through aisles of crates. Through darkness. Through fear. The child memory leads. Warriors guard the rear. Helpers open what I cannot. I watch. I learn. I listen. I trust.</p>
+</div>
+
+<!-- PAGE 50 -->
+<div class="page">
+    <div class="page-number">INVOICE // 50</div>
+    <p class="sphere-text">Round and round we go. Crate after crate. Memory after memory. Each one integrated. Each one released. Each one part. The sword hums steady. The child sings soft. The dark is no longer dark.</p>
+</div>
+
+<!-- PAGE 51 -->
+<div class="page vertical-page">
+    <div class="page-number">INVOICE // 51</div>
+    <div class="columns">
+        <div class="column sphere-text">
+            <p>I stand at the junction.</p>
+            <p>Door behind.</p>
+            <p>Warehouse ahead.</p>
+        </div>
+        <div class="column sphere-text">
+            <p>Friends waved goodbye.</p>
+            <p>Now I walk.</p>
+            <p>I look back once.</p>
+            <p>I turn forward now.</p>
+        </div>
+    </div>
+    <p class="sphere-text">The choice is made. The path is chosen. The invoice continues.</p>
+</div>
+
+<!-- PAGE 52 -->
+<div class="page">
+    <div class="page-number">INVOICE // 52</div>
+    <div class="center-title">INVOICE</div>
+    <div class="split-container">
+        <div class="half left-half sphere-text">
+            <p>Behind me lies the Sphere. Friends. Safety. Warmth. I remember them. I will miss them. They are good people. I am leaving them. That is hard. But necessary.</p>
+        </div>
+        <div class="half right-half sphere-text">
+            <p>Ahead lies the Tree. Truth. Pain. Growth. I feel it calling. I feel it waiting. I am going toward it. I am choosing. I am committing. I am stepping. Into dark. Into self. Into home.</p>
+        </div>
+    </div>
+    <p style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 0.6em; color: #8B7FE0;">BOOK 1 ENDS. BOOK 2 BEGINS.</p>
+    <p style="position: absolute; bottom: 40px; right: 20px; font-size: 0.5em; color: #666;">Payment in progress. Balance due: Self.</p>
+</div>
+
+</body>
+</html>
