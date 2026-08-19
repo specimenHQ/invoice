@@ -26,9 +26,6 @@ black-on-white composition first, then grade it.
   0.35, power 1.6) rendered as a single strip and divided into 52 equal numbered sections (1–52)
   with red vertical divider lines, top and bottom labels. Reference sheet for pointing at
   specific points along the gradient by page number.
-- Companion: `final/gradient_52_on_real_wall.png` overlays the same 52 numbered divisions
-  directly on the actual locked wall image rather than an abstract strip, with the wall/hand edge
-  marked in blue.
 - Superseded exploratory sheets kept for reference only in `exploration/` — do not regenerate.
 
 ## Final files
