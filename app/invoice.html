@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>INVOICE</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body {
+    width:100%; height:100%; background:#000; overflow:hidden;
+    -webkit-user-select:none; user-select:none;
+    -webkit-touch-callout:none; touch-action:none;
+    font-family:"IV-dejavu",ui-monospace,Menlo,Consolas,monospace;
+  }
+  #stage { position:fixed; inset:0; background:#000; }
+
+  /* the character field — the texture living inside the dark */
+  #field {
+    position:absolute; inset:0; display:block;
+  }
+
+  /* symbols layer */
+  #marks {
+    position:absolute; inset:0; display:flex;
+    align-items:center; justify-content:center;
+    opacity:0; transition:opacity 900ms ease;
+    pointer-events:none;
+  }
+  #marks span {
+    color:#fff; font-size:6vmin; letter-spacing:0.35em;
+    text-shadow:0 0 1.5vmin rgba(255,255,255,0.25);
+    /* generous invisible hit area — the mark is small, the reach is not */
+    padding:14vmin 12vmin;
+    pointer-events:auto;
+    transition:text-shadow 260ms ease, transform 260ms ease;
+  }
+  #marks span.reached {
+    text-shadow:0 0 4vmin rgba(255,255,255,0.9);
+    transform:scale(1.06);
+  }
+
+  /* the flash — light getting in through a specific place */
+  #flash {
+    position:absolute; inset:0; opacity:0; pointer-events:none;
+  }
+
+  /* title — the wave, full screen. no instructions anywhere. */
+  #title {
+    position:fixed; inset:0; z-index:50; background:#000;
+    transition:opacity 2600ms ease;
+  }
+  #tcanvas { position:absolute; inset:0; display:block; }
+
+  /* the ask, after the touch — no words */
+  #turn {
+    position:fixed; inset:0; z-index:60; background:#000;
+    opacity:0; pointer-events:none;
+    transition:opacity 2400ms ease;
+  }
+  #turncv { position:absolute; inset:0; display:block; }
+
+  /* debug readout — remove for real build */
+  #hud {
+    position:fixed; left:1.5vmin; bottom:1.2vmin; z-index:70;
+    color:#fff; opacity:0.18; font-size:1.9vmin; letter-spacing:0.14em;
+    pointer-events:none;
+  }
+  body.hud-off #hud { display:none; }
+</style>
+<style id='ivfonts'>
+@font-face{font-family:'IV-dejavu';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}
+@font-face{font-family:'IV-liberation';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}
+@font-face{font-family:'IV-free';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}
+@font-face{font-family:'IV-dejavub';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}
+@font-face{font-family:'IV-freeb';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}
+</style>
+</head>
+<body class="locked-landscape">
+
+<div id="stage">
+  <canvas id="field"></canvas>
+  <div id="marks"></div>
+  <canvas id="flash"></canvas>
+</div>
+
+<div id="title"><canvas id="tcanvas"></canvas></div>
+<div id="turn"><canvas id="turncv"></canvas></div>
+
+<div id="hud"></div>
+
+<script>
+function VW(){ return Math.round((window.visualViewport&&visualViewport.width)||
+  document.documentElement.clientWidth||window.innerWidth); }
+function VH(){ return Math.round((window.visualViewport&&visualViewport.height)||
+  document.documentElement.clientHeight||window.innerHeight); }
+/* ============================================================
+   INVOICE — Book 1 — front half prototype (pages 1–19)
+   Pages 1–5   black, auto-advance
+   Page  6     first flash, delivers the period
+   Pages 6–11  marks
+   Pages 12–18 punctuation, flash tightening, crisis at 18
+   Page  19    silence ends — first note through the wall
+   ============================================================ */
+
+/* 1–19 are built. 20–52 are walkable so the flash geometry can be
+   previewed as it opens — content for those pages is not built yet. */
+const PAGES = 52;
+
+/* ---- brightness curve ---------------------------------------
+   flat 0 through the plateau (pages 1–18), then t**1.6 to 52.
+   Only pages 1–19 exist in this prototype.                     */
+const PLATEAU_END = 18, LAST_PAGE = 52, POWER = 1.6;
+function brightnessFor(p){
+  if (p <= PLATEAU_END) return 0;
+  const t = (p - PLATEAU_END) / (LAST_PAGE - PLATEAU_END);
+  return Math.pow(t, POWER);
+}
+
+/* ---- what is on each page ----------------------------------- */
+const SYMBOLS = {
+  6:".", 7:".", 8:".", 9:".", 10:".", 11:".",
+  12:";", 13:";", 14:"!", 15:"!", 16:"?", 17:",", 18:",",
+  19:","
+};
+
+/* ---- the flash ----------------------------------------------
+   ONE flash. Once, in the whole book, on page 6.
+   Black — flash — white held — slow fade back to black, and what
+   is left behind is the period.
+   There are no other flashes anywhere.                          */
+const FLASH_PAGE = 6;
+const FLASH_DELAY = 15000;   // dark before it
+const FLASH_HOLD  = 1000;    // white, held
+const FLASH_FADE  = 4200;    // slow return to black
+
+function flashPlanFor(p){
+  return (p === FLASH_PAGE) ? {delay:FLASH_DELAY} : null;
+}
+
+/* ---- page 19 -------------------------------------------------
+   The note arrives, and then it delivers.
+     beat — fade flash — 0 revealed
+     short black
+     beat — fade flash — 1 revealed
+   Two flashes, one beat before each.
+   ------------------------------------------------------------- */
+const P19 = {
+  lead:      6000,   // black before the first beat
+  beatToFlash: 900,  // beat, then the light
+  hold:      1000,   // white held
+  fade:      4200,   // slow fade back
+  revealAt:  0.35,   // where in the flash's fade the digit starts coming up
+  dwell:     4600,   // how long each digit stays before the black
+  black:     2600,   // short black between 0 and 1
+  restBlack: 1000,   // a second of black after 1
+  together:  3400    // then the two fade in
+};
+
+/* ============================================================
+   character field: texture inside the dark
+   ============================================================ */
+const cv = document.getElementById('field');
+const ctx = cv.getContext('2d');
+let cols=0, rows=0, cell=0, grid=[];
+
+function buildField(){
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  cv.width  = Math.floor(VW() * dpr);
+  cv.height = Math.floor(VH() * dpr);
+  cv.style.width = VW()+'px';
+  cv.style.height = VH()+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  cell = Math.max(11, Math.round(Math.min(VW(),VH())/46));
+  cols = Math.ceil(VW()/cell)+1;
+  rows = Math.ceil(VH()/(cell*1.15))+1;
+  grid = [];
+  for(let y=0;y<rows;y++){
+    const row=[];
+    for(let x=0;x<cols;x++){
+      row.push({
+        ch: Math.random()<0.5?'0':'1',
+        // per-cell base weight so the dark is uneven, never flat
+        w: 0.25 + Math.random()*0.75,
+        // slow independent drift so it is never quite still
+        ph: Math.random()*Math.PI*2,
+        sp: 0.10 + Math.random()*0.22,
+        flick: 0
+      });
+    }
+    grid.push(row);
+  }
+  ctx.font = cell+'px '+fontFace();
+  ctx.textBaseline='top';
+}
+
+/* ---- pulse waves ---------------------------------------------
+   From 19 on, every beat draws itself: a single smooth line that
+   travels left to right — with the law — and fades as it goes. The
+   sound becomes visible. One line per beat, so it stays as sparse as
+   the sound is; nothing repeats within a page.
+   ------------------------------------------------------------- */
+const pulses = [];
+const PULSE_SPEED = 0.00042;     // screens per ms — a slow crossing
+
+/* Everything the book has introduced so far, still available. The wave is
+   made of the accumulated vocabulary — the reader's toolkit grows in step
+   with the narrator's, and the old symbols do not get retired, they get
+   carried. */
+const INTRODUCED = [
+  [6,'.'], [12,';'], [14,'!'], [16,'?'], [17,','],
+  [19,'0'], [19,'1'], [20,'2'], [21,'3'], [22,'4'], [23,'5'],
+  [24,'6'], [25,'7'], [26,'8'], [27,'9']
+];
+function vocabFor(p){
+  const v = [];
+  for (const [at,ch] of INTRODUCED) if (p >= at) v.push(ch);
+  return v.length ? v : ['.'];
+}
+
+function firePulse(p){
+  pulses.push({
+    born: performance.now(),
+    amp:  0.055 + Math.min(0.10, (p-19)*0.0045),   // grows with the book
+    freq: 1.6 + (p-19)*0.035,
+    life: 5200,
+    vocab: vocabFor(p),                            // what it is made of
+    cover: coverageFor(p),
+    lastHead: 0
+  });
+  if (pulses.length > 4) pulses.shift();
+}
+
+/* ---- the gradient, in one place ------------------------------
+   One function, used by everything that has to obey the law, so the
+   wave is not a separate ramp that resembles the gradient — it takes
+   the value of the gradient at the place it occupies.
+   Left dark, right light; the page's own level lifts the whole ramp.
+   ------------------------------------------------------------- */
+function gradientAt(xn, page){
+  const b = brightnessFor(page);          // where this page sits, 0..1
+  const across = 0.12 + 0.88*xn;          // left dark to right light
+  return across * (0.30 + b*0.70);
+}
+
+/* ---- accumulation --------------------------------------------
+   The waves do not wash off. Each beat deposits into a field that
+   persists for the rest of the book, so the page fills: roughly half
+   given over to wave by 35, all of it by 52. The deposit thickens
+   per page to hit that, rather than relying on the lines happening
+   to pile up.
+   ------------------------------------------------------------- */
+let waveField = null;
+function ensureWaveField(){
+  if (!waveField || waveField.length !== cols*rows)
+    waveField = new Float32Array(cols*rows);
+}
+
+// how much of the page belongs to the wave by page p
+function coverageFor(p){
+  if (p < 19) return 0;
+  if (p <= 35) return (p-19)/16 * 0.48;
+  return 0.48 + (p-35)/17 * 0.52;
+}
+
+function depositPulse(P, headFrom, headTo){
+  ensureWaveField();
+  const midRow = rows/2;
+  const band = rows * P.cover * 0.62;
+  for (let x=0; x<cols; x++){
+    const xn = x/(cols-1);
+    if (xn < headFrom || xn > headTo) continue;
+    const yc = midRow + Math.sin((xn*P.freq - headTo*2.2)*Math.PI*2) * (P.amp*rows);
+    const y0 = Math.max(0, Math.floor(yc - band/2));
+    const y1 = Math.min(rows-1, Math.ceil(yc + band/2));
+    for (let y=y0; y<=y1; y++){
+      const d = Math.abs((y+0.5)-yc) / (band/2 + 1);
+      const v = Math.max(0, 1 - d*d);
+      const i = x + y*cols;
+      if (v > waveField[i]) waveField[i] = v;
+    }
+  }
+}
+
+/* the accumulated wave, drawn under the live line.
+   It carries the page's own gradient — dark at the left, light at the
+   right — so the wave obeys the law like everything else. */
+function drawWaveField(page){
+  if (!waveField) return;
+  for (let i=0;i<ALPHA_BUCKETS;i++) bucketList[i].length = 0;
+  const V = vocabFor(page);
+
+  for (let y=0;y<rows;y++){
+    const py = y*cell*1.15;
+    for (let x=0;x<cols;x++){
+      const v = waveField[x+y*cols];
+      if (v < 0.02) continue;
+      const xn = x/(cols-1);
+      let a = v * gradientAt(xn, page) * 0.85;   // the gradient it occupies
+      if (a < 0.012) continue;
+      let bi = (a * ALPHA_BUCKETS)|0;
+      if (bi >= ALPHA_BUCKETS) bi = ALPHA_BUCKETS-1;
+      bucketList[bi].push(V[(x*3+y*7)%V.length], x*cell, py);
+    }
+  }
+  for (let i=0;i<ALPHA_BUCKETS;i++){
+    const arr = bucketList[i];
+    if (!arr.length) continue;
+    ctx.fillStyle = 'rgba(255,255,255,'+(((i+0.5)/ALPHA_BUCKETS)).toFixed(3)+')';
+    for (let k=0;k<arr.length;k+=3) ctx.fillText(arr[k], arr[k+1], arr[k+2]);
+  }
+}
+
+function drawPulses(t, pulsePage){
+  if (!pulses.length) return;
+  const midRow = rows/2;
+  for (let n=pulses.length-1; n>=0; n--){
+    const P = pulses[n];
+    const age = t - P.born;
+    if (age > P.life){ pulses.splice(n,1); continue; }
+
+    const head = age * PULSE_SPEED;              // leading edge, 0..1
+    const fade = 1 - age/P.life;
+
+    // lay the line down permanently as it passes
+    if (head > P.lastHead){
+      depositPulse(P, P.lastHead, Math.min(1, head));
+      P.lastHead = head;
+    }
+
+    for (let x=0; x<cols; x++){
+      const xn = x/(cols-1);
+      if (xn > head) break;                      // has not arrived yet
+      const behind = head - xn;
+      if (behind > 0.55) continue;               // tail has passed
+
+      // smooth: the row is continuous, the character grid is not, so the
+      // line is drawn with a soft vertical falloff across neighbouring rows
+      const yc = midRow + Math.sin((xn*P.freq - head*2.2)*Math.PI*2) * (P.amp*rows);
+      const edge = Math.min(1, behind*7) * Math.max(0, 1 - behind/0.55);
+      const a0 = fade * edge * 0.62 * gradientAt(xn, pulsePage);
+      if (a0 < 0.02) continue;
+
+      const y0 = Math.floor(yc)-1;
+      for (let dy=0; dy<=2; dy++){
+        const y = y0+dy;
+        if (y<0||y>=rows) continue;
+        const d = Math.abs((y+0.5) - yc);
+        const a = a0 * Math.max(0, 1 - d);
+        if (a < 0.02) continue;
+        ctx.fillStyle = 'rgba(255,255,255,'+a.toFixed(3)+')';
+        const V = P.vocab;
+        ctx.fillText(V[(x*3+y*7+n) % V.length], x*cell, y*cell*1.15);
+      }
+    }
+  }
+}
+
+/* the dark is occupied, not empty — the whole front half depends on this.
+
+   Performance: setting fillStyle per cell is thousands of canvas state
+   changes a frame and dominates cost. Cells are bucketed by alpha and
+   each bucket is drawn in one pass, so state changes drop from
+   (cells) to (buckets). The dark pages also do not need 60fps —
+   nothing on them moves fast enough to justify it.                     */
+const ALPHA_BUCKETS = 10;          // dark pages — nothing to band
+const TITLE_BUCKETS  = 64;         // the wave — tone must stay continuous
+const bucketList = [];
+for (let i=0;i<Math.max(ALPHA_BUCKETS,TITLE_BUCKETS);i++) bucketList.push([]);
+
+let fieldLast = 0;
+
+function drawField(t, page){
+  // the dark pages have nothing moving fast enough to need 60fps, but a
+  // travelling line does — so the cap lifts once the pulses begin
+  const fps = (page >= 19 || pulses.length) ? 60 : 24;
+  if (t - fieldLast < 1000/fps) return;
+  const dt = Math.min(100, t - fieldLast);
+  fieldLast = t;
+
+  ctx.clearRect(0,0,VW(),VH());
+  const b = brightnessFor(page);
+
+  // 1–5 are black. No gradient, no texture, nothing to resolve.
+  const ceiling = (page<=5) ? 0
+                : (page<=11) ? 0.030
+                : (page<=18) ? 0.052
+                : 0.052 + b*0.40;
+
+  const tension = page<=5 ? 0
+                : page<=18 ? (page-5)/13
+                : 0.12;
+
+  for (let i=0;i<ALPHA_BUCKETS;i++) bucketList[i].length = 0;
+
+  // flicker budget: a fixed small number of cells per frame rather than
+  // a random roll on every cell — same look, no per-cell RNG cost
+  const flickers = Math.round((0.3 + tension) * 3);
+  for (let f=0; f<flickers; f++){
+    const ry = (Math.random()*rows)|0, rx = (Math.random()*cols)|0;
+    const c = grid[ry] && grid[ry][rx];
+    if (c){ c.flick = 1; if (Math.random()<0.35) c.ch = c.ch==='0'?'1':'0'; }
+  }
+
+  ctx.font = cell+'px '+fontFace();
+  const maxA = ceiling * 2.2;
+
+  for(let y=0;y<rows;y++){
+    const row = grid[y];
+    const py = y*cell*1.15;
+    for(let x=0;x<cols;x++){
+      const c = row[x];
+      const breathe = 0.5 + 0.5*Math.sin(t*0.001*c.sp + c.ph);
+      let a = c.w * breathe * ceiling;
+      if (c.flick){ a *= 5.5; c.flick = 0; }
+      if (a < 0.003) continue;
+      let bi = (a / maxA * ALPHA_BUCKETS)|0;
+      if (bi >= ALPHA_BUCKETS) bi = ALPHA_BUCKETS-1;
+      bucketList[bi].push(c.ch, x*cell, py);
+    }
+  }
+
+  for (let i=0;i<ALPHA_BUCKETS;i++){
+    const arr = bucketList[i];
+    if (!arr.length) continue;
+    const a = ((i+0.5)/ALPHA_BUCKETS) * maxA;
+    ctx.fillStyle = 'rgba(255,255,255,'+a.toFixed(3)+')';
+    for (let k=0;k<arr.length;k+=3) ctx.fillText(arr[k], arr[k+1], arr[k+2]);
+  }
+
+  drawWaveField(page);
+  drawPulses(t, page);
+}
+
+/* ============================================================
+   audio — synthesised, no assets. tune freely.
+   one note, heard as if through a wall: low, filtered, no attack edge.
+   ============================================================ */
+let actx=null, master=null, wall=null, started=false;
+
+function initAudio(){
+  if (actx) return;
+  actx = new (window.AudioContext||window.webkitAudioContext)();
+  master = actx.createGain();
+  master.gain.value = 0.0001;
+
+  // the wall: everything from the other room passes through this
+  wall = actx.createBiquadFilter();
+  wall.type='lowpass';
+  wall.frequency.value = 240;   // mostly closed at page 19
+  wall.Q.value = 0.6;
+
+  master.connect(wall);
+  wall.connect(actx.destination);
+}
+
+function note(freq, dur, gain){
+  if (!actx) return;
+  const o = actx.createOscillator();
+  const g = actx.createGain();
+  o.type='sine';
+  o.frequency.value=freq;
+  const now = actx.currentTime;
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(gain, now+0.09);   // no hard attack
+  g.gain.exponentialRampToValueAtTime(0.0001, now+dur);
+  o.connect(g); g.connect(master);
+  o.start(now); o.stop(now+dur+0.05);
+}
+
+/* ---- the beat ------------------------------------------------
+   One per page from 19 on. It never repeats within a page. It only
+   gets longer, and only slightly — about a tenth of a second a page.
+   ------------------------------------------------------------- */
+const BEAT_BASE = 3.2, BEAT_GROWTH = 0.10;
+function beatLengthFor(p){
+  return BEAT_BASE + Math.max(0, p-19) * BEAT_GROWTH;
+}
+
+/* ---- haptics -------------------------------------------------
+   Nothing at all except page 6. Then from 19 it begins, almost
+   imperceptible, and builds the rest of the book — maximum at the
+   end of 51 and held through all of 52.
+   The Vibration API has no amplitude, so intensity is duration.
+   ------------------------------------------------------------- */
+const HAPTIC_START = 19, HAPTIC_FULL = 51;
+
+/* A single long buzz feels weaker than repeated hits — the motor spins up
+   once and then just sits there. Strength is read as attack, so the build
+   is done with pulse count and density, not one growing duration.
+   Anything under ~20ms does not register on most phones. */
+function hapticPatternFor(p){
+  if (p < HAPTIC_START) return null;
+  if (p >= HAPTIC_FULL) {                    // 51–52: maximum, sustained
+    const pat=[]; for(let i=0;i<14;i++) pat.push(140, 24);
+    return pat;
+  }
+  const t = (p - HAPTIC_START) / (HAPTIC_FULL - HAPTIC_START);
+
+  const pulses = Math.max(1, Math.round(1 + Math.pow(t,1.25) * 8));
+  const len    = Math.round(24 + Math.pow(t,1.1) * 105);
+  const gap    = Math.round(70 - t * 44);
+
+  const pat=[];
+  for(let i=0;i<pulses;i++){ pat.push(len); if(i<pulses-1) pat.push(gap); }
+  return pat;
+}
+
+let beatTimer=null;
+function beat(p){
+  p = (p===undefined) ? page : p;
+  initAudio();
+  if (actx.state==='suspended') actx.resume();
+  master.gain.cancelScheduledValues(actx.currentTime);
+  master.gain.setValueAtTime(0.55, actx.currentTime);
+  const pat = hapticPatternFor(p);
+  if (pat && navigator.vibrate) navigator.vibrate(pat);
+  if (p >= 19) firePulse(p);              // the beat draws itself
+  note(110, beatLengthFor(p), 0.5);
+}
+
+function killSound(){
+  clearInterval(beatTimer); beatTimer=null;
+  if (master && actx) {
+    master.gain.cancelScheduledValues(actx.currentTime);
+    master.gain.setValueAtTime(master.gain.value, actx.currentTime);
+    master.gain.linearRampToValueAtTime(0.0001, actx.currentTime+0.012);
+  }
+}
+
+/* ============================================================
+   flash — instant, foreshadowing, cuts sound
+   ============================================================ */
+const flashEl = document.getElementById('flash');
+const fx = flashEl.getContext('2d');
+let flashTimers=[];
+function clearFlashes(){ flashTimers.forEach(clearTimeout); flashTimers=[]; }
+
+function sizeFlash(){
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  flashEl.width  = Math.floor(VW()*dpr);
+  flashEl.height = Math.floor(VH()*dpr);
+  flashEl.style.width = VW()+'px';
+  flashEl.style.height = VH()+'px';
+  fx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+function fillWhite(){
+  fx.clearRect(0,0,VW(),VH());
+  fx.fillStyle='#fff';
+  fx.fillRect(0,0,VW(),VH());
+}
+
+/* black → flash → white held → slow fade back to black.
+   The period is what the fade leaves behind. */
+function doFlash(){
+  killSound();
+  fillWhite();
+  flashEl.style.transition='none';
+  flashEl.style.opacity='1';
+  // the one haptic before 19 — a single definite hit, not a tick
+  if (page === FLASH_PAGE && navigator.vibrate) navigator.vibrate(45);
+
+  flashTimers.push(setTimeout(()=>{
+    flashEl.style.transition='opacity '+FLASH_FADE+'ms cubic-bezier(.35,0,.5,1)';
+    flashEl.style.opacity='0';
+  }, FLASH_HOLD));
+}
+
+function scheduleFlashes(p){
+  clearFlashes();
+  flashEl.style.transition='none';
+  flashEl.style.opacity='0';
+  if (p === 19) { runPage19(); return; }
+  const plan = flashPlanFor(p);
+  if (!plan) return;
+  flashTimers.push(setTimeout(doFlash, plan.delay));
+}
+
+/* a flash that leaves a specific character behind */
+function flashReveal(sym){
+  fillWhite();
+  flashEl.style.transition='none';
+  flashEl.style.opacity='1';
+  flashTimers.push(setTimeout(()=>{
+    flashEl.style.transition='opacity '+P19.fade+'ms cubic-bezier(.35,0,.5,1)';
+    flashEl.style.opacity='0';
+  }, P19.hold));
+  // the character comes up exactly as the white goes down — one crossfade,
+  // so the reveal is the flash leaving rather than a thing appearing after it
+  flashTimers.push(setTimeout(()=>{
+    setMark(sym, P19.fade*(1-P19.revealAt));
+  }, P19.hold + P19.fade*P19.revealAt));
+}
+
+function runPage19(){
+  marksEl.style.opacity='0';
+  let t = P19.lead;
+
+  // beat — flash — 0
+  flashTimers.push(setTimeout(beat, t));
+  t += P19.beatToFlash;
+  flashTimers.push(setTimeout(()=>flashReveal('0'), t));
+  t += P19.hold + P19.fade + P19.dwell;
+
+  // back to black
+  flashTimers.push(setTimeout(()=>markToBlack(900), t));
+  t += P19.black;
+
+  // beat — flash — 1
+  flashTimers.push(setTimeout(beat, t));
+  t += P19.beatToFlash;
+  flashTimers.push(setTimeout(()=>flashReveal('1'), t));
+  t += P19.hold + P19.fade + P19.dwell;
+
+  // black for a second
+  flashTimers.push(setTimeout(()=>markToBlack(700), t));
+  t += P19.restBlack;
+
+  // then the two, fading in together — no flash, no beat
+  flashTimers.push(setTimeout(()=>setMark('01', P19.together), t));
+}
+
+/* ============================================================
+   pages
+   ============================================================ */
+const marksEl = document.getElementById('marks');
+const hud = document.getElementById('hud');
+let page = 1, autoTimer=null, running=false;
+
+function setMark(sym, fadeMs){
+  marksEl.innerHTML='';
+  const s=document.createElement('span');
+  s.textContent=sym;
+  s.addEventListener('touchend', onReach, {passive:false});
+  s.addEventListener('click', onReach);
+  marksEl.appendChild(s);
+  marksEl.style.transition='opacity '+(fadeMs||900)+'ms cubic-bezier(.35,0,.5,1)';
+  marksEl.style.opacity='0';
+  requestAnimationFrame(()=>{ marksEl.style.opacity='1'; });
+}
+
+function markToBlack(ms){
+  marksEl.style.transition='opacity '+(ms||600)+'ms ease';
+  marksEl.style.opacity='0';
+}
+
+function showPage(p){
+  page = p;
+  clearTimeout(autoTimer);
+
+  const sym = (p === 19) ? null : SYMBOLS[p];   // 19 runs its own sequence
+  if (sym){
+    // the mark is delivered by the flash, so it appears as light falls back
+    // on 6 the period is revealed by the fade, not shown before it
+    const plan = flashPlanFor(p);
+    const at = plan ? plan.delay + FLASH_HOLD + FLASH_FADE*0.45 : 60;
+    marksEl.style.opacity='0';
+    setTimeout(()=>setMark(sym), at);
+  } else {
+    marksEl.style.opacity='0';
+  }
+
+  if (p < 19) killSound();
+
+  scheduleFlashes(p);
+
+  // 20 onward: one beat per page. it does not repeat.
+  if (p >= 20) flashTimers.push(setTimeout(()=>beat(p), 1400));
+
+  // pages 1–5 auto-advance. patience is not optional and not skippable.
+  if (p <= 5) autoTimer = setTimeout(()=>advance(), 5200);
+
+  hud.textContent = 'p'+p+'  ·  '+Math.round(brightnessFor(p)*1000)/10+'%';
+}
+
+function advance(){
+  if (!running) return;
+  if (page <= 5) { if (page<5) showPage(page+1); else showPage(6); return; }
+  if (page < PAGES) showPage(page+1);
+}
+
+/* ---- reaching for the mark ----------------------------------
+   While the vocabulary is still marks and punctuation, the only way
+   forward is to touch the symbol itself. The reader has to reach for
+   the one thing that exists. Swipe does nothing on these pages.
+   ------------------------------------------------------------- */
+const REACH_UNTIL = 18;   // pages 6–18 require touching the mark
+
+function onReach(e){
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+  if (!running || page > REACH_UNTIL) return;
+  const s = marksEl.querySelector('span');
+  if (s) s.classList.add('reached');
+  // no haptic here — page 6 has the only one
+  setTimeout(()=>{ if (page < PAGES) showPage(page+1); }, 260);
+}
+
+/* swipe. no going back. */
+let sx=0, sy=0, tracking=false;
+function onDown(e){
+  const t = e.touches ? e.touches[0] : e;
+  sx=t.clientX; sy=t.clientY; tracking=true;
+}
+function onUp(e){
+  if(!tracking) return; tracking=false;
+  const t = e.changedTouches ? e.changedTouches[0] : e;
+  const dx = t.clientX-sx, dy = t.clientY-sy;
+  if (Math.abs(dx) < 42 && Math.abs(dy) < 42) return;
+  // any decisive swipe moves forward. there is no back.
+  // but while the marks must be reached for, swipe is inert.
+  if (page > REACH_UNTIL) advance();
+}
+addEventListener('touchstart',onDown,{passive:true});
+addEventListener('touchend',onUp,{passive:true});
+addEventListener('mousedown',onDown);
+addEventListener('mouseup',onUp);
+
+/* ============================================================
+   title screen — the wave
+   Full-screen ASCII gradient wave sweeping left to right and back.
+   The logo is made of the same cells, on its own schedule, waving
+   the opposite way. "IN" runs on a third schedule, inverted — when
+   VOICE is light, IN is the other end of the spectrum.
+   Carpet wear, but visual only. Nothing is tactile here.
+   No instruction is given. The touch has to come from the reader.
+   ============================================================ */
+const tcv = document.getElementById('tcanvas');
+const tx  = tcv.getContext('2d');
+
+let tCols=0, tRows=0, tCell=0;
+let maskLogo=null, maskIN=null;
+
+function sizeTitle(){
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  tcv.width  = Math.floor(VW()*dpr);
+  tcv.height = Math.floor(VH()*dpr);
+  tcv.style.width  = VW()+'px';
+  tcv.style.height = VH()+'px';
+  tx.setTransform(dpr,0,0,dpr,0,0);
+
+  tCell = Math.max(9, Math.round(Math.min(VW(),VH())/54));
+  tCols = Math.ceil(VW()/tCell)+1;
+  tRows = Math.ceil(VH()/(tCell*1.15))+1;
+
+  measureInk();
+  buildLogoMask();
+  fitCube();
+  cubeBuf = null;                 // force reallocation at the new grid size
+}
+
+/* The logo is not drawn as type. It is drawn once offscreen, then used
+   as a stencil over the character grid, so it is made of the same
+   material as the background and can carry its own wave. */
+function buildLogoMask(){
+  const off = document.createElement('canvas');
+  off.width = tCols; off.height = tRows;
+  const oc = off.getContext('2d');
+  oc.fillStyle='#000'; oc.fillRect(0,0,tCols,tRows);
+
+  const word='INVOICE';
+  let size = Math.floor(tCols*0.19);
+  oc.textAlign='left'; oc.textBaseline='middle';
+  const fit = ()=>{ oc.font='700 '+size+'px '+fontFace();
+                    return oc.measureText(word).width; };
+  while (fit() > tCols*0.86 && size>4) size--;
+  const w = fit();
+  const x0 = (tCols-w)/2, y0 = tRows/2;
+  oc.fillStyle='#fff';
+  oc.fillText(word, x0, y0);
+
+  // monospace, so every glyph occupies the same column width — that is
+  // what lets each letter be filled with its own character.
+  const charW = w/word.length;
+
+  const d = oc.getImageData(0,0,tCols,tRows).data;
+  maskLogo = new Uint8Array(tCols*tRows);
+  maskIN   = new Uint8Array(tCols*tRows);   // 1 = the I, 2 = the N
+  for(let i=0;i<tCols*tRows;i++){
+    if (d[i*4] > 110){
+      maskLogo[i]=1;
+      const slot = Math.floor(((i % tCols) - x0) / charW);
+      if (slot === 0) maskIN[i] = 1;        // I
+      else if (slot === 1) maskIN[i] = 2;   // N
+    }
+  }
+}
+
+/* ---- the cube ------------------------------------------------
+   Orthographic, so faces stay true parallelograms. Scaled to its own
+   worst-case diagonal so no rotation can ever push it off the grid —
+   a rotated cube reaches sqrt(3) x its half-width, and that is what
+   the fit is computed against, not the width.
+   It is made of the same cells as everything else here.
+   ------------------------------------------------------------- */
+let cA=0.6, cB=0.35, cC=0;
+const CUBE_FACE = [0.34, 0.74, 0.24, 0.60, 0.96, 0.16];
+let cubeBuf=null, cubeZ=null, cubeHalf=8, cubeStep=0.5;
+
+/* cell aspect: chars are tCell wide, tCell*1.15 tall. These keep the
+   cube square on screen rather than stretched across the grid. */
+const CX = 1.15, CY = 1.00;
+
+function fitCube(){
+  const maxX = (tCols*0.34) / CX;
+  const maxY = (tRows*0.34) / CY;
+  cubeHalf = Math.max(3, Math.min(maxX, maxY) / Math.sqrt(3));
+  cubeStep = Math.max(0.20, cubeHalf/34);
+}
+
+function cubePlot(i,j,k,w){
+  const x = j*Math.sin(cA)*Math.sin(cB)*Math.cos(cC) - k*Math.cos(cA)*Math.sin(cB)*Math.cos(cC)
+          + j*Math.cos(cA)*Math.sin(cC) + k*Math.sin(cA)*Math.sin(cC) + i*Math.cos(cB)*Math.cos(cC);
+  const y = j*Math.cos(cA)*Math.cos(cC) + k*Math.sin(cA)*Math.cos(cC)
+          - j*Math.sin(cA)*Math.sin(cB)*Math.sin(cC) + k*Math.cos(cA)*Math.sin(cB)*Math.sin(cC)
+          - i*Math.cos(cB)*Math.sin(cC);
+  const z = j*Math.sin(cA)*Math.cos(cB) - k*Math.cos(cA)*Math.cos(cB) + i*Math.sin(cB);
+
+  const xp = Math.round(tCols/2 + x*CX);
+  const yp = Math.round(tRows/2 + y*CY);
+  if (xp<0||xp>=tCols||yp<0||yp>=tRows) return;   // cannot happen once fitted
+  const idx = xp + yp*tCols;
+  if (z > cubeZ[idx]){ cubeZ[idx]=z; cubeBuf[idx]=w; }
+}
+
+function buildCube(dt){
+  if (!cubeBuf || cubeBuf.length !== tCols*tRows){
+    cubeBuf = new Float32Array(tCols*tRows);
+    cubeZ   = new Float32Array(tCols*tRows);
+  }
+  cubeBuf.fill(0); cubeZ.fill(-1e9);
+  const R = cubeHalf, S = cubeStep;
+  for (let a=-R; a<=R; a+=S){
+    for (let b=-R; b<=R; b+=S){
+      cubePlot( a, b, -R, CUBE_FACE[0]);
+      cubePlot( R, b,  a, CUBE_FACE[1]);
+      cubePlot(-R, b, -a, CUBE_FACE[2]);
+      cubePlot(-a, b,  R, CUBE_FACE[3]);
+      cubePlot( a,-R, -b, CUBE_FACE[4]);
+      cubePlot( a, R,  b, CUBE_FACE[5]);
+    }
+  }
+  // per second, not per frame — identical on 60Hz and 120Hz
+  const k = (dt||16)/16.667;
+  cA += 0.0036*k; cB += 0.0021*k; cC += 0.0014*k;
+}
+
+/* ---- glyph ink weight ----------------------------------------
+   An I is thin, an N is dense, 0 and 1 land elsewhere again. At the
+   same alpha they read as different brightnesses, which splits the
+   logo into two textures. Each glyph is measured once and its opacity
+   is scaled so equal alpha means equal apparent tone.
+   ------------------------------------------------------------- */
+let INK = {};
+function measureInk(){
+  const n = 40;
+  const o = document.createElement('canvas');
+  o.width = n; o.height = n;
+  const c = o.getContext('2d');
+  INK = {};
+  for (const ch of ['0','1','I','N']){
+    c.clearRect(0,0,n,n);
+    c.fillStyle='#fff';
+    c.font = Math.floor(n*0.8)+'px '+fontFace();
+    c.textBaseline='top';
+    c.fillText(ch, 2, 2);
+    const d = c.getImageData(0,0,n,n).data;
+    let sum=0;
+    for (let i=3;i<d.length;i+=4) sum += d[i];
+    INK[ch] = sum/(n*n*255);
+  }
+  // normalise against the binary pair — they are the book's baseline
+  const ref = (INK['0']+INK['1'])/2;
+  for (const k in INK) INK[k] = ref/INK[k];
+}
+function inkScale(ch){ return INK[ch] || 1; }
+
+/* one sweep, back and forth. the band travels, turns around, returns. */
+function sweepPhase(t, period, offset){
+  const u = ((t/period) + (offset||0)) % 2;
+  return u < 1 ? u : 2-u;          // triangle: out and back, no jump
+}
+
+/* brightness of a cell under a wave whose crest sits at `phase` */
+function waveAt(xn, phase){
+  const d = Math.abs(xn - phase);
+  const band = Math.exp(-(d*d)/0.055);        // the crest
+  const base = 0.10 + xn*0.30;                // left dark, right light
+  return Math.min(1, base*0.55 + band*0.95);
+}
+
+let titleLast = 0;
+
+/* The wave runs uncapped — it is the one thing here that has to be
+   smooth, and capping it is what made it stutter. Its phase comes from
+   the clock, not the frame count, so a 120Hz screen renders it more
+   often without running it faster. */
+function drawTitle(t){
+  const dt = (titleLast ? Math.min(100, t - titleLast) : 16);
+  titleLast = t;
+
+  buildCube(dt);
+  tx.clearRect(0,0,VW(),VH());
+  tx.font = tCell+'px '+fontFace();
+  tx.textBaseline='top';
+
+  const pBG   = sweepPhase(t, 9000);
+  const pLOGO = 1 - sweepPhase(t, 11500);
+  const pIN   = sweepPhase(t, 7200, 0.6);
+
+  for (let i=0;i<TITLE_BUCKETS;i++) bucketList[i].length = 0;
+
+  for(let y=0;y<tRows;y++){
+    const py = y*tCell*1.15;
+    for(let x=0;x<tCols;x++){
+      const i = x + y*tCols;
+      const xn = x/(tCols-1);
+      let a, ch;
+
+      if (maskIN && maskIN[i]){
+        // IN is built from the letters themselves — the alphabet, the dark
+        a = 0.22 + (1 - waveAt(xn, pIN))*0.78;
+        ch = maskIN[i]===1 ? 'I' : 'N';
+      } else if (maskLogo && maskLogo[i]){
+        a = 0.22 + waveAt(xn, pLOGO)*0.78;
+        ch = '0';
+      } else if (cubeBuf && cubeBuf[i]){
+        a = 0.16 + cubeBuf[i] * (0.35 + waveAt(xn, pBG)*0.75);
+        ch = ((x*5+y*3)%2) ? '0':'1';
+      } else {
+        a = waveAt(xn, pBG) * 0.22;
+        ch = ((x*7+y*3)%2) ? '1':'0';
+      }
+
+      a *= inkScale(ch);                    // equal alpha, equal apparent tone
+      if (a > 1) a = 1;
+      if (a < 0.012) continue;
+      let bi = (a * TITLE_BUCKETS)|0;
+      if (bi >= TITLE_BUCKETS) bi = TITLE_BUCKETS-1;
+      bucketList[bi].push(ch, x*tCell, py);
+    }
+  }
+
+  for (let i=0;i<TITLE_BUCKETS;i++){
+    const arr = bucketList[i];
+    if (!arr.length) continue;
+    tx.fillStyle = 'rgba(255,255,255,'+(((i+0.5)/TITLE_BUCKETS)).toFixed(3)+')';
+    for (let k=0;k<arr.length;k+=3) tx.fillText(arr[k], arr[k+1], arr[k+2]);
+  }
+}
+
+/* ============================================================
+   the turn stage — no words
+   A line that stays level with the world while the device does not.
+   The characters stay upright and readable; only the axis is wrong,
+   and only the reader can correct it. Holding it level releases a
+   sweep to the right — the direction the whole book travels.
+   ============================================================ */
+const turnEl2 = () => document.getElementById('turncv');
+let tcv2=null, tx2=null, tcell=12;
+
+function sizeTurn(){
+  if(!tcv2) tcv2 = turnEl2();
+  if(!tcv2) return;
+  tx2 = tcv2.getContext('2d');
+  const dpr=Math.min(devicePixelRatio||1,2);
+  tcv2.width=Math.floor(VW()*dpr); tcv2.height=Math.floor(VH()*dpr);
+  tcv2.style.width=VW()+'px'; tcv2.style.height=VH()+'px';
+  tx2.setTransform(dpr,0,0,dpr,0,0);
+  tcell=Math.max(10,Math.round(Math.min(VW(),VH())/40));
+}
+
+let devRoll=0, haveTilt=false, shownRoll=0, align=0, sweep=0, lastTurnT=0;
+let tiltSrc='none', turnShownAt=0, noSensor=false;
+
+function screenAngle(){
+  if (screen.orientation && typeof screen.orientation.angle==='number')
+    return screen.orientation.angle*Math.PI/180;
+  if (typeof window.orientation==='number') return window.orientation*Math.PI/180;
+  return 0;
+}
+function setRollFromGravity(gx, gy){
+  let a=Math.atan2(gx,gy)-screenAngle();
+  while(a> Math.PI) a-=Math.PI*2;
+  while(a<-Math.PI) a+=Math.PI*2;
+  devRoll=a; haveTilt=true;
+}
+
+addEventListener('deviceorientation', e=>{
+  if(e.gamma===null||e.beta===null) return;
+  const b=e.beta*Math.PI/180, g=e.gamma*Math.PI/180;
+  setRollFromGravity(Math.sin(g), -Math.sin(b)*Math.cos(g));
+  tiltSrc='orientation';
+}, true);
+
+/* Fallback: some devices and contexts give motion but not orientation.
+   accelerationIncludingGravity points opposite gravity, in device axes. */
+addEventListener('devicemotion', e=>{
+  if (tiltSrc==='orientation') return;
+  const a=e.accelerationIncludingGravity;
+  if(!a || a.x===null || a.y===null) return;
+  const m=Math.hypot(a.x,a.y);
+  if(m<0.6) return;
+  setRollFromGravity(-a.x/m, a.y/m);
+  tiltSrc='motion';
+}, true);
+
+function drawTurnSweep(t, dt){
+  const cxp=VW()/2, cyp=VH()/2, half=VW()/2;
+  const nCols=Math.floor(half/tcell);
+  const rowsUp=Math.floor((VH()*0.42)/tcell);
+  sweep += (dt/2600)*align;
+  if (sweep>1.45) sweep-=1.45;
+
+  for(let j=1;j<=nCols;j++){
+    const px=cxp+j*tcell, xn=px/VW(), u=(j*tcell)/half;
+    const behind=sweep-u;
+    if(behind<-0.06) continue;
+    const crest = behind<0 ? 1+behind/0.06 : Math.max(0,1-behind/0.62);
+    if(crest<=0.01) continue;
+    const phase=u*5.2-t*0.0016;
+    const amp=(VH()*0.15)*align*Math.min(1,j/6);
+    for(let d=-rowsUp; d<=rowsUp; d++){
+      const fall=1-Math.abs(d)/rowsUp;
+      const py=cyp+d*tcell+Math.sin(phase+d*0.16)*amp*fall;
+      if(py<-tcell||py>VH()+tcell) continue;
+      const a=(0.06+0.80*xn)*fall*fall*crest*align*0.95;
+      if(a<0.02) continue;
+      tx2.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+      tx2.fillText(((j+d)%2)?'1':'0', px, py);
+    }
+  }
+}
+
+function drawTurn(t){
+  if(!tx2) sizeTurn();
+  if(!tx2) return;
+  const dt = lastTurnT ? Math.min(80, t-lastTurnT) : 16;
+  lastTurnT = t;
+
+  // if no sensor ever reports, the line leans on its own so the page is
+  // never a dead end — and a tap will carry on regardless
+  if (!haveTilt && t - turnShownAt > 9000) noSensor = true;
+  const target = haveTilt ? devRoll
+               : (isLandscape() ? Math.PI/2
+               : (noSensor ? Math.sin(t*0.0006)*0.42 : 0));
+  let d = target - shownRoll;
+  while(d> Math.PI) d-=Math.PI*2;
+  while(d<-Math.PI) d+=Math.PI*2;
+  shownRoll += d*0.12;
+
+  const k = Math.min(1, Math.abs(Math.sin(shownRoll)));
+  align += ((k>0.90?1:0)-align) * (k>0.90?0.018:0.06);
+
+  tx2.clearRect(0,0,VW(),VH());
+  tx2.font=tcell+'px '+fontFace();
+  tx2.textBaseline='middle'; tx2.textAlign='center';
+
+  if (align>0.01) drawTurnSweep(t, dt);
+
+  if (!document.body.classList.contains('hud-off')){
+    tx2.save();
+    tx2.textAlign='left'; tx2.textBaseline='top';
+    tx2.font='12px '+fontFace();
+    tx2.fillStyle='rgba(255,255,255,0.35)';
+    tx2.fillText('tilt '+tiltSrc+'  roll '+Math.round(shownRoll*180/Math.PI)+
+                 '  k '+k.toFixed(2)+'  align '+align.toFixed(2)+
+                 '  screen '+Math.round(screenAngle()*180/Math.PI), 10, 10);
+    tx2.restore();
+  }
+
+  const room = VW()*Math.abs(Math.sin(shownRoll)) +
+               VH()*Math.abs(Math.cos(shownRoll));
+  const span = Math.min(Math.max(VW(),VH())*0.92, room*0.92);
+  const n = Math.floor(span/tcell);
+  const cxp=VW()/2, cyp=VH()/2;
+  const la = shownRoll + Math.PI/2;              // across when upright
+  const dx=Math.cos(la)*tcell, dy=Math.sin(la)*tcell;
+
+  // a gradient falling down the screen, independent of everything else
+  const dsPeriod=4200;
+  const dsFront=((t%dsPeriod)/dsPeriod)*(VH()*1.4)-VH()*0.2;
+  const dsWidth=VH()*0.26;
+
+  for(let i=0;i<n;i++){
+    const u=i/(n-1), o=i-(n-1)/2;
+    const px=cxp+dx*o, py=cyp+dy*o;
+    const dsd=Math.abs(py-dsFront)/dsWidth;
+    const down=Math.max(0,1-dsd*dsd);
+    const a=(0.10+0.90*u)*(0.85+0.15*k)*(0.28+0.72*down);
+    if(a<0.02) continue;
+    tx2.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+    tx2.fillText(((i%2)?'1':'0'), px, py);
+  }
+}
+
+/* ---- fonts ---------------------------------------------------
+   Embedded and subset to the characters this book actually uses, so
+   the page stays self-contained and looks identical on every device
+   instead of falling back to whatever monospace the phone ships.
+   On the title screen: press and hold to cycle. Tap still proceeds.
+   ------------------------------------------------------------- */
+const FONTS = [
+  ['IV-dejavu',     'DejaVu Mono'],
+  ['IV-dejavub',    'DejaVu Mono Bold'],
+  ['IV-liberation', 'Liberation Mono'],
+  ['IV-free',       'FreeMono'],
+  ['IV-freeb',      'FreeMono Bold']
+];
+let fontIdx = 0;
+function fontFace(){ return '"'+FONTS[fontIdx][0]+'",ui-monospace,monospace'; }
+
+const fontTag = document.createElement('div');
+fontTag.style.cssText='position:fixed;top:2.5vmin;left:0;right:0;z-index:80;'+
+  'text-align:center;color:#fff;opacity:0;font-size:2.2vmin;letter-spacing:.35em;'+
+  'pointer-events:none;transition:opacity 400ms ease;font-family:ui-monospace,monospace';
+document.body.appendChild(fontTag);
+
+function cycleFont(){
+  fontIdx = (fontIdx+1) % FONTS.length;
+  document.body.style.fontFamily = fontFace();
+  measureInk();
+  buildLogoMask();
+  fontTag.textContent = FONTS[fontIdx][1].toUpperCase();
+  fontTag.style.opacity='0.5';
+  clearTimeout(cycleFont._t);
+  cycleFont._t = setTimeout(()=>{ fontTag.style.opacity='0'; }, 1500);
+}
+
+/* ---- opening -------------------------------------------------
+   The wave holds until the reader touches it, unprompted. Then it
+   fades to black, the ask comes up slowly, they turn the device,
+   the ask fades, and the story starts.
+   ------------------------------------------------------------- */
+const titleEl = document.getElementById('title');
+const turnEl  = document.getElementById('turn');
+let titleLive = true, awaitingTurn = false;
+
+function isLandscape(){ return innerWidth > VH(); }
+
+/* After the title is touched: black. The ask fades up on its own if
+   they wait. A tap only brings it forward — it never skips it, and it
+   is never asked for. */
+const TURN_WAIT = 4000;      // if they do nothing
+const TURN_TAP  = 900;       // if they tap
+let turnTimer = null, blackLive = false;
+
+function touched(){
+  if (!titleLive) return;
+  titleLive = false;
+
+  initAudio();
+  if (actx.state==='suspended') actx.resume();   // the gesture unlocks audio
+
+  // sensors need an explicit grant on some platforms; ask on the gesture
+  try{
+    if (typeof DeviceOrientationEvent!=='undefined' &&
+        typeof DeviceOrientationEvent.requestPermission==='function')
+      DeviceOrientationEvent.requestPermission().catch(()=>{});
+    if (typeof DeviceMotionEvent!=='undefined' &&
+        typeof DeviceMotionEvent.requestPermission==='function')
+      DeviceMotionEvent.requestPermission().catch(()=>{});
+  }catch(e){}
+
+  titleEl.style.opacity='0';                     // slow fade to black
+  setTimeout(()=>{ titleEl.style.display='none'; }, 2700);
+
+  setTimeout(()=>{
+    if (isLandscape()) { begin(); return; }      // already turned
+    blackLive = true;
+    turnTimer = setTimeout(showTurn, TURN_WAIT);
+  }, 2800);
+}
+
+/* tapping the black brings the ask forward, nothing more */
+function hurryTurn(){
+  if (!blackLive || awaitingTurn) return;
+  clearTimeout(turnTimer);
+  turnTimer = setTimeout(showTurn, TURN_TAP);
+}
+addEventListener('touchend', hurryTurn, {passive:true});
+addEventListener('click', hurryTurn);
+
+function showTurn(){
+  if (awaitingTurn || !blackLive) return;
+  if (isLandscape()) { begin(); return; }
+  awaitingTurn = true;
+  turnShownAt = performance.now();
+  sizeTurn();
+  turnEl.style.opacity='1';                      // the line fades up
+}
+
+function checkTurn(){
+  if (!awaitingTurn) return;
+  if (!isLandscape()) return;
+  awaitingTurn = false; blackLive = false;
+  turnEl.style.opacity='0';                      // and fades back to black
+  setTimeout(()=>{ turnEl.style.display='none'; begin(); }, 2500);
+}
+function turnTapFallback(){
+  if (!awaitingTurn) return;
+  if (haveTilt && !noSensor) return;      // a real sensor is in charge
+  if (!noSensor) return;                  // still waiting to find out
+  awaitingTurn=false; blackLive=false;
+  turnEl.style.opacity='0';
+  setTimeout(()=>{ turnEl.style.display='none'; begin(); }, 1400);
+}
+addEventListener('touchend', turnTapFallback, {passive:true});
+addEventListener('click', turnTapFallback);
+
+addEventListener('resize', checkTurn);
+addEventListener('orientationchange', ()=>setTimeout(checkTurn, 350));
+
+function begin(){
+  if (running) return;
+  running = true;
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(()=>{});
+  }
+  titleEl.style.display='none';
+  turnEl.style.display='none';
+  showPage(1);
+}
+
+let holdT=null, held=false;
+function holdStart(){ held=false; clearTimeout(holdT);
+  holdT=setTimeout(()=>{ held=true; cycleFont(); }, 1100); }
+function holdEnd(e){ clearTimeout(holdT);
+  if (held){ held=false; if(e) e.preventDefault(); return; }   // it was a cycle
+  if (e) e.preventDefault();
+  touched();
+}
+titleEl.addEventListener('touchstart', holdStart, {passive:true});
+titleEl.addEventListener('touchend', holdEnd);
+titleEl.addEventListener('mousedown', holdStart);
+titleEl.addEventListener('mouseup', holdEnd);
+
+/* ---- loop --------------------------------------------------- */
+function frame(t){
+  if (titleLive) drawTitle(t);
+  else if (awaitingTurn) drawTurn(t);
+  else if (running) drawField(t, page);
+  requestAnimationFrame(frame);
+}
+buildField(); sizeFlash(); sizeTitle();
+requestAnimationFrame(frame);
+addEventListener('resize', ()=>{ buildField(); sizeFlash();
+  if(titleLive) sizeTitle(); if(awaitingTurn) sizeTurn(); });
+
+/* triple-tap the bottom-left corner to hide the page readout */
+let taps=0, tapT=null;
+addEventListener('touchstart', e=>{
+  const t=e.touches[0];
+  if (t.clientX < VW()*0.18 && t.clientY > VH()*0.82){
+    taps++; clearTimeout(tapT);
+    tapT=setTimeout(()=>{taps=0},600);
+    if(taps>=3){ document.body.classList.toggle('hud-off'); taps=0; }
+  }
+},{passive:true});
+</script>
+</body>
+</html>
