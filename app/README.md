@@ -3,8 +3,10 @@
 Browser-native, mobile-first, Android-first. Self-contained single files —
 fonts embedded as base64 woff2, no external requests, works offline.
 
-- **invoice.html** — the working build. Title screen, start screen, pages 1–19,
-  plus pages 20–52 walkable for previewing the gradient and pulse accumulation.
+- **index.html** — the build. Title screen, start screen, pages 1–19, plus
+  pages 20–52 walkable for previewing the gradient and pulse accumulation.
+- **manifest.webmanifest / sw.js / icon-*.png** — PWA wrapper. Installs to the
+  home screen, launches fullscreen with no browser chrome, works offline.
 - **title-screen-LOCKED.html** — frozen snapshot of the locked title screen.
   Do not edit; the working build carries changes forward.
 - **turn-demo.html** — standalone start-screen study (the world-level line).
@@ -47,7 +49,15 @@ tap continues, so a sensorless device is never a dead end.
   maximum at 51–52. Pulse count and density, not one long buzz — strength is
   read as attack.
 
-## Notes
+## Serving
 
-Sensors need a secure context. Opening these over `file://` or inside an
-in-app webview gives no orientation data and no rotation; serve over HTTPS.
+**This must be served over HTTPS.** Android blocks orientation and motion
+sensors on anything that is not a secure context, and in-app webviews do not
+forward them at all — over `file://` or inside an embedded viewer the start
+screen has nothing to respond to and reads as a black screen.
+
+GitHub Pages is enough: Settings → Pages → deploy from `main`, then open
+`https://<owner>.github.io/invoice/app/` in Chrome and use Add to Home Screen.
+
+Bump `CACHE` in `sw.js` on every published build or phones will keep serving
+the old one from cache. The build id also shows top-left on the title screen.

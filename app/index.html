@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>INVOICE</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body {
@@ -555,26 +557,85 @@ function fillWhite(){
   fx.fillRect(0,0,VW(),VH());
 }
 
-/* black → flash → white held → slow fade back to black.
-   The period is what the fade leaves behind. */
+/* ---- the burst ----------------------------------------------
+   The flash does not simply happen to the screen — it comes OUT of
+   the place the period will be. A white core at the centre throws a
+   shell of characters outward across the frame, then everything
+   falls back into the dark and the only thing left standing is the
+   period it came from.
+   ------------------------------------------------------------- */
+let burst = null;
+
+function startBurst(){
+  burst = { born: performance.now() };
+}
+
+function drawBurst(t){
+  if (!burst) return;
+  const age = t - burst.born;
+  const total = FLASH_HOLD + FLASH_FADE;
+  if (age > total){ burst=null; fx.clearRect(0,0,VW(),VH()); return; }
+
+  const W=VW(), H=VH(), cxp=W/2, cyp=H/2;
+  const maxR = Math.hypot(W,H)/2;
+
+  // out fast, back slow
+  const out = Math.min(1, age/300);
+  const decay = age < FLASH_HOLD ? 1
+              : 1 - (age-FLASH_HOLD)/FLASH_FADE;
+  const ease = decay*decay;
+
+  const R = maxR * (0.06 + out*1.05);
+  const cw = cell || 14;
+
+  fx.clearRect(0,0,W,H);
+  fx.font = cw+'px '+fontFace();
+  fx.textBaseline='middle'; fx.textAlign='center';
+
+  // the core: white, and it collapses back to a point
+  const coreR = Math.max(cw*0.5, maxR*0.30*ease*out);
+  const g = fx.createRadialGradient(cxp,cyp,0, cxp,cyp, Math.max(1,coreR));
+  g.addColorStop(0,'rgba(255,255,255,'+(0.95*ease).toFixed(3)+')');
+  g.addColorStop(1,'rgba(255,255,255,0)');
+  fx.fillStyle=g;
+  fx.fillRect(0,0,W,H);
+
+  // the shell of characters thrown outward from that point
+  const rings = Math.ceil(maxR/cw);
+  for(let r=1;r<=rings;r++){
+    const rad = r*cw;
+    if (rad > R) break;
+    const n = Math.max(6, Math.round((2*Math.PI*rad)/cw));
+    const shell = 1 - Math.abs(rad - R*0.72)/(maxR*0.55);
+    if (shell <= 0) continue;
+    for(let i=0;i<n;i++){
+      const a0 = (i/n)*Math.PI*2 + r*0.37;
+      const px = cxp + Math.cos(a0)*rad;
+      const py = cyp + Math.sin(a0)*rad;
+      if (px<-cw||px>W+cw||py<-cw||py>H+cw) continue;
+      const a = shell * ease * (0.35 + 0.65*(px/W));   // the law
+      if (a < 0.02) continue;
+      fx.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+      fx.fillText(((r+i)%2)?'1':'0', px, py);
+    }
+  }
+}
+
+/* black → the burst out of the point → back to black, period left */
 function doFlash(){
   killSound();
-  fillWhite();
+  startBurst();
   flashEl.style.transition='none';
   flashEl.style.opacity='1';
   // the one haptic before 19 — a single definite hit, not a tick
   if (page === FLASH_PAGE && navigator.vibrate) navigator.vibrate(45);
-
-  flashTimers.push(setTimeout(()=>{
-    flashEl.style.transition='opacity '+FLASH_FADE+'ms cubic-bezier(.35,0,.5,1)';
-    flashEl.style.opacity='0';
-  }, FLASH_HOLD));
 }
 
 function scheduleFlashes(p){
   clearFlashes();
   flashEl.style.transition='none';
   flashEl.style.opacity='0';
+  burst = null; fx.clearRect(0,0,VW(),VH());
   if (p === 19) { runPage19(); return; }
   const plan = flashPlanFor(p);
   if (!plan) return;
@@ -675,7 +736,7 @@ function showPage(p){
   // pages 1–5 auto-advance. patience is not optional and not skippable.
   if (p <= 5) autoTimer = setTimeout(()=>advance(), 5200);
 
-  hud.textContent = 'p'+p+'  ·  '+Math.round(brightnessFor(p)*1000)/10+'%';
+  hud.textContent = 'b7 p'+p+'  ·  '+Math.round(brightnessFor(p)*1000)/10+'%';
 }
 
 function advance(){
@@ -951,6 +1012,15 @@ function drawTitle(t){
     tx.fillStyle = 'rgba(255,255,255,'+(((i+0.5)/TITLE_BUCKETS)).toFixed(3)+')';
     for (let k=0;k<arr.length;k+=3) tx.fillText(arr[k], arr[k+1], arr[k+2]);
   }
+
+  if (!document.body.classList.contains('hud-off')){
+    tx.save();
+    tx.font='12px '+fontFace();
+    tx.textBaseline='top'; tx.textAlign='left';
+    tx.fillStyle='rgba(255,255,255,0.30)';
+    tx.fillText('b7', 10, 10);
+    tx.restore();
+  }
 }
 
 /* ============================================================
@@ -1067,7 +1137,7 @@ function drawTurn(t){
     tx2.textAlign='left'; tx2.textBaseline='top';
     tx2.font='12px '+fontFace();
     tx2.fillStyle='rgba(255,255,255,0.35)';
-    tx2.fillText('tilt '+tiltSrc+'  roll '+Math.round(shownRoll*180/Math.PI)+
+    tx2.fillText('b7  tilt '+tiltSrc+'  roll '+Math.round(shownRoll*180/Math.PI)+
                  '  k '+k.toFixed(2)+'  align '+align.toFixed(2)+
                  '  screen '+Math.round(screenAngle()*180/Math.PI), 10, 10);
     tx2.restore();
@@ -1243,7 +1313,7 @@ titleEl.addEventListener('mouseup', holdEnd);
 function frame(t){
   if (titleLive) drawTitle(t);
   else if (awaitingTurn) drawTurn(t);
-  else if (running) drawField(t, page);
+  else if (running){ drawField(t, page); drawBurst(t); }
   requestAnimationFrame(frame);
 }
 buildField(); sizeFlash(); sizeTitle();
@@ -1261,6 +1331,11 @@ addEventListener('touchstart', e=>{
     if(taps>=3){ document.body.classList.toggle('hud-off'); taps=0; }
   }
 },{passive:true});
+</script>
+<script>
+/* installable, and works with no network once cached */
+if ('serviceWorker' in navigator)
+  addEventListener('load', ()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
 </body>
 </html>
