@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>turn</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    touch-action:none;font-family:'IV-mono',ui-monospace,monospace}
+  canvas{position:fixed;inset:0;display:block}
+  #tap{position:fixed;inset:0;z-index:10;background:transparent}
+</style>
+<style id='ivfont'>@font-face{font-family:'IV-mono';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="tap"></div>
+<script>
+/* ============================================================
+   The line is level with the world, not with the screen.
+
+   Held upright, it lies across the device at ninety degrees —
+   plainly not in agreement with the thing in your hand. It does not
+   move to accommodate you. Turning the phone brings the device into
+   agreement with it, and only then does it have the full length of
+   the screen to run, and only then is the gradient whole.
+
+   Nothing is written. Nothing rotates for the reader. The reader
+   rotates into agreement with something that was already level.
+   ============================================================ */
+const cv=document.getElementById('c'), x=cv.getContext('2d');
+const tapEl=document.getElementById('tap');
+
+let cell=12;
+function size(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  cv.width=Math.floor(innerWidth*dpr); cv.height=Math.floor(innerHeight*dpr);
+  cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+  x.setTransform(dpr,0,0,dpr,0,0);
+  cell=Math.max(10,Math.round(Math.min(innerWidth,innerHeight)/40));
+}
+size(); addEventListener('resize',size);
+
+/* The browser rotates the viewport itself when the phone turns, so
+   counter-rotating by raw tilt cancels out and the line appears stuck
+   to the screen. The fix is to work out which way gravity points in
+   SCREEN space: take the gravity vector from the tilt sensor, then
+   subtract the rotation the OS already applied. */
+let roll=0, haveTilt=false, dbgG=0, dbgB=0;
+
+function screenAngle(){
+  if (screen.orientation && typeof screen.orientation.angle==='number')
+    return screen.orientation.angle*Math.PI/180;
+  if (typeof window.orientation==='number')
+    return window.orientation*Math.PI/180;
+  return 0;
+}
+
+addEventListener('deviceorientation', e=>{
+  if(e.gamma===null||e.beta===null) return;
+  haveTilt=true;
+  dbgG=e.gamma; dbgB=e.beta;
+
+  const b=e.beta*Math.PI/180, g=e.gamma*Math.PI/180;
+  // gravity as seen by the device, in the plane of the screen
+  const gx = Math.sin(g);
+  const gy = -Math.sin(b)*Math.cos(g);
+
+  // where "down" is on the screen, once the OS rotation is removed
+  let a = Math.atan2(gx, gy) - screenAngle();
+  while (a >  Math.PI) a -= Math.PI*2;
+  while (a < -Math.PI) a += Math.PI*2;
+  roll = a;
+}, true);
+
+let shownRoll=0, started=false;
+
+/* Once the device agrees with the line, the line gives something back:
+   a wave spreads from it into the right half of the screen — the
+   direction the whole book travels. It only grows while alignment
+   holds, and retreats if the reader turns away again. */
+let align=0, sweep=0;
+
+/* the wave the line releases: from the line, rightward, half the screen */
+function drawSpread(t, dt){
+  const cxp=innerWidth/2, cyp=innerHeight/2;
+  const half = innerWidth/2;
+  const nCols = Math.floor(half/cell);
+  const rowsUp = Math.floor((innerHeight*0.42)/cell);
+
+  // travels out from the line to the right edge, and starts again at the
+  // line. left to right only — it never returns.
+  sweep += (dt/2600) * align;
+  if (sweep > 1.45) sweep -= 1.45;
+
+  for(let j=1;j<=nCols;j++){
+    const px = cxp + j*cell;
+    const xn = px/innerWidth;                        // 0 left, 1 right
+    const u  = (j*cell)/half;                        // 0 at line, 1 at edge
+
+    const behind = sweep - u;
+    if (behind < -0.06) continue;                    // not reached yet
+    const crest = behind < 0
+        ? 1 + behind/0.06                            // leading edge
+        : Math.max(0, 1 - behind/0.62);              // trailing off
+    if (crest <= 0.01) continue;
+
+    const phase = u*5.2 - t*0.0016;
+    const amp = (innerHeight*0.15) * align * Math.min(1, j/6);
+
+    for(let d=-rowsUp; d<=rowsUp; d++){
+      const fall = 1 - Math.abs(d)/rowsUp;
+      const wy = Math.sin(phase + d*0.16) * amp * fall;
+      const py = cyp + d*cell + wy;
+      if (py < -cell || py > innerHeight+cell) continue;
+
+      const a = (0.06 + 0.80*xn) * fall*fall * crest * align * 0.95;
+      if (a < 0.02) continue;
+      x.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+      x.fillText(((j+d)%2)?'1':'0', px, py);
+    }
+  }
+}
+
+/* ---- the word ------------------------------------------------
+   Amiga Topaz style: an 8x8 bitmap font, drawn as pixels, not set as
+   type. Square, flat, no curves — the letterform is a grid, which is
+   the same thing everything else here is made of.
+   ------------------------------------------------------------- */
+const TOPAZ = {
+  T:[0b11111111,0b00011000,0b00011000,0b00011000,
+     0b00011000,0b00011000,0b00011000,0b00000000],
+  A:[0b01111110,0b11000011,0b11000011,0b11111111,
+     0b11000011,0b11000011,0b11000011,0b00000000],
+  P:[0b11111110,0b11000011,0b11000011,0b11111110,
+     0b11000000,0b11000000,0b11000000,0b00000000]
+};
+
+function drawWord(t, word){
+  const px = Math.max(2, Math.round(Math.min(innerWidth,innerHeight)/150));
+  const gap = px;                                  // one pixel between letters
+  const wide = word.length*8*px + (word.length-1)*gap;
+  const x0 = (innerWidth - wide)/2;
+  const y0 = (innerHeight - 8*px)/2;
+
+  const breathe = 0.34 + 0.26*Math.sin(t*0.0011);
+
+  x.clearRect(0,0,innerWidth,innerHeight);
+  for(let c=0;c<word.length;c++){
+    const g = TOPAZ[word[c]];
+    if(!g) continue;
+    const gx = x0 + c*(8*px+gap);
+    for(let r=0;r<8;r++){
+      for(let b=0;b<8;b++){
+        if(!(g[r] & (1<<(7-b)))) continue;
+        const pxx = gx + b*px;
+        const xn = pxx/innerWidth;
+        const a = breathe*(0.45+0.55*xn);           // the law, even here
+        x.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+        x.fillRect(pxx, y0 + r*px, px, px);
+      }
+    }
+  }
+}
+
+let lastT=0;
+function draw(t){
+  requestAnimationFrame(draw);
+  if(!started){ drawWord(t,'TAP'); return; }
+  const dtms = lastT ? Math.min(80, t-lastT) : 16;
+  lastT = t;
+
+  // without tilt data, fall back to the window's own shape
+  const target = haveTilt ? roll : (innerWidth>innerHeight ? Math.PI/2 : 0);
+  // ease the short way round, so it never spins the long way
+  let d = target - shownRoll;
+  while (d >  Math.PI) d -= Math.PI*2;
+  while (d < -Math.PI) d += Math.PI*2;
+  shownRoll += d*0.12;
+
+  // how level the screen now is with the line: 0 upright, 1 turned
+  const k = Math.min(1, Math.abs(Math.sin(shownRoll)));
+
+  // alignment has to be held, not merely passed through
+  align += ((k>0.90 ? 1 : 0) - align) * (k>0.90 ? 0.018 : 0.06);
+
+  x.clearRect(0,0,innerWidth,innerHeight);
+  x.font=cell+'px "IV-mono",ui-monospace,monospace';
+  x.textBaseline='middle';
+  x.textAlign='center';
+
+  if (align > 0.01) drawSpread(t, dtms);
+
+  // The LINE is level with the world. The CHARACTERS are not — they
+  // stay upright on the screen, turning with the phone, so they remain
+  // readable the whole way round. Only their arrangement is tilted.
+  const room = innerWidth*Math.abs(Math.sin(shownRoll)) +
+               innerHeight*Math.abs(Math.cos(shownRoll));
+  const span = Math.min(Math.max(innerWidth,innerHeight)*0.92, room*0.92);
+  const n = Math.floor(span/cell);
+
+  const cxp = innerWidth/2, cyp = innerHeight/2;
+  const la = shownRoll + Math.PI/2;              // across when upright
+  const dx = Math.cos(la)*cell, dy = Math.sin(la)*cell;
+
+  // The line stays straight. A separate gradient sweeps downward across
+  // the screen and lifts whatever it passes over — independent of the
+  // rightward sweep, which is unchanged.
+  const dsPeriod = 4200;
+  const dsFront = ((t % dsPeriod)/dsPeriod) * (innerHeight*1.4) - innerHeight*0.2;
+  const dsWidth = innerHeight*0.26;              // tighter, so it reads as travel
+
+  for(let i=0;i<n;i++){
+    const u = i/(n-1);                            // 0 left, 1 right
+    const o = i-(n-1)/2;
+    const px = cxp + dx*o, py = cyp + dy*o;
+    const dsd = Math.abs(py - dsFront)/dsWidth;
+    const down = Math.max(0, 1 - dsd*dsd);        // the descending gradient
+    // the law: dark at the left, light at the right.
+    // only whole once the device is level with it.
+    const a = (0.10 + 0.90*u) * (0.52 + 0.48*k) * (0.28 + 0.72*down);
+    if(a<0.02) continue;
+    x.fillStyle='rgba(255,255,255,'+a.toFixed(3)+')';
+    x.fillText(((i%2)?'1':'0'), px, py);          // upright, always
+  }
+
+  if (DEBUG){
+    x.font='11px "IV-mono",ui-monospace,monospace';
+    x.textAlign='left'; x.textBaseline='top';
+    x.fillStyle='rgba(255,255,255,0.35)';
+    x.fillText('gamma '+dbgG.toFixed(0)+'  beta '+dbgB.toFixed(0)+
+               '  screen '+Math.round(screenAngle()*180/Math.PI)+
+               '  roll '+Math.round(shownRoll*180/Math.PI)+
+               '  k '+k.toFixed(2)+(haveTilt?'':'  [no tilt]'), 10, 10);
+  }
+}
+const DEBUG = true;
+requestAnimationFrame(draw);
+
+function start(){
+  if(started) return;
+  const go=()=>{ started=true; tapEl.style.display='none'; };
+  if (typeof DeviceOrientationEvent!=='undefined' &&
+      typeof DeviceOrientationEvent.requestPermission==='function'){
+    DeviceOrientationEvent.requestPermission().then(go).catch(go);
+  } else go();
+}
+tapEl.addEventListener('touchend',e=>{e.preventDefault();start();});
+tapEl.addEventListener('click',start);
+</script>
+</body>
+</html>
