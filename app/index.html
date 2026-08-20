@@ -1044,7 +1044,7 @@ function showPage(p){
   if (p <= 5) autoTimer = setTimeout(()=>advance(), 5200);
 
   setPageNo(p);
-  hud.textContent = 'b15 p'+p+'  ·  '+Math.round(brightnessFor(p)*1000)/10+'%';
+  hud.textContent = 'b16 p'+p+'  ·  '+Math.round(brightnessFor(p)*1000)/10+'%';
 }
 
 function advance(){
@@ -1380,7 +1380,7 @@ function drawTitle(t){
     tx.font='12px '+fontFace();
     tx.textBaseline='top'; tx.textAlign='left';
     tx.fillStyle='rgba(255,255,255,0.30)';
-    tx.fillText('b15', 10, 10);
+    tx.fillText('b16', 10, 10);
     tx.restore();
   }
 }
@@ -1506,6 +1506,12 @@ function drawTurn(t){
   const k = Math.min(1, Math.abs(Math.sin(shownRoll)));
   align += ((k>0.90?1:0)-align) * (k>0.90?0.018:0.06);
 
+  // The gate itself: evaluated every frame the turn screen is visible,
+  // not just on a resize/orientationchange that a rotation-locked phone
+  // may never fire. checkTurn() is already idempotent past the first
+  // pass (turnResolving), so calling it every frame is cheap and safe.
+  checkTurn();
+
   tx2.clearRect(0,0,VW(),VH());
   tx2.font=tcell+'px '+fontFace();
   tx2.textBaseline='middle'; tx2.textAlign='center';
@@ -1518,7 +1524,7 @@ function drawTurn(t){
     tx2.textAlign='left'; tx2.textBaseline='top';
     tx2.font='12px '+fontFace();
     tx2.fillStyle='rgba(255,255,255,0.35)';
-    tx2.fillText('b15  tilt '+tiltSrc+'  roll '+Math.round(shownRoll*180/Math.PI)+
+    tx2.fillText('b16  tilt '+tiltSrc+'  roll '+Math.round(shownRoll*180/Math.PI)+
                  '  k '+k.toFixed(2)+'  align '+align.toFixed(2)+
                  '  screen '+Math.round(screenAngle()*180/Math.PI), 10, 10);
     tx2.restore();
@@ -1630,6 +1636,18 @@ let titleLive = true, awaitingTurn = false;
 
 function isLandscape(){ return innerWidth > VH(); }
 
+/* The start gate used to ask isLandscape(), which needs a resize or
+   orientationchange event to have fired. A phone with system rotation
+   lock never fires either — it physically turns, the sensor reports it,
+   and the browser layout just never rotates to match. Page 50's gate
+   already learned this lesson (keyed to the tilt sensor, never the
+   viewport); the start gate hadn't. Same fix here: prefer the sensor's
+   own angle when one exists, and fall back to the viewport only when
+   there is no sensor to ask. */
+function turnedLandscape(){
+  return haveTilt ? Math.abs(Math.sin(devRoll)) > 0.92 : isLandscape();
+}
+
 /* After the title is touched: black. The ask fades up on its own if
    they wait. A tap only brings it forward — it never skips it, and it
    is never asked for. */
@@ -1658,7 +1676,7 @@ function touched(){
   setTimeout(()=>{ titleEl.style.display='none'; }, 2700);
 
   setTimeout(()=>{
-    if (isLandscape()) { begin(); return; }      // already turned
+    if (turnedLandscape()) { begin(); return; }   // already turned
     blackLive = true;
     turnTimer = setTimeout(showTurn, TURN_WAIT);
   }, 2800);
@@ -1675,7 +1693,7 @@ addEventListener('click', hurryTurn);
 
 function showTurn(){
   if (awaitingTurn || !blackLive) return;
-  if (isLandscape()) { begin(); return; }
+  if (turnedLandscape()) { begin(); return; }
   awaitingTurn = true;
   turnShownAt = performance.now();
   sizeTurn();
@@ -1684,7 +1702,7 @@ function showTurn(){
 
 function checkTurn(){
   if (!awaitingTurn) return;
-  if (!isLandscape()) return;
+  if (!turnedLandscape()) return;
   if (turnResolving) return;
   turnResolving = true;
 

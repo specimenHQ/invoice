@@ -1,7 +1,7 @@
 /* Cache the whole book on first visit so it runs with no network at all.
    CACHE must be bumped on every published build or installed phones keep
    serving the old one. */
-const CACHE = 'invoice-b15';
+const CACHE = 'invoice-b16';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-1024.png'
