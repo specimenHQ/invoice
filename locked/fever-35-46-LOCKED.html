@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>fever</title>
+<style id='dotfont'>@font-face{font-family:'IV-dot';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}</style>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    touch-action:none;font-family:'IV-dot',ui-monospace,monospace}
+  canvas{position:fixed;inset:0;display:block}
+  #hud{position:fixed;left:2vmin;top:1.5vmin;color:#fff;opacity:.35;
+    font-size:1.8vmin;letter-spacing:.1em;pointer-events:none;white-space:pre}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud"></div>
+<!-- Forces the browser to actually fetch/rasterize IV-dot at parse time,
+     before canvas ever needs it — an empty #hud alone isn't enough on
+     some mobile browsers, which silently keep the fallback forever. -->
+<div style="position:fixed;left:-9999px;opacity:0.01;white-space:pre;font-size:10px">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,-~:_;!I|/?</div>
+<script>
+/* ============================================================
+   35-46 — the effects, as one shared engine.
+
+   Every glyph on the page — clutter and the letters that matter both —
+   trades dark and light on its own clock, the same technique already
+   locked in the title screen's IN/VOICE inversion, just extended across
+   the whole field instead of two words. That's the fever: nothing on the
+   page ever sits still, no single frame is a hard flash, but the whole
+   thing never settles either.
+
+   Inside that weather, each page is a small game: a vowel and a
+   consonant, drawn together by that page's gesture, answered by that
+   page's release the instant they touch.
+
+   Tap the right third to advance, left third to go back — same
+   convention as effects-demo.html. Not wired into the app; this is the
+   proving ground before any of it is.
+   ============================================================ */
+const cv=document.getElementById('c'), x=cv.getContext('2d');
+const hud=document.getElementById('hud');
+let cols=0, rows=0, cell=0, W=0, H=0;
+
+function VW(){ return (window.visualViewport?window.visualViewport.width:innerWidth); }
+function VH(){ return (window.visualViewport?window.visualViewport.height:innerHeight); }
+
+function size(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=VW(); H=VH();
+  cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+  cv.style.width=W+'px'; cv.style.height=H+'px';
+  x.setTransform(dpr,0,0,dpr,0,0);
+  cell=Math.max(11,Math.round(Math.min(W,H)/34));
+  cols=Math.ceil(W/cell)+1;
+  rows=Math.ceil(H/(cell*1.15))+1;
+  buildField();
+}
+addEventListener('resize', size);
+
+/* ---- the twelve pages -----------------------------------------
+   pairs: each carries its own {letters,gesture} — the five double-
+   letter pages get TWO distinct gestures now, one per pair, instead
+   of one gesture stamped across both. That's also where the three
+   built-but-unused effects (flip tile, ink bleed, peel) finally land
+   — all fifteen of effects-demo's modes are now actually assigned
+   somewhere, not just the twelve from the first draft. Single-pair
+   pages keep one gesture; release stays one per page either way.
+
+   tint: the field's own color, page to page — not just the letters
+   and gestures now, the WEATHER itself changes. Cool and slow at 35,
+   built up toward the hot, fast, red-shifted field at 46, tracking
+   the same quiet-to-loud climb the releases and transitions already
+   make. pace: a period multiplier on the field's flicker/drift clocks
+   — under 1 runs faster (more restless) than the field's baseline. */
+const PAGES = [
+ {p:35, pairs:[{letters:['C','E'],gesture:'move'}, {letters:['F','I'],gesture:'flip'}],
+        release:'click',      tint:[255,255,255], pace:1.15},
+ {p:36, pairs:[{letters:['H','E'],gesture:'pull'}],
+        release:'collapse',   tint:[205,222,255], pace:1.05},
+ {p:37, pairs:[{letters:['J','I'],gesture:'trail'}, {letters:['K','E'],gesture:'bleed'}],
+        release:'glow',       tint:[255,238,215], pace:1.00},
+ {p:38, pairs:[{letters:['L','I'],gesture:'nap'}],
+        release:'bloom',      tint:[215,255,225], pace:0.95},
+ {p:39, pairs:[{letters:['N','I'],gesture:'ripple'}, {letters:['P','U'],gesture:'peel'}],
+        release:'shock',      tint:[195,250,255], pace:0.88},
+ {p:40, pairs:[{letters:['Q','E'],gesture:'press'}],
+        release:'heavyglow',  tint:[255,220,165], pace:0.82},
+ {p:41, pairs:[{letters:['R','I'],gesture:'displace'}, {letters:['S','I'],gesture:'press'}],
+        release:'crack',      tint:[255,205,195], pace:0.76},
+ {p:42, pairs:[{letters:['T','I'],gesture:'repel'}],
+        release:'hardcrack',  tint:[255,175,160], pace:0.68},
+ {p:43, pairs:[{letters:['V','U'],gesture:'mirror'}],
+        release:'double',     tint:[225,190,255], pace:0.62},
+ {p:44, pairs:[{letters:['W','E'],gesture:'erode'}, {letters:['X','U'],gesture:'pull'}],
+        release:'crumble',    tint:[205,200,195], pace:0.56},
+ {p:45, pairs:[{letters:['Y','U'],gesture:'heat'}],
+        release:'overexpose', tint:[255,205,150], pace:0.48},
+ {p:46, pairs:[{letters:['Z','U'],gesture:'destab'}],
+        release:'strobe',     tint:[255,170,150], pace:0.40},
+];
+let pageIdx=0;
+
+/* ---- the field — take two. The first version was every cell on its
+   own idle clock, tinted per page: that made twelve pages FEEL
+   different but never actually look structurally different — one
+   background with variations. This ports effects-demo.html's real
+   per-mode field engine wholesale instead: F/base/nap/vel/ch are the
+   same cellular arrays, apply()/relax() are the same per-mode physics
+   (displacement, magnetic pull/repel, ripple, carpet nap, press,
+   trail, destabilise, flip tile, ink bleed, heat, mirror, erosion,
+   peel), driven by touch position ANYWHERE on screen, not just near
+   the two target letters. Each page gets ONE mode — its own gesture's
+   mode number — so the whole background actually displaces, bleeds,
+   erodes, doubles, the way effects-demo's own field did, not just an
+   idle shimmer with a different tint. STRENGTH climbs page to page —
+   "each page grows to the end" — the same escalation pace/tint used
+   to carry, now doing real structural work instead of cosmetic. */
+const RAMP=" .,-~:_;!I|/1TL7JY?FVCZS3AXK2UP0O548EG9H6RDQBNWM";
+const GESTURE_TO_MODE = {
+  move:0, displace:1, pull:2, repel:3, ripple:4, nap:5, press:6, trail:7,
+  destab:8, flip:9, bleed:10, heat:11, mirror:12, erode:13, peel:14
+};
+let F=null, base=null, nap=null, vel=null, fch=null;   // the cellular field itself
+let fieldMode=0, fieldStrength=1.6;
+let fx=-1, fy=-1, fpx=-1, fpy=-1, fdown=false;         // raw touch, independent of letter-dragging
+let one={i:-1,j:-1,dx:0,dy:0};                          // mode 0's single movable letter (field-local)
+
+function buildFieldArrays(){
+  const n=cols*rows;
+  F=new Float32Array(n); base=new Float32Array(n);
+  nap=new Float32Array(n); vel=new Float32Array(n*2);
+  fch=new Uint8Array(n);
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols, u=i/cols, v=j/rows;
+    const b=0.18+0.55*u + 0.16*Math.sin(v*7+u*3) + 0.10*Math.sin(u*19-v*5);
+    base[k]=Math.max(0,Math.min(1,b));
+    F[k]=base[k];
+    fch[k]=(Math.abs(Math.sin(i*12.9898+j*78.233)*43758.5453)%1)*RAMP.length|0;
+  }
+}
+function resetFieldArrays(){
+  if(!F) return;
+  F.set(base); nap.fill(0); vel.fill(0);
+  one={i:-1,j:-1,dx:0,dy:0};
+}
+const FIELD_RADIUS=7.5;
+function applyField(dt){
+  if(fx<0) return;
+  const ci=fx/cell, cj=fy/(cell*1.15);
+  const cpi=fpx/cell, cpj=fpy/(cell*1.15);
+  const dxm=ci-cpi, dym=cj-cpj;
+  const R=FIELD_RADIUS, R2=R*R;
+  const i0=Math.max(0,(ci-R)|0), i1=Math.min(cols-1,(ci+R)|0);
+  const j0=Math.max(0,(cj-R)|0), j1=Math.min(rows-1,(cj+R)|0);
+  const S=fieldStrength;
+  for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){
+    const k=i+j*cols;
+    const dx=i-ci, dy=j-cj, d2=dx*dx+dy*dy;
+    if(d2>R2) continue;
+    const f=1-Math.sqrt(d2)/R;
+    switch(fieldMode){
+      case 1: vel[k*2]+=dx*f*1.6*S; vel[k*2+1]+=dy*f*1.6*S; break;
+      case 2: vel[k*2]-=dx*f*1.2*S; vel[k*2+1]-=dy*f*1.2*S; break;
+      case 3: vel[k*2]+=dx*f*2.2*S; vel[k*2+1]+=dy*f*2.2*S; break;
+      case 4: if(fdown) F[k]+=Math.sin(Math.sqrt(d2)*2.2-tGlobal*0.012)*f*0.5*S; break;
+      case 5: nap[k]+=(dxm*0.9*S-nap[k])*f*0.5; break;
+      case 6: F[k]-=f*0.16*S; break;
+      case 7: F[k]+=f*0.35*S; break;
+      case 8: if(Math.random()<f*0.5*S) fch[k]=(Math.random()*RAMP.length)|0; break;
+      case 9: if(Math.random()<f*0.35*S) fch[k]=(fch[k]+1)%RAMP.length; break;
+      case 10: F[k]-=f*f*0.30*S; break;
+      case 11: F[k]+=f*f*0.30*S; break;
+      case 12: { const mi=cols-1-i, mk=mi+j*cols; F[k]+=f*0.30*S; F[mk]+=f*0.30*S; break; }
+      case 13: F[k]-=f*0.5*S; break;
+      case 14: F[k]+=f*0.6*S; nap[k]+=f*0.4*S; break;
+    }
+  }
+  if(fieldMode===0 && fdown){
+    if(one.i<0){ one.i=Math.round(ci); one.j=Math.round(cj); }
+    one.dx=ci-one.i; one.dy=cj-one.j;
+  }
+  if(fieldMode===0 && !fdown){ one.dx*=0.86; one.dy*=0.86; }
+}
+function relaxField(dt){
+  for(let k=0;k<F.length;k++){
+    const rate=(fieldMode===5||fieldMode===14) ? 0.004 : 0.035;
+    F[k]+=(base[k]-F[k])*rate;
+    if(fieldMode>=1&&fieldMode<=3){
+      vel[k*2]*=0.90; vel[k*2+1]*=0.90;
+      vel[k*2]+=(0-vel[k*2])*0.06; vel[k*2+1]+=(0-vel[k*2+1])*0.06;
+    }
+    if(fieldMode===7) F[k]+=(base[k]-F[k])*0.06;
+  }
+}
+
+let pairs=[];      // active pairs for this page: {a:{ch,x,y,vx,vy}, b:{...}, met, releaseT}
+let held=null;     // which letter is being dragged
+let t0=0, tGlobal=0;
+let metAt=0;       // when every pair on this page first became "met" — drives auto-advance
+
+/* ---- page-to-page transitions — one named effect per page, doubling
+   as both that page's outro and the next page's intro. Not a plain cut:
+   an assortment (flash, wipe, fade, bloom, ripple, shatter, dissolve,
+   strobe...), roughly escalating with the release grammar each page
+   already carries, so the turn itself keeps building toward NO the same
+   way the releases do. swapAt is where in the transition the actual
+   page-load happens — early for hard cuts, mid-curve for soft fades. */
+// a plain fade to black, holding on black for a beat before the next
+// page fades in — same treatment on every page 35-46, on both manual
+// edge-taps and the auto-advance once a page's pairs are all found
+const TRANSITIONS = [
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 35
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 36
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 37
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 38
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 39
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 40
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 41
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 42
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 43
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 44
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 45
+ {kind:'fadeBlack', dur:2600, swapAt:0.5},  // 46
+];
+let trans=null;   // {kind,dur,swapAt,t0,toIdx,swapped}
+
+function startTransition(dir){
+  if(trans) return;
+  const fromIdx=pageIdx;
+  const toIdx=(pageIdx+dir+PAGES.length)%PAGES.length;
+  const cfgT=TRANSITIONS[fromIdx];
+  trans={kind:cfgT.kind, dur:cfgT.dur, swapAt:cfgT.swapAt, t0:tGlobal, toIdx, swapped:false};
+}
+
+function drawTransition(kind, k){
+  switch(kind){
+    case 'fadeBlack': {
+      // fade out (~19%), hold on black (~58%, ~1.5s of the 2.6s total —
+      // "at least a second or two" before the next page fades in), fade in
+      const outEnd=0.19, holdEnd=0.77;
+      let a;
+      if(k<outEnd) a=k/outEnd;
+      else if(k<holdEnd) a=1;
+      else a=1-(k-holdEnd)/(1-holdEnd);
+      x.fillStyle='rgba(0,0,0,'+a.toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'flash': {
+      const v = k<0.5 ? k/0.5 : 1-(k-0.5)/0.5;
+      x.fillStyle='rgba(255,255,255,'+(v*0.9).toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'irisWipe': {
+      // a black bar sweeps left to right, fully covering mid-transition
+      const bx = -W + k*(W*2);
+      x.fillStyle='#000';
+      x.fillRect(bx-W*0.15, 0, W*1.3, H);
+      break;
+    }
+    case 'fade': {
+      const v = k<0.5 ? k/0.5 : 1-(k-0.5)/0.5;
+      x.fillStyle='rgba(0,0,0,'+v.toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'bloom': {
+      const v = k<0.55 ? k/0.55 : 1-(k-0.55)/0.45;
+      const r = Math.hypot(W,H)*0.6*Math.min(1,k/0.55);
+      x.fillStyle='rgba(255,255,255,'+(v*0.85).toFixed(3)+')';
+      x.beginPath(); x.arc(W/2,H/2,r,0,7); x.fill();
+      break;
+    }
+    case 'ripple': {
+      const v = k<0.5?k/0.5:1-(k-0.5)/0.5;
+      x.strokeStyle='rgba(255,255,255,'+(v*0.8).toFixed(3)+')';
+      x.lineWidth=6;
+      const r = k*Math.hypot(W,H)*0.9;
+      x.beginPath(); x.arc(W/2,H/2,r,0,7); x.stroke();
+      x.fillStyle='rgba(255,255,255,'+(v*0.4).toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'heavyfade': {
+      const v = k<0.5?k/0.5:1-(k-0.5)/0.5;
+      x.fillStyle='rgba(255,220,180,'+(v*0.7).toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'crack': {
+      const v = k<0.5?k/0.5:1-(k-0.5)/0.5;
+      x.strokeStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+      x.lineWidth=2;
+      for(let i=0;i<8;i++){
+        const ang=i/8*Math.PI*2;
+        const len=Math.hypot(W,H)*0.7*k;
+        x.beginPath(); x.moveTo(W/2,H/2);
+        x.lineTo(W/2+Math.cos(ang)*len, H/2+Math.sin(ang)*len);
+        x.stroke();
+      }
+      x.fillStyle='rgba(255,255,255,'+(v*0.5).toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'hardcrack': {
+      const v = k<0.45?k/0.45:1-(k-0.45)/0.55;
+      x.strokeStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+      x.lineWidth=3;
+      for(let i=0;i<12;i++){
+        const ang=i/12*Math.PI*2+0.3;
+        const len=Math.hypot(W,H)*0.8*Math.min(1,k*1.6);
+        x.beginPath(); x.moveTo(W/2,H/2);
+        x.lineTo(W/2+Math.cos(ang)*len, H/2+Math.sin(ang)*len);
+        x.stroke();
+      }
+      x.fillStyle='rgba(255,255,255,'+(v*0.7).toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'doubleflash': {
+      const on = (k<0.16)||(k>0.30&&k<0.46)||(k>0.7&&k<0.86);
+      if(on){ x.fillStyle='#fff'; x.fillRect(0,0,W,H); }
+      break;
+    }
+    case 'crumble': {
+      const v = k<0.6?k/0.6:1-(k-0.6)/0.4;
+      const n=Math.floor(v*300);
+      x.fillStyle='rgba(180,180,180,'+(v*0.9).toFixed(3)+')';
+      for(let i=0;i<n;i++){
+        const seed=i*13.37;
+        const px=(Math.sin(seed)*0.5+0.5)*W;
+        const py=(Math.cos(seed*1.7)*0.5+0.5)*H;
+        x.fillRect(px,py,2,2);
+      }
+      break;
+    }
+    case 'overexpose': {
+      const v = k<0.35?Math.min(1,k/0.35):Math.max(0,1-(k-0.35)/0.65);
+      x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+      x.fillRect(0,0,W,H);
+      break;
+    }
+    case 'strobecut': {
+      const flick=(Math.floor(k*22)%2===0) && k<0.85;
+      if(flick){ x.fillStyle='#fff'; x.fillRect(0,0,W,H); }
+      if(k>=0.85 && k<0.94){ x.fillStyle='#000'; x.fillRect(0,0,W,H); }
+      break;
+    }
+  }
+}
+
+function buildField(){
+  buildFieldArrays();
+  loadPage(pageIdx);
+}
+
+/* ---- pages 36-46: eleven structurally distinct backgrounds -------
+   The fever field engine (displacement/pull/mirror/etc as ONE shared
+   cellular system) stays on page 35 only, per direction: "the fever
+   dream aspect is the whole section, not just the one background."
+   Each of these writes straight into F[] every frame with its OWN
+   generating logic — rings, scanlines, stripes, dust, pulse, cracks,
+   rain, mirror-quadrant, sand-drift, heat-shimmer, chaos-strobe — so
+   the render loop below (unchanged) just draws whatever's in F[]. */
+function clamp01(v){ return v<0?0:v>1?1:v; }
+function touchCell(){ return {ci:fx/cell, cj:fy/(cell*1.15)}; }
+
+function bg36_rings(dt){
+  const {ci,cj}=touchCell();
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    const dx=i-cols*0.5, dy=j-rows*0.5, d=Math.hypot(dx,dy);
+    let v=0.20+0.20*Math.sin(d*0.55 - tGlobal*0.0035);
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj);
+      v+=Math.max(0,0.7-dd*0.045)*Math.max(0,Math.sin(dd*0.5-tGlobal*0.02));
+    }
+    F[k]=clamp01(v);
+  }
+}
+function bg37_scan(dt){
+  const {ci,cj}=touchCell();
+  const band=(tGlobal*0.02)%rows;
+  for(let j=0;j<rows;j++){
+    const rowV=0.14+0.5*Math.max(0,1-Math.abs((j-band+rows)%rows)*0.4);
+    for(let i=0;i<cols;i++){
+      const k=i+j*cols;
+      let v=rowV*(0.6+0.4*Math.sin(i*0.4+tGlobal*0.003));
+      if(fdown && Math.abs(j-cj)<3) v+=0.4*Math.max(0,1-Math.abs(i-ci)/14);
+      F[k]=clamp01(v);
+    }
+  }
+}
+function bg38_stripes(dt){
+  const {ci,cj}=touchCell();
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    let bend=0;
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj);
+      bend=Math.max(0,1-dd/12)*Math.sin(dd*0.4)*6;
+    }
+    const s=(i+j*0.6+bend-tGlobal*0.01)%6;
+    const v=(s>0&&s<3)?0.5:0.10;
+    F[k]=clamp01(v+0.08*Math.sin(j*0.3+tGlobal*0.002));
+  }
+}
+function bg39_dust(dt){
+  const {ci,cj}=touchCell();
+  const flick=Math.floor(tGlobal*0.002);
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    const n=Math.abs(Math.sin(i*12.9898+j*78.233+flick*3.7)*43758.5453)%1;
+    let v=n<0.08?0.55:0.08;
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj);
+      if(dd<10 && n<0.35) v=0.5;
+    }
+    F[k]=clamp01(v);
+  }
+}
+function bg40_pulse(dt){
+  const {ci,cj}=touchCell();
+  const pulse=0.5+0.5*Math.sin(tGlobal*0.0022);
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    const d=Math.hypot(i-cols*0.5,j-rows*0.5)/Math.max(cols,rows);
+    let v=Math.max(0,0.5-d)*pulse*1.2+0.05;
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj)/Math.max(cols,rows);
+      v+=Math.max(0,0.5-dd)*0.6;
+    }
+    F[k]=clamp01(v);
+  }
+}
+let cracks41=[];
+function distToSeg(px,py,x1,y1,x2,y2){
+  const A=px-x1,B=py-y1,C=x2-x1,D=y2-y1;
+  const len2=C*C+D*D||1;
+  const t=Math.max(0,Math.min(1,(A*C+B*D)/len2));
+  return Math.hypot(px-(x1+t*C), py-(y1+t*D));
+}
+function bg41_crack(dt){
+  const {ci,cj}=touchCell();
+  if(fdown && Math.random()<0.3 && cracks41.length<40){
+    cracks41.push({x:ci,y:cj,ang:Math.random()*Math.PI*2,len:0});
+  }
+  for(const c of cracks41) c.len=Math.min(30,c.len+dt*0.02);
+  while(cracks41.length>40) cracks41.shift();
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    let v=0.07;
+    for(const c of cracks41){
+      const ex=c.x+Math.cos(c.ang)*c.len, ey=c.y+Math.sin(c.ang)*c.len;
+      const dd=distToSeg(i,j,c.x,c.y,ex,ey);
+      if(dd<1.2) v=Math.max(v,0.7-dd*0.4);
+    }
+    F[k]=clamp01(v);
+  }
+}
+let rainCols=null;
+function bg42_rain(dt){
+  if(!rainCols){ rainCols=new Float32Array(cols); for(let i=0;i<cols;i++) rainCols[i]=Math.random()*rows; }
+  const {ci}=touchCell();
+  for(let i=0;i<cols;i++){
+    rainCols[i]+=dt*0.006*(1+(fdown && Math.abs(i-ci)<6 ? 1.5:0));
+    if(rainCols[i]>rows+8) rainCols[i]=-Math.random()*10;
+  }
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    const dist=rainCols[i]-j;
+    F[k]=clamp01((dist>0&&dist<8) ? Math.max(0,0.6-dist*0.08) : 0.05);
+  }
+}
+function bg43_mirror(dt){
+  const {ci,cj}=touchCell();
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    F[k]=clamp01(0.10+0.10*Math.sin(i*0.5+j*0.3+tGlobal*0.002));
+  }
+  if(fdown){
+    const R=8;
+    const i0=Math.max(0,(ci-R)|0), i1=Math.min(cols-1,(ci+R)|0);
+    const j0=Math.max(0,(cj-R)|0), j1=Math.min(rows-1,(cj+R)|0);
+    for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){
+      const dd=Math.hypot(i-ci,j-cj);
+      if(dd>R) continue;
+      const f=1-dd/R;
+      const k=i+j*cols, mi=cols-1-i, mk=mi+j*cols;
+      F[k]=clamp01(F[k]+f*0.5); F[mk]=clamp01(F[mk]+f*0.5);
+    }
+  }
+}
+function bg44_sand(dt){
+  const {ci,cj}=touchCell();
+  const flow=tGlobal*0.003;
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    let v=0.10+0.18*Math.sin((i+j*1.3)*0.35-flow*3+Math.sin(j*0.2)*2);
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj);
+      if(dd<12) v+=Math.max(0,0.5-dd*0.045)*Math.sin((j-cj)*0.6-tGlobal*0.01);
+    }
+    F[k]=clamp01(v);
+  }
+}
+function bg45_heat(dt){
+  const {ci,cj}=touchCell();
+  for(let j=0;j<rows;j++){
+    const shift=Math.sin(j*0.25+tGlobal*0.004)*3;
+    for(let i=0;i<cols;i++){
+      const k=i+j*cols;
+      let v=0.13+0.25*Math.sin((i+shift)*0.3+tGlobal*0.006);
+      if(fdown){
+        const dd=Math.hypot(i-ci,j-cj);
+        if(dd<10) v+=Math.max(0,0.6-dd*0.06);
+      }
+      F[k]=clamp01(v);
+    }
+  }
+}
+function bg46_chaos(dt){
+  const {ci,cj}=touchCell();
+  const churn=Math.floor(tGlobal*0.02);
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const k=i+j*cols;
+    const n=Math.abs(Math.sin(i*12.9898+j*78.233+churn*3.7)*43758.5453)%1;
+    let v=0.14+0.35*n;
+    if(fdown){
+      const dd=Math.hypot(i-ci,j-cj);
+      if(dd<16 && Math.random()<0.4) v=Math.random();
+    }
+    F[k]=clamp01(v);
+  }
+}
+const BG_FUNCS=[bg36_rings,bg37_scan,bg38_stripes,bg39_dust,bg40_pulse,
+                bg41_crack,bg42_rain,bg43_mirror,bg44_sand,bg45_heat,bg46_chaos];
+function computeFieldFrame(dt){
+  if(pageIdx===0){ applyField(dt); relaxField(dt); return; }
+  const fn=BG_FUNCS[pageIdx-1];
+  if(fn) fn(dt);
+}
+
+function loadPage(i){
+  const cfg=PAGES[i];
+  pairs = cfg.pairs.map(pd=>{
+    const [cons,vow]=pd.letters;
+    // scatter the two letters apart, roughly on opposite thirds of the frame
+    const ang = Math.random()*Math.PI*2;
+    const r = Math.min(W,H)*0.28;
+    const cx=W/2+Math.cos(ang)*r, cy=H/2+Math.sin(ang)*r;
+    const vx=W/2-Math.cos(ang)*r, vy=H/2-Math.sin(ang)*r;
+    return {
+      a:{ch:cons, x:cx, y:cy, vx:0, vy:0, px:cx, py:cy, isVowel:false},
+      b:{ch:vow,  x:vx, y:vy, vx:0, vy:0, px:vx, py:vy, isVowel:true},
+      met:false, releaseT:0,
+      erode:0, heat:0, napx:0, napy:0, bleed:0,
+      gesture: pd.gesture
+    };
+  });
+  held=null;
+  metAt=0;   // reset the "all pairs found" clock for the new page
+  // the whole-field mode is THIS page's own gesture — one mode, the
+  // entire background, not an ambient idle shared by all twelve pages.
+  // Strength climbs page to page: quiet at 35, MAXIMUM by 46.
+  // the shared fever field engine now belongs to page 35 alone — the
+  // rest each run their own distinct background (see BG_FUNCS above)
+  if(i===0){
+    fieldMode = GESTURE_TO_MODE[cfg.pairs[0].gesture] ?? 0;
+    fieldStrength = 3.2;
+  } else {
+    fieldMode = -1;
+  }
+  resetFieldArrays();
+}
+
+/* ---- input: drag whichever letter is nearest the touch ----------- */
+let dragging=null; // {pair, which}
+function nearestLetter(px,py){
+  let best=null, bd=Infinity;
+  for(const pr of pairs){
+    if(pr.met) continue;
+    for(const key of ['a','b']){
+      const L=pr[key];
+      const d=Math.hypot(L.x-px, L.y-py);
+      if(d<bd){ bd=d; best={pair:pr, which:key}; }
+    }
+  }
+  return bd<cell*3.2 ? best : null;
+}
+function onDown(e){
+  if(trans) return;   // a transition is already running — ignore taps
+  const t=e.changedTouches?e.changedTouches[0]:e;
+  const nx=t.clientX, ny=t.clientY;
+  // forward page-turn requires the page's letters to actually have been
+  // found first — an edge tap on a still-unsolved page is just a tap,
+  // not a skip. Back-tap stays free since that page is already solved.
+  if(nx>W*0.66){ if(pairs.every(pr=>pr.met)) startTransition(1); return; }
+  if(nx<W*0.34){ startTransition(-1); return; }
+  dragging=nearestLetter(nx,ny);
+  // the field reacts to touch ANYWHERE in the middle third, not just
+  // near the two target letters — that's what makes the whole
+  // background actually move, not only the letters sitting on it
+  fdown=true; fx=fpx=nx; fy=fpy=ny;
+}
+function onMove(e){
+  const t=e.changedTouches?e.changedTouches[0]:e;
+  const nx=t.clientX, ny=t.clientY;
+  if(fdown){ fpx=fx; fpy=fy; fx=nx; fy=ny; }
+  if(!dragging) return;
+  const L=dragging.pair[dragging.which];
+  L.tx=nx; L.ty=ny; L.dragged=true;
+}
+function onUp(){ dragging=null; fdown=false; }
+addEventListener('touchstart', onDown, {passive:true});
+addEventListener('touchmove', onMove, {passive:true});
+addEventListener('touchend', onUp, {passive:true});
+addEventListener('mousedown', onDown);
+addEventListener('mousemove', e=>{ if(dragging) onMove(e); });
+addEventListener('mouseup', onUp);
+
+/* ---- gesture physics: real per-effect physics, ported from
+   effects-demo.html's own formulas rather than approximated — each of
+   the twelve gestures now actually does what its name promises instead
+   of falling back to plain dragging. vx/vy are real velocity, damped
+   each frame below; STRENGTH constants match effects-demo's own. ------ */
+function applyGesture(pr, dt, gesture, cfgIdx){
+  for(const key of ['a','b']){
+    const L=pr[key];
+    const o=pr[key==='a'?'b':'a'];
+    const dragged = L.dragged && dragging && dragging.pair===pr && dragging.which===key;
+    // "held" is true from the instant of touchdown, even before any
+    // movement — heat/press need this (a still hold should still heat
+    // up), unlike nap/ripple/displace/erode which genuinely need L.tx
+    // to exist from an actual move
+    const held = dragging && dragging.pair===pr && dragging.which===key;
+
+    if(dragged){
+      // eased toward the finger — feel varies by gesture
+      const k = gesture==='press' ? 0.010 : gesture==='repel' ? 0.020 : 0.045;
+      L.x += (L.tx-L.x)*Math.min(1,k*dt);
+      L.y += (L.ty-L.y)*Math.min(1,k*dt);
+    }
+
+    if(gesture==='pull'){
+      // effects-demo case 2, magnetic pull, strength-matched: the OTHER
+      // letter is drawn toward wherever the dragged one currently is
+      if(!dragged){
+        const d=Math.hypot(o.x-L.x,o.y-L.y)||1;
+        L.vx += (o.x-L.x)/d*1.2*0.02*dt;
+        L.vy += (o.y-L.y)/d*1.2*0.02*dt;
+      }
+    } else if(gesture==='repel'){
+      // effects-demo case 3, magnetic repel, stronger than pull
+      const d=Math.hypot(o.x-L.x,o.y-L.y)||1;
+      if(d<cell*8){
+        L.vx -= (o.x-L.x)/d*2.2*0.02*dt;
+        L.vy -= (o.y-L.y)/d*2.2*0.02*dt;
+      }
+    } else if(gesture==='destab'){
+      L.x += Math.sin(tGlobal*0.004+L.x*0.01)*0.4;
+      L.y += Math.cos(tGlobal*0.0037+L.y*0.01)*0.4;
+    } else if(gesture==='nap' && dragged){
+      // effects-demo case 5, carpet nap: direction of the drag is
+      // remembered and the letter is carried ALONG that memory rather
+      // than snapping straight to the finger — brush a path, don't drag
+      const dxm=(L.tx-L.px)||0, dym=(L.ty-L.py)||0;
+      pr.napx += (dxm*0.9-pr.napx)*0.15; pr.napy += (dym*0.9-pr.napy)*0.15;
+      L.x += pr.napx*0.4; L.y += pr.napy*0.4;
+    } else if(gesture==='ripple' && dragged){
+      // effects-demo case 4, ripple: a wave leaves the finger and
+      // nudges the OTHER letter if it's within range — the pair has to
+      // be actively re-corrected, not just carried
+      const d=Math.hypot(o.x-L.x,o.y-L.y)||1;
+      if(d<cell*10){
+        const wave=Math.sin(d*0.08-tGlobal*0.012)*0.5;
+        o.vx += (o.x-L.x)/d*wave*0.35; o.vy += (o.y-L.y)/d*wave*0.35;
+      }
+    } else if(gesture==='press' && held){
+      // effects-demo case 6, press/weight: real gravity while held —
+      // it settles toward whatever's below, not just tracked slowly.
+      // Held, not dragged: weight applies from the instant of touch,
+      // it doesn't need to have already moved.
+      L.vy += 0.012*dt;
+    } else if(gesture==='displace' && dragged){
+      // effects-demo case 1, displacement: approaching the other letter
+      // physically pushes it aside, springs back via the damping below
+      const d=Math.hypot(o.x-L.x,o.y-L.y)||1;
+      if(d<cell*6){
+        const f=1-d/(cell*6);
+        o.vx += (o.x-L.x)/d*f*1.6*0.05; o.vy += (o.y-L.y)/d*f*1.6*0.05;
+      }
+    } else if(gesture==='erode' && dragged){
+      // effects-demo case 13, erosion: repeated dragging wears down the
+      // distance required for contact — the barrier between them thins
+      const speed=Math.hypot(L.x-L.px,L.y-L.py);
+      pr.erode=Math.min(1, pr.erode + speed*0.0015);
+    } else if(gesture==='heat'){
+      // effects-demo case 11, heat: holding lifts and keeps lifting —
+      // here that heat softens the two letters toward each other. Held,
+      // not dragged: a still finger should still build heat — that's
+      // the whole point of press-and-hold, not press-and-drag.
+      if(held) pr.heat=Math.min(1, pr.heat + 1*1*0.30*(dt/1000)*4);
+      else pr.heat=Math.max(0, pr.heat - (dt/1000)*0.15);
+      if(pr.heat>0){
+        const d=Math.hypot(o.x-L.x,o.y-L.y)||1;
+        L.vx += (o.x-L.x)/d*pr.heat*0.05; L.vy += (o.y-L.y)/d*pr.heat*0.05;
+      }
+    } else if(gesture==='flip'){
+      // effects-demo case 9, flip tile: "steps through the set like a
+      // split-flap" — the letter itself hasn't decided what it is yet
+      // while it's moving, flickering through the field's own RAMP
+      // glyphs, faster the harder it's dragged, always resolving back
+      // to its true letter the instant it's released or held still
+      if(dragged){
+        const speed=Math.hypot(L.x-L.px,L.y-L.py);
+        L.flipping = Math.random() < Math.min(0.9,0.15+speed*0.03);
+      } else { L.flipping=false; }
+    } else if(gesture==='bleed'){
+      // effects-demo case 10, ink bleed: darkness spreads outward and
+      // KEEPS spreading while held, unlike heat's brightness — this
+      // pools rather than glows, and drains slowly once let go rather
+      // than snapping back
+      if(held) pr.bleed=Math.min(1, pr.bleed + (dt/1000)*0.5);
+      else pr.bleed=Math.max(0, pr.bleed - (dt/1000)*0.12);
+    } else if(gesture==='peel' && dragged){
+      // effects-demo case 14, peel: "lifts an edge, revealing what is
+      // under" — reuses the trail's lit-path idea but decays at case
+      // 14's own much slower rate (0.004 vs trail's 0.06 in
+      // effects-demo), so the peeled-back path stays lit far longer
+      pr.trail = pr.trail||[];
+      pr.trail.push({x:L.x, y:L.y, a:1});
+      if(pr.trail.length>90) pr.trail.shift();
+      for(const s of pr.trail) s.a*=0.985;
+    }
+    L.px=L.x; L.py=L.y;   // remember for next frame's nap/erode deltas
+  }
+
+  // velocity integration + damping — real motion for the impulse-based
+  // gestures above (pull/repel/ripple/displace/heat/press), inert
+  // (0,0) and free for everything else
+  for(const key of ['a','b']){
+    const L=pr[key];
+    L.x += L.vx*dt; L.y += L.vy*dt;
+    L.vx *= 0.90; L.vy *= 0.90;
+  }
+
+  if(gesture==='trail'){
+    pr.trail = pr.trail||[];
+    pr.trail.push({x:pr.a.dragged?pr.a.x:pr.b.x, y:pr.a.dragged?pr.a.y:pr.b.y, a:1});
+    if(pr.trail.length>40) pr.trail.shift();
+    for(const s of pr.trail) s.a*=0.94;
+  }
+}
+
+/* ---- contact + release -------------------------------------------
+   Reserve the actual outward burst for NO alone. These twelve pages get
+   its quieter relatives instead, escalating roughly quiet -> loud, so
+   NO still reads as new when it finally arrives. */
+function checkContact(pr, gesture){
+  if(pr.met) return;
+  // erosion widens the contact radius as the barrier wears down —
+  // meeting gets easier the more you've worked at it, not a fixed target
+  const radius = gesture==='erode' ? cell*(1.3+pr.erode*2.4) : cell*1.3;
+  const d=Math.hypot(pr.a.x-pr.b.x, pr.a.y-pr.b.y);
+  if(d < radius){
+    pr.met=true; pr.releaseT=tGlobal;
+    if(navigator.vibrate) navigator.vibrate(pr.releaseHaptic||20);
+  }
+}
+
+function drawRelease(pr, release, age){
+  const mx=(pr.a.x+pr.b.x)/2, my=(pr.a.y+pr.b.y)/2;
+  switch(release){
+    case 'click': /* nothing visual at all — the haptic alone is the answer */ break;
+    case 'collapse': {
+      const k=Math.max(0,1-age/500);
+      x.fillStyle='rgba(255,255,255,'+(0.5*k).toFixed(3)+')';
+      x.beginPath(); x.arc(mx,my,cell*1.4*k,0,7); x.fill();
+      break;
+    }
+    case 'glow': case 'heavyglow': {
+      const dur = release==='heavyglow'?1100:700;
+      const k=Math.max(0,1-age/dur);
+      x.fillStyle='rgba(255,220,180,'+(0.55*k).toFixed(3)+')';
+      x.beginPath(); x.arc(mx,my,cell*(1.6+1.2*(1-k)),0,7); x.fill();
+      break;
+    }
+    case 'bloom': {
+      const k=Math.max(0,1-age/900);
+      x.fillStyle='rgba(255,255,255,'+(0.35*k).toFixed(3)+')';
+      x.beginPath(); x.arc(mx,my,cell*(1+2.2*(1-k)),0,7); x.fill();
+      break;
+    }
+    case 'shock': {
+      const k=Math.max(0,1-age/650);
+      x.strokeStyle='rgba(255,255,255,'+(0.6*k).toFixed(3)+')';
+      x.lineWidth=2;
+      x.beginPath(); x.arc(mx,my,cell*8*(1-k)+cell*2,0,7); x.stroke();
+      break;
+    }
+    case 'crack': case 'hardcrack': {
+      const n = release==='hardcrack'?9:6;
+      const k=Math.max(0,1-age/500);
+      x.strokeStyle='rgba(255,255,255,'+(0.75*k).toFixed(3)+')';
+      x.lineWidth=1.5;
+      for(let i=0;i<n;i++){
+        const ang=i/n*Math.PI*2 + (release==='hardcrack'?0.3:0);
+        const len=cell*(release==='hardcrack'?5:3.5);
+        x.beginPath(); x.moveTo(mx,my);
+        x.lineTo(mx+Math.cos(ang)*len, my+Math.sin(ang)*len); x.stroke();
+      }
+      if(release==='hardcrack' && age<40){
+        x.fillStyle='#fff'; x.beginPath(); x.arc(mx,my,cell*1.1,0,7); x.fill();
+      }
+      break;
+    }
+    case 'double': {
+      const on = (age<80) || (age>150 && age<230);
+      if(on){ x.fillStyle='#fff'; x.beginPath(); x.arc(mx,my,cell*1.3,0,7); x.fill(); }
+      break;
+    }
+    case 'crumble': {
+      const k=Math.min(1,age/900);
+      x.fillStyle='rgba(160,160,160,'+((1-k)*0.5).toFixed(3)+')';
+      for(let i=0;i<14;i++){
+        const ang=(i/14)*Math.PI*2, r=cell*1.5*k;
+        x.fillRect(mx+Math.cos(ang)*r-1, my+Math.sin(ang)*r*0.6-1, 2,2);
+      }
+      break;
+    }
+    case 'overexpose': {
+      const k=Math.max(0,1-age/220);
+      x.fillStyle='rgba(255,255,255,'+k.toFixed(3)+')';
+      x.font=(cell*2)+'px "IV-dot",ui-monospace,monospace'; x.textAlign='center'; x.textBaseline='middle';
+      x.fillText(pr.a.ch, mx-cell*0.7, my);
+      x.fillText(pr.b.ch, mx+cell*0.7, my);
+      break;
+    }
+    case 'strobe': {
+      const flick = (Math.floor(age/45)%2===0) && age<420;
+      if(flick){ x.fillStyle='#fff'; x.fillRect(0,0,W,H); }
+      if(age>=420){
+        x.fillStyle='#000'; x.fillRect(0,0,W,H);
+      }
+      break;
+    }
+  }
+}
+
+/* ---- gradient layers — depth on top of each page's flat ascii field.
+   Three soft layers, all composited AFTER the character grid so the
+   glyphs stay legible underneath: a vignette that pulls focus toward
+   center, a slow-drifting tint-colored glow (additive, so it lifts
+   rather than flattens), and a top/bottom atmosphere wash. All three
+   deepen page to page — barely-there at 35, heaviest by 46, tracking
+   the same climb the field strength and releases already make. ------ */
+function drawGradientLayers(cfg, i){
+  const [tr,tg,tb]=cfg.tint;
+  const growth = i/(PAGES.length-1);   // 0 at 35 → 1 at 46
+
+  const vg=x.createRadialGradient(W/2,H/2,Math.min(W,H)*0.12, W/2,H/2,Math.max(W,H)*0.72);
+  vg.addColorStop(0,'rgba(0,0,0,0)');
+  vg.addColorStop(1,'rgba(0,0,0,'+(0.30+0.28*growth).toFixed(3)+')');
+  x.fillStyle=vg; x.fillRect(0,0,W,H);
+
+  const gx=W*0.5+Math.sin(tGlobal*0.00025+i)*W*0.26;
+  const gy=H*0.42+Math.cos(tGlobal*0.00021+i*1.7)*H*0.22;
+  const gg=x.createRadialGradient(gx,gy,0, gx,gy,Math.max(W,H)*0.5);
+  gg.addColorStop(0,'rgba('+tr+','+tg+','+tb+','+(0.09+0.16*growth).toFixed(3)+')');
+  gg.addColorStop(1,'rgba('+tr+','+tg+','+tb+',0)');
+  const prevOp=x.globalCompositeOperation;
+  x.globalCompositeOperation='lighter';
+  x.fillStyle=gg; x.fillRect(0,0,W,H);
+  x.globalCompositeOperation=prevOp;
+
+  const at=x.createLinearGradient(0,0,0,H);
+  at.addColorStop(0,'rgba(0,0,0,'+(0.10+0.24*growth).toFixed(3)+')');
+  at.addColorStop(0.42,'rgba(0,0,0,0)');
+  at.addColorStop(1,'rgba(0,0,0,'+(0.14+0.22*growth).toFixed(3)+')');
+  x.fillStyle=at; x.fillRect(0,0,W,H);
+}
+
+/* ---- draw ---------------------------------------------------------- */
+function draw(t){
+  requestAnimationFrame(draw);
+  if(!t0) t0=t;
+  const dt=Math.min(48,t-t0); t0=t; tGlobal=t;
+
+  x.clearRect(0,0,W,H);
+  x.font=cell+'px "IV-dot",ui-monospace,monospace';
+  x.textBaseline='middle'; x.textAlign='center';
+
+  const cfg=PAGES[pageIdx];
+  const [tr,tg,tb]=cfg.tint;
+
+  // the whole-field engine, ported wholesale from effects-demo.html:
+  // this page's OWN mode (its gesture's number) drives every cell on
+  // screen, not just the ambient shimmer from before — displacement
+  // genuinely displaces the field, bleed genuinely darkens it outward,
+  // mirror genuinely doubles it. Touch anywhere to feel it, not just
+  // near the two target letters.
+  computeFieldFrame(dt);
+  for(let j=0;j<rows;j++){
+    for(let i=0;i<cols;i++){
+      const k=i+j*cols;
+      let v=F[k];
+      if(fieldMode===5) v = Math.max(0,Math.min(1, base[k] + nap[k]*0.55*fieldStrength));
+      let X=i*cell, Y=j*cell*1.15;
+      if(fieldMode>=1&&fieldMode<=3){ X+=vel[k*2]*cell*0.30; Y+=vel[k*2+1]*cell*0.30; }
+      if(fieldMode===0 && i===one.i && j===one.j){ X+=one.dx*cell; Y+=one.dy*cell*1.15; }
+      if(v<0.02) continue;
+      const fq=Math.max(0,Math.min(1,v))*(RAMP.length-1);
+      const gi=Math.min(RAMP.length-1,Math.floor(fq));
+      let a=(0.34+0.66*(fq-gi));
+      let g=RAMP[gi];
+      if(fieldMode===8||fieldMode===9) g=RAMP[fch[k]%RAMP.length];
+      if(fieldMode===0 && i===one.i && j===one.j) a=1;
+      x.fillStyle='rgba('+tr+','+tg+','+tb+','+Math.min(1,a*(0.35+0.65*v)).toFixed(3)+')';
+      x.fillText(g,X,Y);
+    }
+  }
+  drawGradientLayers(cfg, pageIdx);
+
+  let allMet=true;
+  for(const pr of pairs){
+    const gesture=pr.gesture;
+    if(!pr.met){
+      allMet=false;
+      applyGesture(pr, dt, gesture, pageIdx);
+      checkContact(pr, gesture);
+      if((gesture==='trail'||gesture==='peel') && pr.trail) for(const s of pr.trail){
+        x.fillStyle='rgba(255,255,255,'+(0.3*s.a).toFixed(3)+')';
+        x.fillText('.', s.x, s.y);
+      }
+      if(gesture==='mirror'){
+        // effects-demo case 12: the far side answers. Each letter gets a
+        // faint reflection across the vertical center — the pair still
+        // meets normally, but the mirror makes contact feel uncanny
+        // rather than purely direct, per the page's own design note.
+        x.font=(cell*2.1)+'px "IV-dot",ui-monospace,monospace';
+        x.fillStyle='rgba(255,255,255,0.22)';
+        x.fillText(pr.a.ch, W-pr.a.x, pr.a.y);
+        x.fillText(pr.b.ch, W-pr.b.x, pr.b.y);
+      }
+      if(gesture==='erode' && pr.erode>0){
+        // visible grain where the barrier is wearing down — the crumble
+        // release isn't the first sign of erosion, this is
+        const mx=(pr.a.x+pr.b.x)/2, my=(pr.a.y+pr.b.y)/2;
+        x.fillStyle='rgba(200,200,200,'+(pr.erode*0.5).toFixed(3)+')';
+        const n=Math.floor(pr.erode*10);
+        for(let i=0;i<n;i++){
+          const ang=(i/10)*Math.PI*2+tGlobal*0.0008, r=cell*(1+pr.erode*1.5);
+          x.fillRect(mx+Math.cos(ang)*r-1, my+Math.sin(ang)*r*0.6-1, 2,2);
+        }
+      }
+      if(gesture==='bleed' && pr.bleed>0){
+        // local ink pool for the pair itself — the whole-field mode
+        // this page runs belongs to its FIRST pair; this second pair's
+        // bleed still needs its own visible answer to holding it
+        const mx=(pr.a.x+pr.b.x)/2, my=(pr.a.y+pr.b.y)/2;
+        x.fillStyle='rgba(0,0,0,'+(pr.bleed*0.55).toFixed(3)+')';
+        x.beginPath(); x.arc(mx,my,cell*(2.5+pr.bleed*5),0,7); x.fill();
+      }
+      x.font=(cell*2.1)+'px "IV-dot",ui-monospace,monospace';   // bigger than the field, on purpose
+      for(const key of ['a','b']){
+        const L=pr[key];
+        // still on its own clock, but a shallow one — never dims enough to
+        // get lost in the field the way the clutter is allowed to
+        const v = 0.78 + 0.22*Math.sin(tGlobal/(900+ (key==='a'?0:130)) + (key==='a'?0:1.7));
+        x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+        x.shadowColor='rgba(0,0,0,0.9)'; x.shadowBlur=cell*0.9;
+        // flip tile: the glyph itself hasn't settled while it's flickering
+        const dispCh = (gesture==='flip' && L.flipping) ? RAMP[(Math.random()*RAMP.length)|0] : L.ch;
+        x.fillText(dispCh, L.x, L.y);
+        x.shadowBlur=0;
+      }
+      x.font=cell+'px "IV-dot",ui-monospace,monospace';
+    } else {
+      const age = tGlobal-pr.releaseT;
+      if(age < 1400) drawRelease(pr, cfg.release, age);
+    }
+  }
+
+  // once every pair on the page is found, the page turns itself — no
+  // tap needed. Give the release its own beat first (1400ms is the same
+  // window drawRelease honors above) before the outro starts.
+  if(allMet){
+    if(!metAt) metAt=tGlobal;
+    if(!trans && tGlobal-metAt>1400) startTransition(1);
+  } else {
+    metAt=0;
+  }
+
+  // the transition overlay — drawn last, on top of whichever page (old
+  // until swapAt, new after) is currently rendering above
+  if(trans){
+    const age=tGlobal-trans.t0;
+    const k=Math.min(1, age/trans.dur);
+    if(!trans.swapped && k>=trans.swapAt){
+      pageIdx=trans.toIdx; loadPage(pageIdx); trans.swapped=true;
+    }
+    drawTransition(trans.kind, k);
+    if(k>=1) trans=null;
+  }
+
+  hud.textContent = 'p'+cfg.p+'  '+cfg.pairs.map(p=>p.letters.join('+')+':'+p.gesture).join(', ')+
+    ' / '+cfg.release+
+    (allMet ? '   — met'+(trans?'   turning…':'') : '');
+}
+size();
+// canvas text can silently fall back to a system font if fillText runs
+// before the @font-face has actually finished loading — and on some
+// mobile browsers it never self-corrects once it's picked a fallback.
+// Force the load and hold the first frame until it resolves.
+let started=false;
+function start(){ if(started) return; started=true; requestAnimationFrame(draw); }
+if(document.fonts && document.fonts.load){
+  document.fonts.load('16px "IV-dot"').catch(()=>{});
+  document.fonts.ready.then(start).catch(start);
+  setTimeout(start, 600);   // safety: don't hang forever if 'ready' never fires
+} else start();
+</script>
+</body>
+</html>

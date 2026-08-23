@@ -1,6 +1,7 @@
 /* Cache the whole book on first visit so it runs with no network at all.
-   Bump CACHE when the build changes — old caches are dropped on activate. */
-const CACHE = 'invoice-b7';
+   CACHE must be bumped on every published build or installed phones keep
+   serving the old one. */
+const CACHE = 'invoice-b16';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-1024.png'
@@ -17,17 +18,13 @@ self.addEventListener('activate', e => {
   ).then(() => self.clients.claim()));
 });
 
-/* Network first, so a new build is picked up as soon as it is published;
-   cache is the fallback when offline. */
+/* Network first, so a new build is picked up as soon as it is published. */
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
     fetch(e.request)
-      .then(r => {
-        const copy = r.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(()=>{});
-        return r;
-      })
+      .then(r => { const c=r.clone();
+        caches.open(CACHE).then(k=>k.put(e.request,c)).catch(()=>{}); return r; })
       .catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
   );
 });

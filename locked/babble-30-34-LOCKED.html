@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>babble</title>
+<style id='dotfont'>@font-face{font-family:'IV-dot';src:url(data:font/woff2;base64,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) format('woff2');font-display:block;}</style>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    touch-action:none;font-family:'IV-dot',ui-monospace,monospace}
+  canvas{position:fixed;inset:0;display:block}
+  #hud{position:fixed;left:2vmin;top:1.5vmin;color:#fff;opacity:.35;
+    font-size:1.8vmin;letter-spacing:.1em;pointer-events:none;white-space:pre}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud"></div>
+<script>
+/* ============================================================
+   The collapsed syllable page — restructured 2026-08-20.
+
+   30-34 used to be five separate pages, one per syllable. Now the
+   section is: 30 = fever field, nonsense pair (see fever-babble-demo).
+   31 = fever field, BA found — the first real babble syllable
+   discovered inside that same weather. This file is what comes after
+   both of those: the REMAINING syllables — MA, DA, GA, UH — shown on
+   a single page, one call after another, rather than one page each.
+   Per bill: "32-35 would be one page but the section will be done."
+
+   Order: MA, DA, GA, UH — UH last on purpose (per bill, 2026-08-20).
+   Originally UH opened the section as the vowel-alone coo before any
+   consonant existed; now that BA has already been found on its own
+   page, UH closes this page instead — the section ends on the sound
+   that survives into adult speech, not the developmental placeholder.
+
+   Same call grammar as the earlier build, fired once per syllable:
+   HEAT to trigger it, then an eased approach toward the camera (NO's
+   own "approaches rather than appears" technique). For MA/DA/GA the
+   two letters also split apart and sweep off opposite edges as they
+   grow, field sweeping outward under them — the reverse of NO's own
+   field, which closes inward on the crate. UH breaks that pattern on
+   purpose: it grows and lands whole, static, rather than splitting and
+   leaving the frame — the section doesn't end by vanishing, it ends by
+   settling. Each call hands off straight to the next syllable; once UH
+   settles, the section itself is over.
+
+   Uppercase throughout — the embedded font here only has caps, digits,
+   and punctuation (it was subset for the title screen's IN/VOICE years
+   ago and never needed more). Per bill: uppercase is fine for all the
+   letters, so this sidesteps rebuilding that font entirely.
+
+   Tap-and-hold to call the current syllable. Not wired into the app;
+   proving ground only.
+   ============================================================ */
+const cv=document.getElementById('c'), x=cv.getContext('2d');
+const hud=document.getElementById('hud');
+let W=0,H=0,cell=0,cols=0,rows=0;
+let field=[];   // {i,j,ch} — sparse, quiet at rest; sweeps outward on the call
+
+function VW(){ return (window.visualViewport?window.visualViewport.width:innerWidth); }
+function VH(){ return (window.visualViewport?window.visualViewport.height:innerHeight); }
+function size(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=VW(); H=VH();
+  cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+  cv.style.width=W+'px'; cv.style.height=H+'px';
+  x.setTransform(dpr,0,0,dpr,0,0);
+  cell=Math.max(11,Math.round(Math.min(W,H)/34));
+  cols=Math.ceil(W/cell)+1; rows=Math.ceil(H/(cell*1.15))+1;
+  field=[];
+  for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
+    field.push({i,j, ch:'.', phase:Math.random()*Math.PI*2, period:1400+Math.random()*1800});
+  }
+}
+addEventListener('resize', size); size();
+
+/* ---- one page, four syllables called in sequence — UH last -------- */
+const PAGE_NUM = 32;   // this whole file is a single page in the book
+const SYLLS = ['MA','DA','GA','UH'];
+let syllIdx=0;
+let sectionDone=false;   // true once UH has resolved
+
+/* ---- the call: HEAT to trigger it, then an eased approach toward the
+   camera (NO's own grammar) once it's hot enough. Press and hold — a
+   tap alone does nothing, the same way effects-demo's own HEAT needs a
+   held touch, not a tap, to lift brightness. Let go too soon and it
+   just cools back down; nothing was owed for trying.
+   State machine: idle -> heating -> approaching -> done ------------- */
+let state='idle';     // idle | heating | approaching
+let heat=0;             // 0..1, effects-demo's own HEAT math: f*f*0.30*STRENGTH per frame held
+let callT=0;             // time the approach started
+const DUR=1100;           // ms — how long each syllable's call takes
+const HEAT_STRENGTH=0.30; // same constant effects-demo's case 11 uses
+const HEAT_THRESHOLD=1.0; // heat needed before it fires
+
+function easeIn(t){ return t*t*t; }   // slow start, accelerating hard at the end
+
+let holding=false;
+function onDown(e){ if(sectionDone) return; holding=true; if(state==='idle') state='heating'; }
+function onUp(e){ holding=false; }
+addEventListener('touchstart', onDown, {passive:true});
+addEventListener('touchend', onUp, {passive:true});
+addEventListener('mousedown', onDown);
+addEventListener('mouseup', onUp);
+
+/* ---- draw ------------------------------------------------------------ */
+let t0=0, tGlobal=0;
+function draw(t){
+  requestAnimationFrame(draw);
+  if(!t0) t0=t;
+  tGlobal=t; t0=t;
+
+  x.clearRect(0,0,W,H);
+  const syll = SYLLS[syllIdx];
+  x.textAlign='center'; x.textBaseline='middle';
+
+  // the field: faint and still at rest — present, not empty, so the
+  // sweep on release reads as something being let go, not conjured from
+  // nothing. Sweeps outward from center on the call, the reverse of
+  // NO's own field closing inward on the crate at 47-48. MA/DA/GA all
+  // sweep the field this way; UH stays static, so its field stays
+  // quiet too, matching the letters that don't leave either.
+  {
+    const sweeping = state==='approaching' && syll!=='UH';
+    const k = sweeping ? Math.min(1,(tGlobal-callT)/DUR) : 0;
+    const e = easeIn(k);
+    const maxDist = Math.hypot(W,H)*0.75;
+    x.font=cell+'px "IV-dot",ui-monospace,monospace';
+    for(const c of field){
+      const bx=c.i*cell, by=c.j*cell*1.15;
+      let px=bx, py=by, v;
+      if(sweeping){
+        const dx=bx-W/2, dy=by-H/2;
+        const dist=Math.hypot(dx,dy)||1;
+        const dirx=dx/dist, diry=dy/dist;
+        const travel=e*maxDist*1.4;
+        px=W/2+dirx*(dist+travel); py=H/2+diry*(dist+travel);
+        v=Math.max(0,0.5*(1-k*0.4));
+      } else {
+        v=0.02+0.02*Math.sin(tGlobal/c.period+c.phase);
+      }
+      if(v<0.015) continue;
+      x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+      x.fillText(c.ch, px, py);
+    }
+  }
+
+  if(sectionDone){
+    // UH has resolved — the section is over. Nothing left to call here;
+    // hold a quiet, settled state rather than looping back to MA, so
+    // the page reads as finished, not stuck.
+    const v=0.30+0.05*Math.sin(tGlobal/3200);
+    x.font='6vmin "IV-dot",ui-monospace,monospace';
+    x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+    x.fillText(SYLLS[SYLLS.length-1], W/2, H/2);
+  } else if(state==='idle'){
+    // resting: small, still, waiting to be called — not a spectacle,
+    // just present, the way a sound waits before it's spoken
+    const v=0.5+0.08*Math.sin(tGlobal/2600);
+    x.font='7vmin "IV-dot",ui-monospace,monospace';
+    x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';
+    x.fillText(syll, W/2, H/2);
+  } else if(state==='heating'){
+    // effects-demo's own HEAT case: f*f*STRENGTH per frame while held,
+    // f here is just 1 (full falloff — the whole glyph is "under the
+    // finger" at once, there's no field of cells to fall off across)
+    if(holding){ heat=Math.min(1.4, heat + 1*1*HEAT_STRENGTH*(1/60)*4); }
+    else{ heat=Math.max(0, heat - (1/60)*1.6); }   // let go: cools, doesn't just reset
+
+    if(heat>=HEAT_THRESHOLD){
+      state='approaching'; callT=tGlobal; heat=0;
+      if(navigator.vibrate) navigator.vibrate(14);
+    } else if(heat<=0 && !holding){
+      state='idle';
+    }
+
+    const v=0.5+heat*0.5;                 // brightens as it heats
+    const grow=1+heat*0.35;               // swells slightly, real feedback
+    x.font=(7*grow).toFixed(1)+'vmin "IV-dot",ui-monospace,monospace';
+    const px2=(7*grow)*Math.min(W,H)/100;
+    x.font=px2.toFixed(1)+'px "IV-dot",ui-monospace,monospace';
+    x.fillStyle='rgba(255,255,255,'+Math.min(1,v).toFixed(3)+')';
+    x.fillText(syll, W/2, H/2);
+  } else if(syll==='UH'){
+    // UH breaks the pattern on purpose: MA/DA/GA all sweep apart and
+    // off — UH is the one that goes static instead. It grows toward
+    // the camera same as the others, but stays whole and lands, rather
+    // than splitting and leaving the frame — the section doesn't end
+    // by vanishing, it ends by settling.
+    const age=tGlobal-callT;
+    const k=Math.min(1,age/DUR);
+    const e=easeIn(k);
+    const size=7 + e*22;           // grows to a held, on-screen size — capped, not screen-filling
+    const px=size*Math.min(W,H)/100;
+    x.font=px.toFixed(1)+'px "IV-dot",ui-monospace,monospace';
+    x.fillStyle='rgba(255,255,255,'+(0.6+0.4*e).toFixed(3)+')';
+    x.fillText(syll, W/2, H/2);
+
+    if(k>=1){
+      state='idle'; sectionDone=true;
+    }
+  } else {
+    const age=tGlobal-callT;
+    const k=Math.min(1,age/DUR);
+    const e=easeIn(k);
+    // grows from small toward far past screen-filling — genuinely rushes
+    // the camera rather than just scaling up to a cap — AND the two
+    // letters split apart and sweep off opposite edges as they grow:
+    // the reverse of NO's own grammar (NO's field converges inward
+    // while it grows toward the reader; here the letters diverge
+    // outward while THEY grow toward the reader, same zoom, opposite
+    // spread). MA/DA/GA only — UH is handled above, and goes static.
+    const size=7 + e*260;                  // vmin, uncapped on purpose
+    const fade=k>0.82 ? Math.max(0,1-(k-0.82)/0.18) : 1;   // only fades at the very end, once it's already overwhelmed the frame
+    const px=size*Math.min(W,H)/100;
+    x.font=px.toFixed(1)+'px "IV-dot",ui-monospace,monospace';
+    x.fillStyle='rgba(255,255,255,'+fade.toFixed(3)+')';
+    const gap = e*(W*0.95);
+    x.fillText(syll[0], W/2-gap-px*0.28, H/2);
+    x.fillText(syll[1], W/2+gap+px*0.28, H/2);
+
+    if(k>=1){
+      // the call is over — hand off straight to the next syllable.
+      state='idle'; syllIdx++;
+    }
+  }
+
+  hud.textContent = sectionDone ? 'p'+PAGE_NUM+'  section complete' :
+    'p'+PAGE_NUM+'  '+syll+' ('+(syllIdx+1)+'/'+SYLLS.length+')'+
+    (state==='approaching' ? '   calling…' :
+     state==='heating' ? '   heat:'+heat.toFixed(2) : '   hold to call it');
+}
+requestAnimationFrame(draw);
+</script>
+</body>
+</html>

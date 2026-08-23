@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>hole</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;
+    -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    touch-action:none;font-family:ui-monospace,monospace}
+  canvas{position:fixed;inset:0;display:block}
+  #hud{position:fixed;left:2vmin;top:1.5vmin;color:#fff;opacity:.28;
+    font-size:1.9vmin;letter-spacing:.15em;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">h5 — tap to replay</div>
+<script>
+/* ============================================================
+   The hole.
+
+   Zoomed in far enough that the crate has no extent — there is no
+   box, only an opening and whatever is behind it. The wood is dense
+   character mass; the hole is where the characters stop. Light does
+   not shine ON anything. It is simply what is on the other side.
+
+   It arrives, holds, and goes. Nothing is revealed about the room.
+   ============================================================ */
+const cv=document.getElementById('c'), x=cv.getContext('2d');
+let cols=0, rows=0, cell=0, grain=[];
+
+function size(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  cv.width=Math.floor(innerWidth*dpr); cv.height=Math.floor(innerHeight*dpr);
+  cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';
+  x.setTransform(dpr,0,0,dpr,0,0);
+  cell=Math.max(9,Math.round(Math.min(innerWidth,innerHeight)/56));
+  cols=Math.ceil(innerWidth/cell)+1;
+  rows=Math.ceil(innerHeight/(cell*1.15))+1;
+  buildGrain();
+}
+
+/* wood grain: long horizontal streaks, because grain runs with the plank.
+   value per cell 0..1, used as density. */
+function buildGrain(){
+  grain=[];
+  for(let y=0;y<rows;y++){
+    const row=[];
+    const band = Math.sin(y*0.55)*0.5 + Math.sin(y*0.17+1.3)*0.5;
+    for(let x0=0;x0<cols;x0++){
+      const streak = Math.sin(x0*0.04 + y*0.9)*0.25
+                   + Math.sin(x0*0.011 + band*3.0)*0.35;
+      const knot = Math.sin(x0*0.13+y*0.31)*0.18;
+      row.push({
+        v: 0.5 + streak*0.5 + knot,
+        ch: Math.random()<0.5?'0':'1'
+      });
+    }
+    grain.push(row);
+  }
+}
+size(); addEventListener('resize',size);
+
+/* the aperture: an irregular closed curve, wood opened from the inside.
+   radius varies with angle — never a circle, never symmetrical. */
+const HOLE = 0.072;                 // fraction of the short edge
+
+/* Where the hole sits. Low, and to one side — dead centre reads as a target
+   and gives the light nowhere to travel. Left is the stronger side: the
+   light enters at the dark end of the gradient and has the whole frame to
+   cross. Set HOLE_X to 0.72 to put it on the right instead. */
+const HOLE_X = 0.28, HOLE_Y = 0.70;
+function apertureR(ang){
+  return HOLE * (1
+       + 0.24*Math.sin(ang*2.0 + 0.6)
+       + 0.17*Math.sin(ang*3.0 - 1.4)
+       + 0.10*Math.sin(ang*5.0 + 2.2)
+       + 0.06*Math.sin(ang*8.0 - 0.3));
+}
+
+/* ---- timing -------------------------------------------------- */
+const T = { dark:1400, rise:5200, hold:4200, fall:9000 };
+let t0=0;
+
+function lightAt(age){
+  if (age < T.dark) return 0;
+  age -= T.dark;
+  if (age < T.rise) return Math.pow(age/T.rise, 1.8);   // slow to arrive
+  age -= T.rise;
+  if (age < T.hold) return 1;
+  age -= T.hold;
+  if (age < T.fall) return Math.pow(1-age/T.fall, 1.5); // slower to leave
+  return 0;
+}
+
+function draw(t){
+  requestAnimationFrame(draw);
+  if(!t0) t0=t;
+  const L = lightAt(t-t0);
+
+  x.clearRect(0,0,innerWidth,innerHeight);
+  x.font=cell+'px ui-monospace,monospace';
+  x.textBaseline='top';
+
+  const W=innerWidth, H=innerHeight;
+  const cxp=W*HOLE_X, cyp=H*HOLE_Y;
+  const R0=Math.min(W,H);
+
+  for(let y=0;y<rows;y++){
+    const py=y*cell*1.15;
+    for(let x0=0;x0<cols;x0++){
+      const px=x0*cell;
+      const dx=(px-cxp)/R0, dy=(py-cyp)/R0;
+      // The radius is measured in squashed space (dy scaled), so the angle
+      // must be too — otherwise the mask and the filled shape describe two
+      // different ellipsoids and characters land inside the light.
+      const sy=dy*0.82;
+      const r=Math.hypot(dx,sy);
+      const ang=Math.atan2(sy,dx);
+      const edge=apertureR(ang);
+      const g=grain[y][x0];
+
+      // inside the hole there is no wood — only what is behind it
+      if (r < edge*0.94) continue;
+
+      // the rim catches the light; the far wood barely does
+      const fromEdge = (r - edge)/(HOLE*0.85);        // rim scales with the hole
+      const rim = Math.max(0, 1 - fromEdge*fromEdge);
+
+      // ambient wood, always faintly there, so the dark is occupied
+      let a = g.v * 0.055;
+      // and the light behind the hole, spilling onto the rim only
+      a += rim * L * g.v * 0.85;
+
+      if (a < 0.012) continue;
+      x.fillStyle='rgba(255,255,255,'+Math.min(1,a).toFixed(3)+')';
+      x.fillText(g.ch, px, py);
+    }
+  }
+
+  // What is behind. Light through an opening has a HARD edge, and the
+  // edge is the hole itself — not a falloff. Softness belongs only at the
+  // rim, where it grazes the wood. So the aperture is filled as a shape.
+  if (L > 0.002){
+    x.save();
+    x.beginPath();
+    const N=240;
+    for(let i=0;i<=N;i++){
+      const ang=(i/N)*Math.PI*2;
+      // same space as the mask above, inverted back into screen coords
+      const rr=apertureR(ang)*0.94*R0;
+      const px=cxp+Math.cos(ang)*rr;
+      const py=cyp+Math.sin(ang)*rr/0.82;
+      i?x.lineTo(px,py):x.moveTo(px,py);
+    }
+    x.closePath();
+    x.globalCompositeOperation='destination-over';
+    // very slightly brighter toward the right — the law holds even here
+    const gl=x.createLinearGradient(cxp-R0*HOLE,0,cxp+R0*HOLE,0);
+    gl.addColorStop(0,'rgba(255,255,255,'+(0.80*L).toFixed(3)+')');
+    gl.addColorStop(1,'rgba(255,255,255,'+(1.00*L).toFixed(3)+')');
+    x.fillStyle=gl;
+    x.fill();
+    x.globalCompositeOperation='source-over';
+    x.restore();
+  }
+}
+requestAnimationFrame(draw);
+addEventListener('touchend',()=>{t0=0;},{passive:true});
+addEventListener('click',()=>{t0=0;});
+</script>
+</body>
+</html>
