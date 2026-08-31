@@ -1,0 +1,16 @@
+# dependencies / generated build output
+node_modules/
+.gradle/
+**/build/
+mobile-source/android/local.properties
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# INVOICE b17.28 local binary masters
+invoice-apk-project_b17.28.zip
+app/assets/amb/*.mp3
+app/assets/hand.gif
+mobile-source/www/assets/amb/*.mp3
+mobile-source/www/assets/hand.gif
